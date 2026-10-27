@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ear Detective</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+Thai+Looped:wght@400;600;700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+:lang(th){font-family:'Noto Sans Thai Looped','Noto Sans',sans-serif}
+.ed-btn:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+.ed-play:active{transform:scale(0.96)}
+@keyframes edWave{0%{transform:scaleY(.45)}100%{transform:scaleY(1.15)}}
+.ed-on span{animation:edWave .42s ease-in-out infinite alternate}
+.ed-on span:nth-child(2){animation-delay:.1s}.ed-on span:nth-child(3){animation-delay:.2s}.ed-on span:nth-child(4){animation-delay:.05s}.ed-on span:nth-child(5){animation-delay:.15s}.ed-on span:nth-child(6){animation-delay:.25s}
+@media (prefers-reduced-motion: reduce){.ed-on span{animation:none}}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 62px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
+
+  <dc-import name="GymHeader" step="5" done="{{stageDone}}" total="6" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,92px"></dc-import>
+
+  <div style="flex-grow: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 8px">
+    <h1 style="margin: 0; min-height: 48px; display: flex; align-items: center; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{question}}</h1>
+
+    <div style="padding: 8px 16px; border-radius: 16px; background: #F9FAFB; display: flex; flex-direction: column; align-items: center; gap: 8px">
+      <div style="padding: 8px 0; display: flex; align-items: center; justify-content: center; gap: 16px">
+        <button class="ed-btn ed-play" onClick="{{play}}" aria-label="Play the audio" style="width: 64px; height: 64px; padding: 0; border: 2px solid #009DFF; border-radius: 16px; background: #009DFF; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s">
+          <svg aria-hidden="true" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M24.35 5.78C24.80 5.46 25.42 5.56 25.75 6.00C27.86 8.91 28.99 12.41 29 15.99C29 19.58 27.86 23.08 25.75 25.99C25.42 26.43 24.80 26.53 24.35 26.21C23.90 25.88 23.81 25.26 24.13 24.81C25.99 22.25 27 19.16 27 15.99C26.99 12.83 25.99 9.74 24.13 7.18C23.81 6.73 23.90 6.11 24.35 5.78ZM14.29 6.29C14.57 6.00 15.00 5.92 15.38 6.07C15.75 6.23 15.99 6.59 16 6.99V24.99C16 25.40 15.75 25.76 15.38 25.92C15.00 26.07 14.57 25.99 14.29 25.70L8.58 19.99H4C3.44 19.99 3 19.55 3 18.99V12.99C3.00 12.44 3.44 11.99 4 11.99H8.58L14.29 6.29ZM20.26 10.27C20.74 10.00 21.35 10.18 21.62 10.66C22.51 12.28 22.99 14.10 23 15.96C23.00 17.81 22.54 19.63 21.65 21.26C21.39 21.75 20.78 21.92 20.30 21.66C19.81 21.40 19.63 20.79 19.90 20.30C20.62 18.97 21.00 17.48 21 15.96C20.99 14.45 20.60 12.96 19.87 11.63C19.60 11.15 19.77 10.54 20.26 10.27Z" fill="white"></path></svg>
+        </button>
+        <button class="ed-btn" onClick="{{playSlow}}" aria-label="Play slowly" style="width: 48px; height: 48px; padding: 0; box-sizing: border-box; border: 2px solid #E0E7EB; border-radius: 12px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20.55 2.10C21.04 1.85 21.64 2.05 21.89 2.55C22.14 3.04 21.94 3.64 21.44 3.89L21.10 4.06C20.42 4.40 20.00 5.09 20 5.85V7C20 7.01 19.99 7.03 19.99 7.04C20.61 7.68 20.99 8.54 21 9.5V16C21 18.76 18.76 21 16 21H9.05C9.03 21.00 9.01 21.00 9 21.00C8.99 21.00 8.98 21.00 8.98 21H3C2.44 21 2 20.55 2 20C2.00 19.44 2.44 19 3 19H9C9.98 19 10.95 18.70 11.77 18.15C12.59 17.60 13.24 16.82 13.61 15.91C13.99 15.00 14.09 13.99 13.90 13.02C13.71 12.05 13.23 11.16 12.53 10.46C11.83 9.76 10.94 9.28 9.97 9.09C9.00 8.90 8.00 9.00 7.08 9.38C6.17 9.75 5.39 10.40 4.84 11.22C4.29 12.04 4.00 13.01 4 14C4 14.26 4.05 14.52 4.15 14.76C4.25 15.00 4.40 15.22 4.58 15.41C4.77 15.59 4.99 15.74 5.23 15.84C5.47 15.94 5.73 16 6 16C6.26 16 6.52 15.94 6.76 15.84C7.00 15.74 7.22 15.59 7.41 15.41C7.59 15.22 7.74 15.00 7.84 14.76C7.94 14.52 8 14.26 8 14C8.00 13.44 8.44 13 9 13C9.55 13 9.99 13.44 10 14C10 14.52 9.89 15.04 9.69 15.53C9.49 16.01 9.19 16.45 8.82 16.82C8.45 17.19 8.01 17.49 7.53 17.69C7.04 17.89 6.52 18 6 18C5.47 18 4.95 17.89 4.46 17.69C3.98 17.49 3.54 17.19 3.17 16.82C2.80 16.45 2.50 16.01 2.30 15.53C2.10 15.04 2 14.52 2 14C2.00 12.61 2.41 11.26 3.17 10.11C3.94 8.96 5.04 8.06 6.32 7.53C7.60 7.00 9.00 6.86 10.36 7.13C11.72 7.40 12.97 8.07 13.94 9.04C13.97 9.07 13.99 9.09 14.02 9.12C14.10 8.31 14.46 7.59 15.00 7.04C15.00 7.03 15 7.01 15 7V5.85C14.99 5.09 14.57 4.40 13.89 4.06L13.55 3.89C13.05 3.64 12.85 3.04 13.10 2.55C13.35 2.05 13.95 1.85 14.44 2.10L14.78 2.27C16.14 2.95 16.99 4.33 17 5.85V6.03C17.16 6.01 17.33 6 17.5 6C17.66 6 17.83 6.01 18 6.03V5.85C18.00 4.33 18.85 2.95 20.21 2.27L20.55 2.10ZM17.5 8C16.67 8 16.00 8.67 16 9.5V13.5C16 13.54 15.99 13.59 15.98 13.63C16.04 14.67 15.86 15.71 15.46 16.67C15.10 17.55 14.57 18.34 13.89 19H16C17.65 19 19 17.65 19 16V9.5C18.99 8.67 18.32 8 17.5 8Z" fill="#3D505C"></path></svg>
+        </button>
+      </div>
+      <div style="min-height: 44px; box-sizing: border-box; padding: 12px 0; display: flex; align-items: center; justify-content: center">
+        <div class="{{waveCls}}" aria-hidden="true" style="height: 20px; display: flex; align-items: center; gap: 2px">
+          <span style="width: 8px; height: 13px; border-radius: 4px; background: #009DFF"></span>
+          <span style="width: 8px; height: 18px; border-radius: 4px; background: #009DFF"></span>
+          <span style="width: 8px; height: 12px; border-radius: 4px; background: #009DFF"></span>
+          <span style="width: 8px; height: 20px; border-radius: 4px; background: #009DFF"></span>
+          <span style="width: 8px; height: 14px; border-radius: 4px; background: #009DFF"></span>
+          <span style="width: 8px; height: 12px; border-radius: 4px; background: #009DFF"></span>
+        </div>
+      </div>
+      <sc-if value="{{showLink}}" hint-placeholder-val="{{ true }}">
+        <button class="ed-btn" onClick="{{showText}}" style="padding: 0 0 8px; border: 0; background: transparent; font-family: 'Noto Sans', sans-serif; font-size: 14px; line-height: 1.5; color: #009DFF; cursor: pointer">Can’t listen now? Show text</button>
+      </sc-if>
+      <sc-if value="{{textShown}}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 0 0 8px; text-align: center">
+          <p lang="{{langTag}}" style="margin: 0; font-size: 18px; line-height: 1.5; font-weight: 600; color: #29353D">{{plain}}</p>
+          <sc-if value="{{hasTr}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px; line-height: 1.5; font-style: italic; color: #006EB2">{{tr}}</p></sc-if>
+        </div>
+      </sc-if>
+    </div>
+
+    <p style="margin: 0; padding: 4px 16px; font-size: 16px; line-height: 1.35; color: #5C788A">{{hint}}</p>
+
+    <div role="radiogroup" aria-label="{{question}}" style="display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+        <button class="ed-btn" role="radio" aria-checked="{{o.selected}}" onClick="{{o.pick}}" disabled="{{locked}}" style="min-height: 64px; box-sizing: border-box; padding: 12px; border: 2px solid {{o.border}}; border-radius: 16px; background: {{o.bg}}; display: flex; align-items: center; gap: 16px; text-align: left; font-family: 'Noto Sans', sans-serif; font-size: 18px; line-height: 1.6; color: {{o.ink}}; cursor: pointer">{{o.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{check}}" disabled="{{checkDisabled}}" style="width: 100%; min-height: 48px; margin-top: 8px; flex-shrink: 0; border: 0; border-radius: 16px; background: {{checkBg}}; color: {{checkInk}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Check</button>
+  </sc-if>
+  <sc-if value="{{checked}}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="margin: 0 -16px -34px; padding: 20px 16px 34px; border-radius: 20px 20px 0 0; background: {{fb.bg}}; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{fb.ok}}" hint-placeholder-val="{{ true }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.bad}}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.clock}}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M12 6.5V12l3.5 2.2" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <span style="flex-grow: 1; font-size: 20px; font-weight: 800; color: {{fb.ink}}">{{fb.title}}</span>
+        <button aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: {{fb.ink}}; cursor: pointer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <sc-if value="{{reveal}}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 10px 14px; border-radius: 12px; background: #FFFFFF; display: flex; flex-direction: column; gap: 2px">
+          <p lang="{{langTag}}" style="margin: 0; font-size: 18px; line-height: 28px; font-weight: 600; color: #29353D"><sc-for list="{{segs}}" as="g" hint-placeholder-count="3"><span style="border-radius: 4px; padding: {{g.pad}}; background: {{g.bg}}; color: {{g.ink}}; font-weight: {{g.weight}}">{{g.t}}</span></sc-for></p>
+          <sc-if value="{{hasTr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; line-height: 20px; font-style: italic; color: #006EB2">{{tr}}</span></sc-if>
+          <span style="font-size: 14px; line-height: 20px; color: #5C788A">{{en}}</span>
+        </div>
+      </sc-if>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #29353D"><strong style="font-weight: 700">{{fb.answer}}</strong><br><span style="color: #3D505C">{{fb.note}}</span></p>
+      <button onClick="{{next}}" style="margin-top: 4px; height: 48px; border-radius: 12px; background: {{fb.btn}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">{{nextLabel}}</button>
+      <sc-if value="{{canSkip}}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{skip}}" style="height: 48px; border-radius: 12px; background: transparent; color: {{fb.ink}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">Continue</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{timedOn}}" hint-placeholder-val="{{ true }}">
+  <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; pointer-events: none">
+    <dc-import name="GymTimerRing" time-left="{{timeLeft}}" time-total="{{timeTotal}}" hint-size="402px,874px"></dc-import>
+  </div>
+  </sc-if>
+  <sc-if value="{{infoOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; z-index: 40">
+      <dc-import name="GymInfoSheet" title="{{info.title}}" kicker="{{info.kicker}}" body="{{info.body}}" table="{{info.table}}" examples="{{info.examples}}" tips="{{info.tips}}" lang-tag="{{langTag}}" on-close="{{closeInfo}}" hint-size="402px,874px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onOut":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"depleted":{"editor":null},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"speechLang":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh();
+  }
+  fresh() {
+    return { ...{ info: null, pick: null, checked: false, timedOut: false, timeLeft: 60, misses: 0, textShown: false, playing: false }, resets: ((this.state && this.state.resets) || 0) + 1 };
+  }
+  // Inside the Full flow the clip plays once on arrival (like the reference prototype); tap to replay.
+  componentDidMount() { if (typeof this.props.onFinish === 'function' && this.props.active !== false) this.auto = setTimeout(() => this.say(false), 600); }
+  componentWillUnmount() { clearTimeout(this.auto); clearTimeout(this.stopT); try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) {} }
+  componentDidUpdate(prev) {
+    const on = this.props.active !== false;
+    const was = prev.active !== false;
+    if ((on && !was) || this.props.run !== prev.run) { this.outSent = false; this.setState(this.fresh()); return; }
+    if (on && this.lives === 0 && this.props.depleted !== true && !this.outSent && typeof this.props.onOut === 'function') {
+      this.outSent = true;
+      this.props.onOut();
+    }
+  }
+  // Audio: the browser's text-to-speech in the course language stands in for the recorded clip.
+  say(slow) {
+    const item = this.item;
+    if (!item) return;
+    const lang = this.props.speechLang || 'sr-RS';
+    this.setState({ playing: true });
+    clearTimeout(this.stopT);
+    this.stopT = setTimeout(() => this.setState({ playing: false }), slow ? 3200 : 2000);
+    try {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(item.audio || item.plain);
+      u.lang = lang;
+      const pre = lang.slice(0, 2).toLowerCase();
+      const alt = pre === 'sr' ? ['sr', 'hr', 'bs'] : [pre];
+      const voices = synth.getVoices ? synth.getVoices() : [];
+      const v = alt.map((p) => voices.find((x) => (x.lang || '').toLowerCase().startsWith(p))).find(Boolean);
+      if (v) u.voice = v;
+      u.rate = slow ? 0.6 : 0.95;
+      u.onend = () => { clearTimeout(this.stopT); this.setState({ playing: false }); };
+      synth.speak(u);
+    } catch (e) {}
+  }
+  renderVals() {
+    const total = 60;
+    // Content from the Full flow (one item per language); on its own it plays this Serbian item.
+    const item = this.props.item || {
+      question: 'Who is it about?',
+      plain: 'Bila je umorna.', audio: 'Bila je umorna.',
+      segs: [['Bil', 0], ['a', 1], [' je umorn', 0], ['a', 1], ['.', 0]],
+      en: 'She was tired.',
+      hint: 'Je can mean he is or she is. Listen to the endings.',
+      options: [['he', 'He'], ['she', 'She'], ['they', 'They']], ans: 'she',
+      answer: 'It’s about: she',
+      why: 'bila and umorna end in -a, so it’s a woman. A man: bio … umoran. More people: bili … umorni.',
+    };
+    this.item = item;
+    const langTag = this.props.langTag || 'sr-Latn';
+    const { pick, checked, timedOut, timeLeft } = this.state;
+    const ok = checked && !timedOut && pick === item.ans;
+    // After Try again on an out-of-lives game the lives stay at 0 and the game can't score higher.
+    const depleted = this.props.depleted === true;
+    const lives = depleted ? 0 : Math.max(0, 3 - this.state.misses - (timedOut ? 1 : 0));
+    const retry = checked && !ok && !timedOut && (depleted || lives > 0);
+    // The right answer and the transcript only show once the game is over.
+    const reveal = checked && !retry;
+    this.lives = lives;
+    const options = item.options.map(([k, label]) => {
+      let border = '#E0E7EB', bg = '#FFFFFF', ink = '#3D505C';
+      if (reveal && k === item.ans) { border = '#51E186'; bg = '#E9FBF0'; ink = '#0F5729'; }
+      else if (checked && k === pick) { border = '#EF4444'; bg = '#FDE8E8'; ink = '#8D0C0C'; }
+      else if (k === pick) { border = '#33B2FF'; bg = '#E6F5FF'; ink = '#006EB2'; }
+      return { label, border, bg, ink, selected: k === pick ? 'true' : 'false', pick: () => { if (!this.state.checked) this.setState({ pick: k }); } };
+    });
+    const fb = ok
+      ? { ok: true, bad: false, clock: false, bg: '#E9FBF0', ink: '#17823E', btn: '#1A9848', title: 'Excellent!', answer: item.answer, note: item.why }
+      : { ok: false, bad: !timedOut, clock: timedOut, bg: '#FEF3F3', ink: '#A40E0E', btn: '#D31212', title: timedOut ? 'Time’s up' : 'Not quite', answer: item.answer, note: item.why };
+    if (retry) { fb.answer = 'Try again'; fb.note = 'Play it again and listen to the ending.'; }
+    const embedded = typeof this.props.onFinish === 'function';
+    const has = pick !== null;
+    return {
+      infoOpen: !!this.state.info,
+      info: this.state.info || {},
+      closeInfo: () => this.setState({ info: null }),
+      timedOn: this.props.timed !== false,
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      resets: this.state.resets,
+      headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || checked || timedOut,
+      timeTotal: total, timeLeft,
+      tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, checked: true, timedOut: true } : { timeLeft: t }),
+      lives,
+      question: item.question, hint: item.hint, plain: item.plain, en: item.en, langTag,
+      hasTr: !!item.tr, tr: item.tr || '',
+      segs: item.segs.map(([t, c]) => ({ t, pad: c ? '0 2px' : '0', bg: c ? '#FFEBCC' : 'transparent', ink: c ? '#995C00' : '#29353D', weight: c ? 800 : 600 })),
+      waveCls: this.state.playing ? 'ed-on' : '',
+      play: () => this.say(false),
+      playSlow: () => this.say(true),
+      showLink: !this.state.textShown,
+      textShown: this.state.textShown,
+      showText: () => this.setState({ textShown: true }),
+      options, locked: checked,
+      reveal,
+      showCheck: !checked, checked,
+      checkDisabled: !has,
+      checkBg: has ? '#FF9900' : '#E0E7EB',
+      checkInk: has ? '#FFFFFF' : '#A3B6C2',
+      check: () => this.setState(pick === item.ans ? { checked: true } : { checked: true, misses: this.state.misses + 1 }),
+      fb,
+      canSkip: retry && depleted && embedded,
+      skip: () => { if (embedded) this.props.onFinish({ ok: false, lives: 0, correct: 0, mistakes: this.state.misses }); },
+      stageDone: checked && !retry,
+      nextLabel: retry ? 'Try again' : 'Continue',
+      next: () => { if (retry) this.setState({ checked: false, pick: null }); else if (embedded) this.props.onFinish({ ok, lives, correct: ok ? 1 : 0, mistakes: this.state.misses + (timedOut ? 1 : 0) }); else this.setState(this.fresh()); },
+    };
+  }
+}
+</script>
+</body>
+</html>

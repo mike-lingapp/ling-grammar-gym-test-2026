@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grammar Gym info sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+Thai+Looped:wght@400;600;700&amp;family=Poppins:wght@600;700&amp;display=swap">
+<style>
+body{margin:0}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+:lang(th){font-family:'Noto Sans Thai Looped','Noto Sans',sans-serif}
+@keyframes isUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes isDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
+@keyframes isIn{from{opacity:0}to{opacity:1}}
+@keyframes isOut{from{opacity:1}to{opacity:0}}
+.is-in{animation:isUp .3s cubic-bezier(.2,.8,.2,1) both}.is-out{animation:isDown .22s ease-in both}
+.is-scrim-in{animation:isIn .2s ease-out both}.is-scrim-out{animation:isOut .22s ease-in both}
+.is-btn:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.is-in,.is-out,.is-scrim-in,.is-scrim-out{animation:none!important}}
+</style>
+</helmet>
+<div class="{{scrimCls}}" onClick="{{scrimTap}}" style="width: 402px; height: 874px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end; font-family: 'Noto Sans', sans-serif; color: #3D505C">
+  <div class="{{sheetCls}}" role="dialog" aria-modal="true" aria-label="{{title}}" style="max-height: 760px; background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; transform: translateY({{dragY}}px); transition: {{trans}}">
+    <div onPointerDown="{{grab}}" onPointerMove="{{move}}" onPointerUp="{{release}}" onPointerCancel="{{release}}" style="flex-shrink: 0; touch-action: none; user-select: none; cursor: grab">
+      <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+      <div style="min-height: 56px; box-sizing: border-box; padding: 8px 16px; display: flex; flex-direction: column; justify-content: center">
+        <sc-if value="{{hasKicker}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; line-height: 1.35; font-weight: 700; color: #006EB2">{{kicker}}</span></sc-if>
+        <h2 style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">{{title}}</h2>
+      </div>
+    </div>
+    <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 0 16px 8px; display: flex; flex-direction: column; gap: 12px">
+      <sc-if value="{{hasBody}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 16px; line-height: 1.5; color: #3D505C">{{body}}</p></sc-if>
+      <sc-if value="{{hasTable}}" hint-placeholder-val="{{ true }}">
+        <div role="table" style="display: flex; flex-direction: column; border-radius: 12px; border: 2px solid #F0F3F5; overflow: hidden">
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+            <div role="row" style="display: grid; grid-template-columns: {{cols}}; gap: 10px; padding: 8px 12px; background: {{r.bg}}; border-top: {{r.line}}">
+              <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3">
+                <span role="cell" lang="{{c.lang}}" style="font-size: 15px; line-height: 21px; font-weight: {{c.weight}}; color: {{c.ink}}; overflow-wrap: anywhere">{{c.text}}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{hasExamples}}" hint-placeholder-val="{{ false }}">
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+          <sc-for list="{{examples}}" as="e" hint-placeholder-count="2">
+            <li style="padding: 10px 14px; border-radius: 12px; background: #E6F5FF; display: flex; flex-direction: column; gap: 2px">
+              <span lang="{{langTag}}" style="font-size: 17px; line-height: 24px; font-weight: 700; color: #29353D">{{e.target}}</span>
+              <sc-if value="{{e.hasTr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; line-height: 20px; font-style: italic; color: #006EB2">{{e.tr}}</span></sc-if>
+              <span style="font-size: 14px; line-height: 20px; color: #3D505C">{{e.english}}</span>
+            </li>
+          </sc-for>
+        </ul>
+      </sc-if>
+      <sc-if value="{{hasTips}}" hint-placeholder-val="{{ false }}">
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+          <sc-for list="{{tips}}" as="t" hint-placeholder-count="1">
+            <li style="padding: 10px 14px; border-radius: 12px; background: #FFF5E6; display: flex; align-items: flex-start; gap: 10px">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#995C00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"></path></svg>
+              <span style="font-size: 15px; line-height: 22px; color: #29353D">{{t}}</span>
+            </li>
+          </sc-for>
+        </ul>
+      </sc-if>
+    </div>
+    <div style="flex-shrink: 0; padding: 16px 16px 34px">
+      <button class="is-btn" onClick="{{close}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Got it</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"title":{"editor":"text","default":"Sentence pattern: S + V + A"},"kicker":{"editor":null},"body":{"editor":"text","default":"Put the words in this order: subject (who), verb, adjective."},"table":{"editor":null},"examples":{"editor":null},"tips":{"editor":null},"langTag":{"editor":null},"onClose":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { entered: false, closing: false, drag: 0, dragging: false };
+  }
+  // Bottom sheet with a short rule: slides up on open; closes with Got it, a tap on the scrim, or a drag down.
+  componentDidMount() { this.t = setTimeout(() => this.setState({ entered: true }), 320); }
+  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.t2); }
+  renderVals() {
+    const { entered, closing, drag, dragging } = this.state;
+    const done = () => { if (typeof this.props.onClose === 'function') this.props.onClose(); };
+    const close = () => { if (this.state.closing) return; this.setState({ closing: true }); this.t2 = setTimeout(done, 220); };
+    const table = Array.isArray(this.props.table) ? this.props.table : [];
+    const width = table.reduce((m, r) => Math.max(m, r.length), 0);
+    const langTag = this.props.langTag || 'sr-Latn';
+    const rows = table.map((r, k) => {
+      const head = k === 0 && r[0] === '';
+      return {
+        bg: head ? '#F9FAFB' : '#FFFFFF',
+        line: k === 0 ? '0' : '2px solid #F0F3F5',
+        cells: r.map((t, j) => ({ text: t, lang: j === 0 || j === width - 1 ? langTag : 'en', weight: head || j === 0 ? 700 : 400, ink: head ? '#5C788A' : (j === 0 ? '#29353D' : '#3D505C') })),
+      };
+    });
+    const examples = Array.isArray(this.props.examples) ? this.props.examples : [];
+    const tips = Array.isArray(this.props.tips) ? this.props.tips : [];
+    return {
+      title: this.props.title || '',
+      kicker: this.props.kicker || '', hasKicker: !!this.props.kicker,
+      body: this.props.body || '', hasBody: !!this.props.body,
+      hasTable: rows.length > 0, rows,
+      cols: width <= 2 ? 'minmax(0, 1fr) minmax(0, 1.2fr)' : 'minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1.2fr)',
+      hasExamples: examples.length > 0,
+      examples: examples.map((e) => ({ target: e[0], english: e[1], tr: e[2] || '', hasTr: !!e[2] })),
+      hasTips: tips.length > 0, tips,
+      langTag,
+      close,
+      scrimTap: (e) => { if (e.target === e.currentTarget) close(); },
+      sheetCls: closing && !drag ? 'is-out' : (entered ? '' : 'is-in'),
+      scrimCls: closing ? 'is-scrim-out' : 'is-scrim-in',
+      dragY: drag,
+      trans: dragging ? 'none' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+      grab: (e) => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.y0 = e.clientY; this.setState({ dragging: true }); },
+      move: (e) => { if (this.y0 == null) return; this.setState({ drag: Math.max(0, e.clientY - this.y0) }); },
+      release: () => {
+        if (this.y0 == null) return;
+        this.y0 = null;
+        if (this.state.drag > 80) { this.setState({ dragging: false, closing: true, drag: 760 }); this.t2 = setTimeout(done, 220); }
+        else this.setState({ dragging: false, drag: 0 });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

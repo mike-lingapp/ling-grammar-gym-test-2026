@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Review tab</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@400;600;700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505C}
+.rv-row:active{background:#F0F3F5}
+.rv-row:focus-visible,.rv-nav:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; display: flex; flex-direction: column; background: #F5FBFF; font-family: 'Noto Sans', sans-serif; color: #3D505C; position: relative; overflow: hidden">
+
+  <header style="flex-shrink: 0; padding-top: 54px; background: #FFFFFF; border-bottom: 1px solid #E0E7EB">
+    <div style="min-height: 56px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center">
+      <h1 style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Review</h1>
+    </div>
+  </header>
+
+  <div onWheel="{{wheel}}" onPointerDown="{{panStart}}" onPointerMove="{{panMove}}" onPointerUp="{{panEnd}}" onPointerCancel="{{panEnd}}" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; box-sizing: border-box; padding: 0 16px 16px; cursor: {{panCursor}}">
+    <sc-for list="{{sections}}" as="s" hint-placeholder-count="2">
+      <section>
+        <h2 style="margin: 0; padding: 16px 0 4px; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{s.title}}</h2>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+          <sc-for list="{{s.items}}" as="r" hint-placeholder-count="4">
+            <li>
+              <button class="rv-row" onClick="{{r.open}}" style="width: 100%; box-sizing: border-box; padding: 16px; display: flex; align-items: center; gap: 16px; border: 1px solid #E0E7EB; border-radius: 16px; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; text-align: left; cursor: pointer">
+                <img src="{{r.icon}}" alt="" width="64" height="64" style="display: block; width: 64px; height: 64px; flex-shrink: 0">
+                <span style="flex: 1 1 auto; min-width: 0; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{r.label}}</span>
+                <sc-if value="{{r.hasBadge}}" hint-placeholder-val="{{ false }}">
+                  <span style="min-width: 24px; box-sizing: border-box; padding: 4px; border-radius: 28px; background: {{r.badgeBg}}; color: {{r.badgeInk}}; font-size: 12px; line-height: 1.35; font-weight: 600; text-align: center">{{r.badge}}</span>
+                </sc-if>
+              </button>
+            </li>
+          </sc-for>
+        </ul>
+      </section>
+    </sc-for>
+  </div>
+
+  <nav aria-label="Main" style="flex-shrink: 0; background: #FFFFFF; border-top: 1px solid #E0E7EB; padding: 16px 16px 24px; display: flex; align-items: flex-end; gap: 8px">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+      <button class="rv-nav" onClick="{{t.go}}" aria-current="{{t.current}}" style="flex: 1 1 0; min-width: 48px; min-height: 48px; padding: 0 4px; border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; color: {{t.iconInk}}; cursor: pointer; position: relative">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="{{t.rule}}" clip-rule="{{t.rule}}" d="{{t.d}}"></path><path d="{{t.d2}}"></path></svg>
+        <sc-if value="{{t.dot}}" hint-placeholder-val="{{ false }}">
+          <span aria-hidden="true" style="position: absolute; top: -1px; left: calc(50% + 9px); width: 6px; height: 6px; border-radius: 3px; background: #EF4444"></span>
+        </sc-if>
+        <span style="font-family: 'Poppins', sans-serif; font-size: 13px; line-height: 1.35; font-weight: {{t.weight}}; color: {{t.ink}}">{{t.label}}</span>
+      </button>
+    </sc-for>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onOpenGym":{"editor":null},"onLearn":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const gym = () => { if (typeof this.props.onOpenGym === 'function') this.props.onOpenGym(); };
+    const none = () => {};
+    // A drag that scrolled the list is not a tap on the row under it.
+    const row = (label, icon, open, badge) => ({ label, icon, open: () => { if (Date.now() - (this.pannedAt || 0) < 300) return; (open || none)(); }, hasBadge: !!badge, badge: badge || '',
+      // Number badge: disabled (grey) at 0, red when there is something to practice.
+      badgeBg: badge === '0' ? '#E0E7EB' : '#EF4444', badgeInk: badge === '0' ? '#A3B6C2' : '#FFFFFF' });
+    // Nav icons from Foundations: the current tab (Review) uses its fill icon in orange; the others use outline icons.
+    const NAV = [
+      { label: 'Learn', d: 'M16.6094 11.7227C17.1719 10.918 17.5 9.9375 17.5 8.875C17.5 6.11328 15.2617 3.875 12.5 3.875C9.73828 3.875 7.5 6.11328 7.5 8.875C7.5 9.9375 7.82813 10.918 8.39062 11.7227C8.53516 11.9297 8.70703 12.1641 8.89062 12.4141C9.39453 13.1055 9.99609 13.9336 10.4453 14.75C10.8516 15.4922 11.0586 16.2656 11.1602 16.9961H9.25781C9.17188 16.5273 9.02734 16.0703 8.79688 15.6484C8.41016 14.9453 7.92969 14.2852 7.44922 13.625C7.24609 13.3477 7.04297 13.0703 6.84766 12.7891C6.07812 11.6836 5.625 10.332 5.625 8.875C5.625 5.07812 8.70312 2 12.5 2C16.2969 2 19.375 5.07812 19.375 8.875C19.375 10.332 18.9219 11.6836 18.1484 12.793C17.9531 13.0742 17.75 13.3516 17.5469 13.6289C17.0664 14.2852 16.5859 14.9453 16.1992 15.6523C15.9688 16.0742 15.8242 16.5312 15.7383 17H13.8438C13.9453 16.2695 14.1523 15.4922 14.5586 14.7539C15.0078 13.9375 15.6094 13.1094 16.1133 12.418C16.2969 12.168 16.4648 11.9336 16.6094 11.7266V11.7227ZM12.5 7C11.4648 7 10.625 7.83984 10.625 8.875C10.625 9.21875 10.3438 9.5 10 9.5C9.65625 9.5 9.375 9.21875 9.375 8.875C9.375 7.14844 10.7734 5.75 12.5 5.75C12.8438 5.75 13.125 6.03125 13.125 6.375C13.125 6.71875 12.8438 7 12.5 7ZM12.5 22C10.7734 22 9.375 20.6016 9.375 18.875V18.25H15.625V18.875C15.625 20.6016 14.2266 22 12.5 22Z', d2: '' },
+      { label: 'Script', d: 'M18.1807 10C19.1337 10.0002 19.9546 10.6729 20.1416 11.6074L21.9805 20.8037C22.0888 21.3452 21.7377 21.8721 21.1963 21.9805C20.6548 22.0888 20.1279 21.7377 20.0195 21.1963L19.3809 18H15.6191L14.9805 21.1963C14.8721 21.7377 14.3452 22.0888 13.8037 21.9805C13.2623 21.8721 12.9112 21.3452 13.0195 20.8037L14.8584 11.6074C15.0454 10.6729 15.8663 10.0002 16.8193 10H18.1807ZM16.0195 16H18.9805L18.1807 12H16.8193L16.0195 16ZM7 2C9.20914 2 11 3.79086 11 6V13C11 13.5523 10.5523 14 10 14C9.44772 14 9 13.5523 9 13V6C9 4.89543 8.10457 4 7 4H6C4.89543 4 4 4.89543 4 6V6.34082L6.89355 7.58105C7.28248 7.74774 7.52481 8.14119 7.49805 8.56348C7.4712 8.98567 7.1812 9.34569 6.77441 9.46191L4.7168 10.0498C4.29255 10.1712 4 10.5587 4 11V13C4 13.5523 3.55228 14 3 14C2.44772 14 2 13.5523 2 13V11C2 9.86901 2.63637 8.85589 3.61133 8.34961L2.60645 7.91895C2.23876 7.76137 2 7.40003 2 7V6C2 3.79086 3.79086 2 6 2H7Z', d2: '' },
+      { label: 'Review', current: true, dot: true, d: 'M2.50391 5.13203C4.98011 3.71706 8.01989 3.71706 10.4961 5.13203C10.8076 5.31008 11 5.64138 11 6.00019V20.0002C10.9999 20.3565 10.8101 20.6855 10.502 20.8645C10.1937 21.0434 9.81339 21.0452 9.50391 20.8684L9.30957 20.757C7.49979 19.7231 5.30936 19.5981 3.39355 20.4191C3.08466 20.5514 2.72975 20.5201 2.44922 20.3352C2.16868 20.1501 2.00007 19.8362 2 19.5002V6.00019C2 5.64138 2.19239 5.31008 2.50391 5.13203ZM13.5039 5.13203C15.9801 3.71706 19.0199 3.71706 21.4961 5.13203C21.8076 5.31008 22 5.64138 22 6.00019V19.5002C21.9999 19.8362 21.8313 20.1501 21.5508 20.3352C21.2703 20.5201 20.9153 20.5514 20.6064 20.4191C18.6906 19.5981 16.5002 19.7231 14.6904 20.757L14.4961 20.8684C14.1866 21.0452 13.8063 21.0434 13.498 20.8645C13.1899 20.6855 13.0001 20.3565 13 20.0002V6.00019C13 5.64138 13.1924 5.31008 13.5039 5.13203Z', d2: '' },
+      { label: 'Tutor', d: 'M2.361 14.2154C2.42074 14.1468 2.50414 14.0472 2.59517 13.9277C2.87244 13.5635 3.24341 13.0639 3.10509 12.5748C2.41826 11.7117 2.00002 10.6544 2.00002 9.5C2.00002 6.28417 5.10715 4 8.50002 4C11.8929 4 15 6.28417 15 9.5C15 12.7158 11.8929 15 8.50002 15C8.02342 15 7.55763 14.9567 7.10825 14.8741C7.02657 14.9326 6.94527 14.9918 6.86393 15.0512C6.37779 15.4057 5.89005 15.7613 5.31044 15.9506C4.62729 16.1737 3.97336 16.1679 3.51314 16.1173C3.2788 16.0916 3.08251 16.0529 2.94111 16.0195C2.8701 16.0027 2.81205 15.9871 2.76898 15.9747L2.6856 15.9493C2.36038 15.8416 2.11294 15.5749 2.02987 15.2425C1.94693 14.9107 2.03933 14.5595 2.27475 14.3115C2.3044 14.2804 2.33276 14.2478 2.361 14.2154ZM8.5 6C5.81773 6 4 7.74527 4 9.5C4 10.1696 4.24491 10.8104 4.70015 11.3668C4.96305 11.6881 5.07895 12.1257 5.11598 12.4897C5.15707 12.8937 5.11969 13.3754 4.93312 13.8596C4.91957 13.8947 4.90545 13.9297 4.89081 13.9644C5.10038 13.8587 5.34304 13.691 5.62491 13.4825L5.69538 13.4302C5.84044 13.3225 6.00922 13.1971 6.15625 13.1036C6.24348 13.0481 6.36404 12.9767 6.50076 12.9223C6.61095 12.8783 6.88972 12.7787 7.22545 12.8564C7.62815 12.9495 8.05566 13 8.5 13C11.1823 13 13 11.2547 13 9.5C13 7.74527 11.1823 6 8.5 6Z', d2: 'M15.4998 19C13.4621 19 11.5275 18.1761 10.3071 16.8213C11.0616 16.6724 11.8034 16.4322 12.5027 16.1063C13.2714 16.6502 14.299 17 15.4998 17C15.9441 17 16.3716 16.9495 16.7743 16.8564C17.1101 16.7787 17.3888 16.8783 17.499 16.9223C17.6357 16.9767 17.7563 17.0481 17.8435 17.1036C17.9905 17.1971 18.1593 17.3224 18.3043 17.4302L18.3749 17.4825C18.6567 17.691 18.8994 17.8587 19.109 17.9644C19.0943 17.9297 19.0802 17.8947 19.0667 17.8596C18.8801 17.3754 18.8427 16.8937 18.8838 16.4897C18.9208 16.1257 19.0367 15.6881 19.2996 15.3668C19.7549 14.8104 19.9998 14.1696 19.9998 13.5C19.9998 12.0886 18.8238 10.6834 16.9679 10.1875C16.9893 9.96315 17.0002 9.73403 17.0002 9.50023C17.0002 9.02176 16.9543 8.56285 16.8675 8.12451C19.6838 8.64166 21.9998 10.7236 21.9998 13.5C21.9998 14.6544 21.5815 15.7117 20.8947 16.5748C20.8875 16.6004 20.8788 16.6401 20.8735 16.6921C20.86 16.8249 20.8734 16.986 20.9329 17.1404C21.0285 17.3884 21.2127 17.6756 21.4046 17.9277C21.4957 18.0472 21.5791 18.1468 21.6388 18.2154C21.6685 18.2495 21.6919 18.2755 21.7069 18.2919L21.7226 18.3089L21.7239 18.3103C21.96 18.5584 22.053 18.9102 21.9699 19.2425C21.8869 19.5749 21.6394 19.8416 21.3142 19.9493L21.3118 19.9501L21.309 19.951L21.3022 19.9532L21.2842 19.9589C21.2703 19.9632 21.2524 19.9686 21.2308 19.9747C21.1878 19.9871 21.1297 20.0027 21.0587 20.0195C20.9173 20.0529 20.721 20.0916 20.4867 20.1173C20.0264 20.1679 19.3725 20.1737 18.6894 19.9506C18.0824 19.7524 17.5257 19.3421 17.1856 19.0905L17.1022 19.0287C17.0179 18.9663 16.9495 18.9155 16.8916 18.8741C16.4422 18.9567 15.9764 19 15.4998 19Z' },
+      { label: 'Profile', d: 'M12 12.9999C13.7991 12.9999 15.5662 13.4785 17.123 14.3867C18.6796 15.2947 19.9708 16.6005 20.8682 18.1708C20.9544 18.3219 21 18.493 21 18.6669V19.9999C21 20.5522 20.5523 20.9999 20 20.9999H4C3.44772 20.9999 3 20.5522 3 19.9999V18.6669C3 18.493 3.04558 18.3219 3.13184 18.1708C4.02916 16.6005 5.32036 15.2947 6.87695 14.3867C8.43376 13.4785 10.2009 12.9999 12 12.9999ZM12 14.9999C10.556 14.9999 9.13654 15.384 7.88477 16.1142C6.70701 16.8013 5.71618 17.7725 5 18.9404V18.9999H19V18.9404C18.2838 17.7725 17.293 16.8013 16.1152 16.1142C14.8635 15.384 13.444 14.9999 12 14.9999ZM11.3477 2.0429C11.9985 1.95725 12.6599 1.99999 13.2939 2.16985C13.9282 2.3398 14.523 2.63342 15.0439 3.03313C15.5648 3.43284 16.0018 3.93132 16.3301 4.49993C16.6584 5.06857 16.8713 5.6966 16.957 6.34759C17.0427 6.99841 16.9999 7.6598 16.8301 8.29388C16.6601 8.92811 16.3665 9.52295 15.9668 10.0439C15.5671 10.5648 15.0686 11.0017 14.5 11.33C13.9314 11.6583 13.3033 11.8713 12.6523 11.957C12.0015 12.0426 11.3401 11.9999 10.7061 11.83C10.0718 11.6601 9.47698 11.3664 8.95605 10.9667C8.43517 10.567 7.99821 10.0685 7.66992 9.49993C7.34162 8.93129 7.12867 8.30327 7.04297 7.65228C6.95732 7.00145 7.00006 6.34006 7.16992 5.70599C7.33987 5.07175 7.63348 4.47691 8.0332 3.95599C8.43291 3.4351 8.9314 2.99814 9.5 2.66985C10.0686 2.34155 10.6967 2.1286 11.3477 2.0429ZM11.6084 4.02532C11.2178 4.07674 10.8412 4.20529 10.5 4.40227C10.1589 4.59924 9.8599 4.86127 9.62012 5.17376C9.38029 5.48631 9.2045 5.84302 9.10254 6.22356C9.00058 6.6041 8.97397 7.00094 9.02539 7.39153C9.07681 7.78213 9.20536 8.15875 9.40234 8.49993C9.59931 8.84103 9.86134 9.14003 10.1738 9.37981C10.4864 9.61965 10.8431 9.79543 11.2236 9.89739C11.6042 9.99936 12.001 10.026 12.3916 9.97454C12.7822 9.92312 13.1588 9.79457 13.5 9.59759C13.8411 9.40062 14.1401 9.1386 14.3799 8.8261C14.6197 8.51355 14.7955 8.15684 14.8975 7.7763C14.9994 7.39576 15.026 6.99892 14.9746 6.60833C14.9232 6.21773 14.7946 5.84111 14.5977 5.49993C14.4007 5.15883 14.1387 4.85984 13.8262 4.62005C13.5136 4.38022 13.1569 4.20444 12.7764 4.10247C12.3958 4.00051 11.999 3.9739 11.6084 4.02532Z', d2: '' },
+    ];
+    return {
+      sections: [
+        { title: 'Exercises', items: [
+          row('Flashcards', '/_blob/bec0d65f5e05173da243376741a8c726'),
+          row('Terms to practice', '/_blob/6d354b3bb7f31f3eef522763e598ce44', null, '0'),
+          row('Review exam', '/_blob/8707267eaca1eab6d2281a997c148c1d'),
+          row('Grammar Gym', '/_blob/b3db8c259c9a4ef446e17a9d874f80b8', gym),
+        ] },
+        { title: 'Library', items: [
+          row('My Vocabulary', '/_blob/4d168e48e365327d0780527d5d5f7e97'),
+          row('Conversation', '/_blob/a64296392761d3fd272d4d52bdd48936'),
+          row('Grammar tips', '/_blob/46e0cf18250e1a3a890fa38a2e448990'),
+          row('Culture Note', '/_blob/e3499c90628562172a9fd985cf4bb655'),
+        ] },
+      ],
+      // The list scrolls with the wheel, touch, or a mouse drag (so it feels like the app when trying the prototype).
+      wheel: (e) => { const el = e.currentTarget; el.scrollTop += e.deltaY; e.preventDefault && e.preventDefault(); e.stopPropagation && e.stopPropagation(); },
+      panStart: (e) => { if (e.pointerType === 'touch' || e.button > 0) return; this.pan = { y0: e.clientY, s0: e.currentTarget.scrollTop, moved: false, el: e.currentTarget, id: e.pointerId }; },
+      panMove: (e) => {
+        const p = this.pan; if (!p) return;
+        const dy = e.clientY - p.y0;
+        if (!p.moved && Math.abs(dy) < 5) return;
+        if (!p.moved) { p.moved = true; if (p.el.setPointerCapture) p.el.setPointerCapture(p.id); this.setState({ panning: true }); }
+        p.el.scrollTop = p.s0 - dy;
+      },
+      panEnd: () => { const p = this.pan; this.pan = null; if (p && p.moved) { this.pannedAt = Date.now(); this.setState({ panning: false }); } },
+      panCursor: this.state && this.state.panning ? 'grabbing' : 'default',
+      tabs: NAV.map((t) => ({
+        ...t,
+        rule: t.label === 'Tutor' ? 'evenodd' : 'nonzero',
+        current: t.current ? 'page' : 'false',
+        dot: !!t.dot,
+        iconInk: t.current ? '#FF9900' : '#3D505C',
+        ink: t.current ? '#FF9900' : '#5C788A',
+        weight: t.current ? 600 : 400,
+        // Learn tab goes to the journey path; other tabs are not part of this prototype.
+        go: () => { if (t.label === 'Learn' && typeof this.props.onLearn === 'function') this.props.onLearn(); },
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

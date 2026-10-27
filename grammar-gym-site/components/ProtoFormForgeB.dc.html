@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>B · Form Forge, default</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+a{color:#006EB2}a:hover{color:#005E99}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 62px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
+
+  <dc-import name="GymHeader" step="2" done="{{stageDone}}" total="4" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,92px"></dc-import>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; padding-top: 24px">
+    <h1 style="margin: 0; font-size: 18px; line-height: 27px; font-weight: 700; color: #29353D">{{title}}</h1>
+    <p lang="{{langTag}}" style="margin: 6px 0 0; font-size: 26px; line-height: 36px; font-weight: 700; color: #29353D">{{cue}} <span lang="en" style="font-size: 18px; font-weight: 500; color: #5C788A">{{gloss}}</span></p>
+    <sc-if value="{{hasCueTr}}" hint-placeholder-val="{{ false }}"><p style="margin: 2px 0 0; font-size: 15px; line-height: 22px; font-style: italic; color: #006EB2">{{cueTr}}</p></sc-if>
+
+    <div style="margin-top: 32px; display: flex; align-items: center; justify-content: center; gap: 6px">
+      <sc-if value="{{hasStem}}" hint-placeholder-val="{{ true }}">
+        <div style="height: 72px; padding: 0 20px; border-radius: 12px; background: #F0F3F5; display: flex; align-items: center; font-size: 30px; font-weight: 700; color: #29353D" lang="{{langTag}}">{{stem}}</div>
+      </sc-if>
+      <div style="min-width: 120px; height: 72px; box-sizing: border-box; padding: 0 20px; border-radius: 12px; border: 2px {{slotBorderStyle}} {{slotBorder}}; background: {{slotBg}}; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; color: {{slotInk}}">{{slotText}}</div>
+    </div>
+
+    <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{endings}}" as="e" hint-placeholder-count="6">
+        <button onClick="{{e.pick}}" disabled="{{locked}}" aria-pressed="{{e.selected}}" style="min-height: 56px; padding: 4px 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; border: 2px solid {{e.border}}; background: {{e.bg}}; color: {{e.ink}}; font-family: 'Noto Sans', sans-serif; font-weight: 600; font-size: {{e.size}}px; cursor: pointer" lang="{{langTag}}">{{e.label}}<sc-if value="{{e.hasTr}}" hint-placeholder-val="{{ false }}"><span lang="en" style="font-size: 12px; line-height: 16px; font-weight: 500; font-style: italic; opacity: 0.8">{{e.tr}}</span></sc-if></button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{check}}" disabled="{{checkDisabled}}" style="width: 100%; height: 48px; border: 0; border-radius: 12px; background: {{checkBg}}; color: {{checkInk}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Check</button>
+  </sc-if>
+  <sc-if value="{{checked}}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="margin: 0 -16px -34px; padding: 20px 16px 34px; border-radius: 20px 20px 0 0; background: {{fb.bg}}; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{fb.ok}}" hint-placeholder-val="{{ true }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.bad}}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.clock}}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M12 6.5V12l3.5 2.2" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <span style="flex-grow: 1; font-size: 20px; font-weight: 800; color: {{fb.ink}}">{{fb.title}}</span>
+        <button aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: {{fb.ink}}; cursor: pointer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #29353D"><strong style="font-weight: 700">{{fb.answer}}</strong><br><span style="color: #3D505C">{{fb.note}}</span></p>
+      <button onClick="{{next}}" style="margin-top: 4px; height: 48px; border-radius: 12px; background: {{fb.btn}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">{{nextLabel}}</button>
+      <sc-if value="{{canSkip}}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{skip}}" style="height: 48px; border-radius: 12px; background: transparent; color: {{fb.ink}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">Continue</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{timedOn}}" hint-placeholder-val="{{ true }}">
+  <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; pointer-events: none">
+    <dc-import name="GymTimerRing" time-left="{{timeLeft}}" time-total="{{timeTotal}}" hint-size="402px,874px"></dc-import>
+  </div>
+  </sc-if>
+  <sc-if value="{{infoOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; z-index: 40">
+      <dc-import name="GymInfoSheet" title="{{info.title}}" kicker="{{info.kicker}}" body="{{info.body}}" table="{{info.table}}" examples="{{info.examples}}" tips="{{info.tips}}" lang-tag="{{langTag}}" on-close="{{closeInfo}}" hint-size="402px,874px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onOut":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"depleted":{"editor":null},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh();
+  }
+  // A clean start: used on first load, when the Full flow shows this stage, and on Train again.
+  fresh() {
+    return { ...{ info: null, picked: null, checked: false, timedOut: false, timeLeft: 60, misses: 0 }, resets: ((this.state && this.state.resets) || 0) + 1 };
+  }
+  componentDidUpdate(prev) {
+    const on = this.props.active !== false;
+    const was = prev.active !== false;
+    if ((on && !was) || this.props.run !== prev.run) { this.outSent = false; this.setState(this.fresh()); return; }
+    // Last life gone: tell the Full flow at once so it can show the failed panel.
+    if (on && this.lives === 0 && this.props.depleted !== true && !this.outSent && typeof this.props.onOut === 'function') {
+      this.outSent = true;
+      this.props.onOut();
+    }
+  }
+  renderVals() {
+    const total = 60;
+    // Content comes from the Full flow (one row of the language's Form Forge sheet); on its own it plays this Serbian row.
+    const item = this.props.item || {
+      cue: 'mi + ići', gloss: '(to go)', stem: 'id', endings: ['-em', '-eš', '-e', '-emo', '-ete', '-u'], correct: '-emo',
+      okAnswer: 'Mi idemo kući.', okNote: 'We are going home.',
+      badAnswer: 'Answer: idemo', badNote: 'Mi takes -emo. Mi idemo kući: we are going home.',
+      hint: 'Mi means “we”. Which ending goes with mi?',
+    };
+    const langTag = this.props.langTag || 'sr-Latn';
+    const correct = item.correct;
+    const { picked, checked, timedOut, timeLeft } = this.state;
+    const ok = checked && !timedOut && picked === correct;
+    // After Try again on an out-of-lives game the lives stay at 0 and the game can't score higher.
+    const depleted = this.props.depleted === true;
+    const livesNow = depleted ? 0 : Math.max(0, 3 - this.state.misses - (timedOut ? 1 : 0));
+    const retryNow = checked && !ok && !timedOut && (depleted || livesNow > 0);
+    // The right answer is only revealed once the game is over (right, out of lives or time up), never after a single slip.
+    const reveal = checked && !retryNow;
+    const endings = item.endings.map((label) => {
+      let border = '#E0E7EB', bg = '#FFFFFF', ink = '#29353D';
+      if (reveal && label === correct) { border = '#51E186'; bg = '#E9FBF0'; ink = '#0F5729'; }
+      else if (checked && label === picked) { border = '#EF4444'; bg = '#FDE8E8'; ink = '#8D0C0C'; }
+      else if (label === picked) { border = '#33B2FF'; bg = '#E6F5FF'; ink = '#006EB2'; }
+      const tr = item.endTr ? item.endTr[item.endings.indexOf(label)] : '';
+      return { label, tr, hasTr: !!tr, border, bg, ink, size: label.length > 7 ? 16 : 20, selected: label === picked, pick: () => this.setState({ picked: label }) };
+    });
+    const slotFilled = picked !== null;
+    let slotBorder = '#C2CED6', slotBg = '#F9FAFB', slotInk = '#29353D';
+    if (checked) {
+      slotBorder = ok ? '#51E186' : '#EF4444';
+      slotBg = ok ? '#E9FBF0' : '#FDE8E8';
+      slotInk = ok ? '#0F5729' : '#8D0C0C';
+    } else if (slotFilled) { slotBorder = '#33B2FF'; slotBg = '#E6F5FF'; slotInk = '#006EB2'; }
+    const fb = ok
+      ? { ok: true, bad: false, clock: false, bg: '#E9FBF0', ink: '#17823E', btn: '#1A9848', title: 'Excellent!', answer: item.okAnswer, note: item.okNote }
+      : { ok: false, bad: !timedOut, clock: timedOut, bg: '#FEF3F3', ink: '#A40E0E', btn: '#D31212', title: timedOut ? 'Time’s up' : 'Not quite', answer: item.badAnswer, note: item.badNote };
+    if (retryNow) { fb.answer = 'Try again'; fb.note = item.hint; }
+    const lives = livesNow;
+    const retry = retryNow;
+    this.lives = lives;
+    // Each exercise has its own 3 lives. Inside the Full flow the parent passes onFinish; on its own Continue replays this screen.
+    const embedded = typeof this.props.onFinish === 'function';
+    return {
+      // Info sheets (rule, tag, pattern): the timer pauses while one is open.
+      infoOpen: !!this.state.info,
+      info: this.state.info || {},
+      closeInfo: () => this.setState({ info: null }),
+      // Train again runs untimed: only the total time is counted on Results.
+      timedOn: this.props.timed !== false,
+      embedded,
+      standalone: !embedded,
+      // X in the header: the Full flow takes you back to the language picker.
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      resets: this.state.resets,
+      headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || (this.state.checked === true) || (this.state.timedOut === true) || (this.state.idx !== undefined && this.state.idx >= 6),
+      // Wrong with lives left: try again (answer stays hidden). Right, timed out or out of lives: move on.
+      // Out of lives and practising: Try again as often as you like, or Continue to settle with the mistake and move on.
+      canSkip: retry && this.props.depleted === true && typeof this.props.onFinish === 'function',
+      skip: () => { if (typeof this.props.onFinish === 'function') this.props.onFinish({ ok: false, lives: 0, correct: 0, mistakes: this.state.misses }); },
+      stageDone: checked && !retry,
+      nextLabel: retry ? 'Try again' : 'Continue',
+      next: () => { if (retry) this.setState({ checked: false, picked: null }); else if (embedded) this.props.onFinish({ ok: ok, lives, correct: ok ? 1 : 0, mistakes: this.state.misses + (timedOut ? 1 : 0) }); else this.setState(this.fresh()); },
+      endings,
+      lives,
+      timeTotal: total,
+      tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, checked: true, timedOut: true } : { timeLeft: t }),
+      locked: checked,
+      slotText: slotFilled ? picked.replace(/^-/, '') : '',
+      cue: item.cue, gloss: item.gloss, stem: item.stem, langTag,
+      title: item.title || 'Finish the verb', hasStem: !!item.stem,
+      hasCueTr: !!item.cueTr, cueTr: item.cueTr || '',
+      slotBorderStyle: slotFilled || checked ? 'solid' : 'dashed',
+      slotBorder, slotBg, slotInk,
+      timeLeft,
+      showCheck: !checked,
+      checked,
+      checkDisabled: !slotFilled,
+      checkBg: slotFilled ? '#FF9900' : '#E0E7EB',
+      checkInk: slotFilled ? '#FFFFFF' : '#5C788A',
+      check: () => this.setState(picked === correct ? { checked: true } : { checked: true, misses: this.state.misses + 1 }),
+      fb,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>B · Grammar Gym language picker</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@400;600;700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505C}
+.lp-row:active{background:#F0F3F5}
+.lp-row:focus-visible,.lp-close:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; color: #3D505C; position: relative; overflow: hidden">
+
+  <header style="flex-shrink: 0; padding-top: 54px; background: #FFFFFF; border-bottom: 1px solid #E0E7EB">
+    <div style="min-height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center; gap: 8px">
+      <button class="lp-close" onClick="{{close}}" aria-label="Close" style="width: 48px; height: 48px; padding: 0; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; color: #3D505C; cursor: pointer; flex-shrink: 0">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2929 4.29289C18.6834 3.90237 19.3164 3.90237 19.707 4.29289C20.0975 4.68342 20.0975 5.31643 19.707 5.70696L13.414 11.9999L19.707 18.2929C20.0975 18.6834 20.0975 19.3164 19.707 19.707C19.3164 20.0975 18.6834 20.0975 18.2929 19.707L11.9999 13.414L5.70696 19.707C5.31643 20.0975 4.68342 20.0975 4.29289 19.707C3.90237 19.3164 3.90237 18.6834 4.29289 18.2929L10.5859 11.9999L4.29289 5.70696C3.90237 5.31643 3.90237 4.68342 4.29289 4.29289C4.68342 3.90237 5.31643 3.90237 5.70696 4.29289L11.9999 10.5859L18.2929 4.29289Z"></path></svg>
+      </button>
+      <h1 style="flex: 1 1 auto; margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Choose a language</h1>
+    </div>
+  </header>
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; box-sizing: border-box; padding: 16px 16px 32px">
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{languages}}" as="l" hint-placeholder-count="6">
+        <li>
+          <button class="lp-row" onClick="{{l.pick}}" aria-pressed="{{l.pressed}}" style="width: 100%; min-height: 72px; box-sizing: border-box; padding: 12px 16px; display: flex; align-items: center; gap: 16px; border: {{l.border}}; border-radius: 16px; background: {{l.bg}}; font-family: 'Noto Sans', sans-serif; text-align: left; cursor: pointer">
+            <span aria-hidden="true" style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 20px; overflow: hidden; display: flex; box-shadow: inset 0 0 0 1px rgba(61,80,92,0.12)">
+              <sc-if value="{{l.is_sr}}" hint-placeholder-val="{{ true }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="30" height="10" fill="#C6363C"></rect><rect y="10" width="30" height="10" fill="#0C4076"></rect><rect y="20" width="30" height="10" fill="#FFFFFF"></rect></svg>
+              </sc-if>
+              <sc-if value="{{l.is_cz}}" hint-placeholder-val="{{ false }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="30" height="15" fill="#FFFFFF"></rect><rect y="15" width="30" height="15" fill="#D7141A"></rect><polygon points="0,0 15,15 0,30" fill="#11457E"></polygon></svg>
+              </sc-if>
+              <sc-if value="{{l.is_de}}" hint-placeholder-val="{{ false }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="30" height="10" fill="#000000"></rect><rect y="10" width="30" height="10" fill="#DD0000"></rect><rect y="20" width="30" height="10" fill="#FFCE00"></rect></svg>
+              </sc-if>
+              <sc-if value="{{l.is_th}}" hint-placeholder-val="{{ false }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="30" height="30" fill="#A51931"></rect><rect y="5" width="30" height="20" fill="#F4F5F8"></rect><rect y="10" width="30" height="10" fill="#2D2A4A"></rect></svg>
+              </sc-if>
+              <sc-if value="{{l.is_fr}}" hint-placeholder-val="{{ false }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="10" height="30" fill="#002654"></rect><rect x="10" width="10" height="30" fill="#FFFFFF"></rect><rect x="20" width="10" height="30" fill="#CE1126"></rect></svg>
+              </sc-if>
+              <sc-if value="{{l.is_it}}" hint-placeholder-val="{{ false }}">
+                <svg width="40" height="40" viewBox="0 0 30 30" preserveAspectRatio="xMidYMid slice"><rect width="10" height="30" fill="#009246"></rect><rect x="10" width="10" height="30" fill="#FFFFFF"></rect><rect x="20" width="10" height="30" fill="#CE2B37"></rect></svg>
+              </sc-if>
+            </span>
+            <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column">
+              <span style="font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{l.name}}</span>
+              <span lang="{{l.tag}}" style="font-size: 14px; line-height: 1.5; color: #5C788A">{{l.native}}</span>
+            </span>
+            <sc-if value="{{l.on}}" hint-placeholder-val="{{ false }}">
+              <span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 12px; background: #33B2FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+              </span>
+            </sc-if>
+          </button>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onPick":{"editor":null},"onClose":{"editor":null},"selected":{"editor":"enum","options":["sr","cz","de","th","it","fr"],"default":"sr"},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: null };
+  }
+  renderVals() {
+    // Prototype B (noun gender): Serbian, Czech and Italian only (each from its language team's sheet).
+    const langs = [
+      { id: 'sr', name: 'Serbian', native: 'srpski', tag: 'sr-Latn' },
+      { id: 'cz', name: 'Czech', native: 'čeština', tag: 'cs' },
+      { id: 'it', name: 'Italian', native: 'italiano', tag: 'it' },
+    ];
+    const selected = this.state.picked || this.props.selected || 'sr';
+    return {
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      languages: langs.map((l) => {
+        const on = l.id === selected;
+        return {
+          ...l,
+          on,
+          pressed: on ? 'true' : 'false',
+          is_sr: l.id === 'sr', is_cz: l.id === 'cz', is_de: l.id === 'de', is_th: l.id === 'th', is_it: l.id === 'it', is_fr: l.id === 'fr',
+          border: on ? '2px solid #33B2FF' : '1px solid #E0E7EB',
+          bg: on ? '#E6F5FF' : '#FFFFFF',
+          // The tap highlights at once; inside the Full flow it switches the course and returns to the Learn tab.
+          pick: () => {
+            this.setState({ picked: l.id });
+            if (typeof this.props.onPick === 'function') setTimeout(() => this.props.onPick(l.id), 180);
+          },
+        };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>

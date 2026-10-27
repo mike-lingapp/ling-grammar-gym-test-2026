@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Verb Match</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+Thai+Looped:wght@400;600;700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+:lang(th){font-family:'Noto Sans Thai Looped','Noto Sans',sans-serif}
+.vm:focus-visible,.lane:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+.shA{animation:shakeA .35s}.shB{animation:shakeB .35s}
+@keyframes shakeA{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes shakeB{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.fbs{animation:rise .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(40px);opacity:0}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 62px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
+  <dc-import name="GymHeader" step="6" done="{{stageDone}}" total="6" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,92px"></dc-import>
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 24px">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <h1 style="flex-grow: 1; margin: 0; font-size: 18px; line-height: 27px; font-weight: 700; color: #29353D">{{title}}</h1>
+      <button class="lane" onClick="{{openRule}}" aria-label="The rule" style="width: 40px; height: 40px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #3D505C; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 14.75C12.6904 14.75 13.25 15.3096 13.25 16C13.25 16.6904 12.6904 17.25 12 17.25C11.3096 17.25 10.75 16.6904 10.75 16C10.75 15.3096 11.3096 14.75 12 14.75ZM12 6C12.5523 6 13 6.44772 13 7V12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12V7C11 6.44772 11.4477 6 12 6Z"></path></svg></button>
+    </div>
+    <p style="margin: 6px 0 0; font-size: 22px; line-height: 32px; font-weight: 700; color: #29353D"><span lang="{{langTag}}">{{verb}}</span> <span style="font-size: 16px; font-weight: 500; color: #5C788A">{{verbGloss}}</span></p>
+    <p role="status" style="margin: 4px 0 0; min-height: 22px; font-size: 15px; line-height: 22px; font-weight: {{statusWeight}}; color: {{statusInk}}">{{statusText}}</p>
+
+    <div style="margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{left}}" as="c" hint-placeholder-count="4">
+          <button class="vm {{c.shake}}" onClick="{{c.tap}}" disabled="{{c.off}}" aria-pressed="{{c.pressed}}" style="min-height: 64px; box-sizing: border-box; padding: 6px 8px; border-radius: 16px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Noto Sans', sans-serif; font-size: {{c.size}}px; line-height: 1.3; font-weight: 700; cursor: pointer; transition: background 0.2s, border-color 0.2s" lang="{{c.lang}}">{{c.t}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{right}}" as="c" hint-placeholder-count="4">
+          <button class="vm {{c.shake}}" onClick="{{c.tap}}" disabled="{{c.off}}" aria-pressed="{{c.pressed}}" style="min-height: 64px; box-sizing: border-box; padding: 6px 8px; border-radius: 16px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Noto Sans', sans-serif; font-size: 20px; line-height: 1.3; font-weight: 700; cursor: pointer; transition: background 0.2s, border-color 0.2s"><span lang="{{langTag}}">{{c.t}}</span><sc-if value="{{c.hasTr}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; line-height: 16px; font-weight: 500; font-style: italic; opacity: 0.8">{{c.tr}}</span></sc-if></button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{skip}}" disabled="{{skipOff}}" style="width: 100%; height: 48px; margin-top: 16px; flex-shrink: 0; border: 0; border-radius: 12px; background: {{skipBg}}; color: {{skipInk}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: {{skipCursor}}">Continue</button>
+  </sc-if>
+  <sc-if value="{{showDone}}" hint-placeholder-val="{{ false }}">
+    <div class="fbs" role="status" style="margin: 16px -16px -34px; padding: 20px 16px 34px; border-radius: 20px 20px 0 0; background: {{fb.bg}}; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{fb.ok}}" hint-placeholder-val="{{ true }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.warn}}" hint-placeholder-val="{{ false }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="{{fb.ink}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M12 6.5v7" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"></path><circle cx="12" cy="17.2" r="1.5" fill="#FFFFFF"></circle></svg>
+        </sc-if>
+        <span style="flex-grow: 1; font-size: 20px; font-weight: 800; color: {{fb.ink}}">{{fb.title}}</span>
+        <button aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: {{fb.ink}}; cursor: pointer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #29353D"><strong lang="{{langTag}}" style="font-weight: 700">{{fb.answer}}</strong><sc-if value="{{fb.hasNote}}" hint-placeholder-val="{{ false }}"><br><span lang="{{langTag}}" style="color: #3D505C">{{fb.note}}</span></sc-if></p>
+      <button onClick="{{finish}}" style="margin-top: 4px; height: 48px; border-radius: 12px; background: {{fb.btn}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">Continue</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{timedOut}}" hint-placeholder-val="{{ false }}">
+    <div class="fbs" role="status" style="margin: 16px -16px -34px; padding: 20px 16px 34px; border-radius: 20px 20px 0 0; background: #FEF3F3; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#A40E0E" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M12 6.5V12l3.5 2.2" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span style="flex-grow: 1; font-size: 20px; font-weight: 800; color: #A40E0E">Time’s up</span>
+        <button aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: #A40E0E; cursor: pointer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #29353D"><strong style="font-weight: 700">{{sortedText}}</strong><br><span lang="{{langTag}}" style="color: #3D505C">{{fb.note}}</span></p>
+      <button onClick="{{finish}}" style="margin-top: 4px; height: 48px; border-radius: 12px; background: #D31212; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; width: 100%; border: 0; font-family: 'Noto Sans', sans-serif; cursor: pointer">Continue</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{timedOn}}" hint-placeholder-val="{{ true }}">
+  <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; pointer-events: none">
+    <dc-import name="GymTimerRing" time-left="{{timeLeft}}" time-total="{{timeTotal}}" hint-size="402px,874px"></dc-import>
+  </div>
+  </sc-if>
+  <sc-if value="{{infoOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; z-index: 40">
+      <dc-import name="GymInfoSheet" title="{{info.title}}" kicker="{{info.kicker}}" body="{{info.body}}" table="{{info.table}}" examples="{{info.examples}}" tips="{{info.tips}}" lang-tag="{{langTag}}" on-close="{{closeInfo}}" hint-size="402px,874px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onOut":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"depleted":{"editor":null},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh();
+  }
+  // Right column order is shuffled once per run (never left in the same order as the left column).
+  fresh() {
+    const n = 4;
+    let order = [...Array(n).keys()];
+    do { order = order.map((x) => [Math.random(), x]).sort((a, b) => a[0] - b[0]).map((p) => p[1]); } while (order.every((x, i) => x === i));
+    return { ...{ info: null, selL: null, selR: null, matched: [], slips: 0, slipped: [], bad: null, shake: 0, timedOut: false, timeLeft: 60, order }, resets: ((this.state && this.state.resets) || 0) + 1 };
+  }
+  componentDidUpdate(prev) {
+    const on = this.props.active !== false;
+    const was = prev.active !== false;
+    if ((on && !was) || this.props.run !== prev.run) { this.outSent = false; this.setState(this.fresh()); return; }
+    if (on && this.lives === 0 && this.props.depleted !== true && !this.outSent && typeof this.props.onOut === 'function') {
+      this.outSent = true;
+      this.props.onOut();
+    }
+  }
+  componentWillUnmount() { clearTimeout(this.badT); }
+  renderVals() {
+    // Content from the Full flow: one verb, 4 persons (Thai: 4 time words, since Thai verbs never change).
+    const item = this.props.item || {
+      title: 'Match each person to the verb', verb: 'raditi', verbGloss: '(to work)',
+      pairs: [['ja', 'radim'], ['ti', 'radiš'], ['on / ona', 'radi'], ['mi', 'radimo']],
+      hint: 'Look at the ending: -m goes with ja, -š with ti, -mo with mi.',
+    };
+    const langTag = this.props.langTag || 'sr-Latn';
+    const leftLang = item.leftLang || langTag;
+    const pairs = item.pairs;
+    const n = pairs.length;
+    const { selL, selR, matched, slips, slipped, bad, timedOut, order } = this.state;
+    const done = matched.length >= n;
+    const depleted = this.props.depleted === true;
+    const lives = depleted ? 0 : Math.max(0, 3 - slips - (timedOut ? 1 : 0));
+    this.lives = lives;
+    const embedded = typeof this.props.onFinish === 'function';
+    const locked = done || timedOut;
+    // Pair check: once one card on each side is picked. Right = both lock green; wrong = both flash red and cost a life.
+    const tryPair = (l, r) => {
+      if (l === null || r === null) return;
+      if (l === r) { this.setState({ matched: [...this.state.matched, l], selL: null, selR: null, bad: null }); return; }
+      clearTimeout(this.badT);
+      this.setState({ slips: this.state.slips + 1, slipped: this.state.slipped.includes(l) ? this.state.slipped : [...this.state.slipped, l], bad: { l, r }, selL: null, selR: null, shake: this.state.shake + 1 });
+      this.badT = setTimeout(() => this.setState({ bad: null }), 700);
+    };
+    const style = (on, isBad, isOk) => (isOk ? { border: '#51E186', bg: '#E9FBF0', ink: '#0F5729' }
+      : (isBad ? { border: '#EF4444', bg: '#FDE8E8', ink: '#8D0C0C' }
+        : (on ? { border: '#33B2FF', bg: '#E6F5FF', ink: '#006EB2' } : { border: '#E0E7EB', bg: '#FFFFFF', ink: '#29353D' })));
+    const shakeCls = this.state.shake % 2 ? 'shA' : 'shB';
+    const left = pairs.map((p, i) => {
+      const isOk = matched.includes(i), isBad = !!(bad && bad.l === i), on = selL === i;
+      return { t: p[0], lang: leftLang, size: p[0].length > 14 ? 15 : 18, ...style(on, isBad, isOk), off: isOk || locked, pressed: on ? 'true' : 'false', shake: isBad ? shakeCls : '',
+        tap: () => { if (isOk || locked) return; if (selR !== null) tryPair(i, selR); else this.setState({ selL: on ? null : i }); } };
+    });
+    const right = order.map((i) => {
+      const p = pairs[i];
+      const isOk = matched.includes(i), isBad = !!(bad && bad.r === i), on = selR === i;
+      return { t: p[1], tr: p[2] || '', hasTr: !!p[2], ...style(on, isBad, isOk), off: isOk || locked, pressed: on ? 'true' : 'false', shake: isBad ? shakeCls : '',
+        tap: () => { if (isOk || locked) return; if (selL !== null) tryPair(selL, i); else this.setState({ selR: on ? null : i }); } };
+    });
+    const correct = matched.filter((i) => !slipped.includes(i)).length;
+    const list = pairs.map((p) => p[0] + ' → ' + p[1]).join(' · ');
+    const fb = slips === 0
+        ? { ok: true, warn: false, bg: '#E9FBF0', ink: '#17823E', btn: '#1A9848', title: 'Excellent!', answer: 'All ' + n + ' matched, no slips.', note: list, hasNote: true }
+        : { ok: false, warn: true, bg: '#FFF4D9', ink: '#806519', btn: '#F2BC26', title: 'All matched', answer: correct + ' of ' + n + ' right first time.', note: list, hasNote: true };
+    const result = () => ({ ok: done && !timedOut && lives > 0, lives, correct, mistakes: slips + (timedOut ? n - matched.length : 0), total: n });
+    return {
+      infoOpen: !!this.state.info,
+      info: this.state.info || {},
+      closeInfo: () => this.setState({ info: null }),
+      timedOn: this.props.timed !== false,
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      resets: this.state.resets,
+      headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || locked,
+      timeTotal: 60, timeLeft: this.state.timeLeft,
+      tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, timedOut: true, selL: null, selR: null } : { timeLeft: t }),
+      lives, langTag,
+      title: item.title, verb: item.verb, verbGloss: item.verbGloss || '',
+      statusText: bad ? item.hint : (done ? 'All matched' : 'Tap a ' + (item.leftWord || 'person') + ', then its ' + (item.rightWord || 'verb form') + '.'),
+      statusInk: bad ? '#A40E0E' : '#5C788A',
+      statusWeight: bad ? 600 : 400,
+      left, right,
+      openRule: () => this.setState({ info: this.props.rule || { title: item.title, body: item.hint }, selL: null, selR: null }),
+      showCheck: !locked,
+      showDone: done && !timedOut,
+      timedOut,
+      sortedText: 'You matched ' + matched.length + ' of ' + n + '.',
+      stageDone: locked,
+      fb,
+      finish: () => { if (embedded) this.props.onFinish(result()); else this.setState(this.fresh()); },
+      // Out of lives and practising: Continue is live, so the learner can move on.
+      skipOff: !(depleted && embedded),
+      skipBg: depleted && embedded ? '#FF9900' : '#E0E7EB',
+      skipInk: depleted && embedded ? '#FFFFFF' : '#5C788A',
+      skipCursor: depleted && embedded ? 'pointer' : 'default',
+      skip: () => { if (depleted && embedded) this.props.onFinish({ ok: false, lives: 0, correct: 0, mistakes: slips, total: n }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

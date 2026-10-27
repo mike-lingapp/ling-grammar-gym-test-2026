@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>B · Grammar Gym start</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@600;700&amp;family=Inter:wght@700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505C}
+.gg-btn:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+@keyframes ggPop{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes ggFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){.gg-anim{animation:none!important;opacity:1!important}}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; font-family: 'Noto Sans', sans-serif; color: #3D505C; position: relative; overflow: hidden">
+
+  <header style="flex-shrink: 0; padding-top: 54px; background: #FFFFFF">
+    <div style="min-height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center">
+      <button class="gg-btn" onClick="{{close}}" aria-label="Close Grammar Gym" style="width: 48px; height: 48px; padding: 0; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; color: #3D505C; cursor: pointer">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2929 4.29289C18.6834 3.90237 19.3164 3.90237 19.707 4.29289C20.0975 4.68342 20.0975 5.31643 19.707 5.70696L13.414 11.9999L19.707 18.2929C20.0975 18.6834 20.0975 19.3164 19.707 19.707C19.3164 20.0975 18.6834 20.0975 18.2929 19.707L11.9999 13.414L5.70696 19.707C5.31643 20.0975 4.68342 20.0975 4.29289 19.707C3.90237 19.3164 3.90237 18.6834 4.29289 18.2929L10.5859 11.9999L4.29289 5.70696C3.90237 5.31643 3.90237 4.68342 4.29289 4.29289C4.68342 3.90237 5.31643 3.90237 5.70696 4.29289L11.9999 10.5859L18.2929 4.29289Z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-bottom: 24px">
+    <div style="padding: 16px; display: flex; justify-content: center">
+      <img class="gg-anim" src="/_blob/b3db8c259c9a4ef446e17a9d874f80b8" alt="" width="96" height="96" style="display: block; width: 96px; height: 96px; animation: ggPop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both">
+    </div>
+    <div style="padding: 16px; text-align: center">
+      <h1 style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 26px; line-height: 1.25; font-weight: 700; color: #3D505C">Grammar Gym</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #5C788A">{{subtitle}}</p>
+    </div>
+
+    <div style="padding: 0 16px 8px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px">
+      <span style="height: 40px; box-sizing: border-box; padding: 8px 12px; border-radius: 384px; background: #FFF4D8; color: #806519; display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.5; font-weight: 700">
+        <svg aria-hidden="true" width="35" height="16" viewBox="0 0 35 16" fill="none"><path d="M11 5C11.5523 5 12 5.44772 12 6V10C12 10.5523 11.5523 11 11 11H7.7998C6.25356 10.9999 5.00011 9.74644 5 8.2002C5 6.43288 6.43288 5 8.2002 5H11Z" fill="currentColor"></path><path d="M20 5C20.5523 5 21 5.44772 21 6V10C21 10.5523 20.5523 11 20 11H15C14.4477 11 14 10.5523 14 10V6C14 5.44772 14.4477 5 15 5H20Z" fill="currentColor"></path><path d="M27 5C28.6569 5 30 6.34315 30 8C30 9.65685 28.6569 11 27 11H24C23.4477 11 23 10.5523 23 10V6C23 5.44772 23.4477 5 24 5H27Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M27 1C30.866 1 34 4.13401 34 8C34 11.7451 31.0589 14.8037 27.3604 14.9912L27 15H8L7.63965 14.9912C3.94111 14.8037 1 11.7451 1 8C1 4.13401 4.13401 1 8 1H27ZM8 3C5.23858 3 3 5.23858 3 8C3 10.7614 5.23858 13 8 13H27C29.7614 13 32 10.7614 32 8C32 5.23858 29.7614 3 27 3H8Z" fill="currentColor"></path></svg>
+        3 lives each
+      </span>
+      <span style="height: 40px; box-sizing: border-box; padding: 8px 12px; border-radius: 384px; background: #E4F9EC; color: #17823E; display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.5; font-weight: 700">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 4C8.55228 4 9 4.44772 9 5V7H10C10.5522 7 10.9999 7.44775 11 8C11 8.55224 10.5523 8.99994 10 9H8C7.44776 9 7.00006 8.55225 7 8V5C7 4.44772 7.44772 4 8 4Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1ZM8 3C5.23858 3 3 5.23858 3 8C3 10.7614 5.23858 13 8 13C10.7614 13 13 10.7614 13 8C13 5.23858 10.7614 3 8 3Z" fill="currentColor"></path></svg>
+        4 timed rounds
+      </span>
+    </div>
+
+    <ol style="margin: 0; padding: 8px 16px; list-style: none; display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{exercises}}" as="x" hint-placeholder-count="4">
+        <li class="gg-anim" style="animation: ggFadeUp 0.45s ease-out {{x.delay}}s both; min-height: 56px; box-sizing: border-box; padding: 4px 16px; border-radius: 16px; background: #F9FAFB; display: flex; align-items: center; gap: 12px">
+          <span aria-hidden="true" style="min-width: 32px; min-height: 32px; box-sizing: border-box; padding: 4px; border-radius: 999px; background: #CCEBFF; color: #003F66; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.5; font-weight: 700; letter-spacing: 0.16px">{{x.n}}</span>
+          <span style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column">
+            <span style="font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{x.name}}</span>
+            <span style="font-size: 14px; line-height: 1.5; color: #5C788A">{{x.skill}}</span>
+          </span>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+
+  <div style="flex-shrink: 0; border-top: 1px solid #E0E7EB; padding: 8px 16px 34px">
+    <button class="gg-btn" onClick="{{start}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer; background: #FF9900; color: #FFFFFF">Start</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"onStart":{"editor":null},"onClose":{"editor":null},"language":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      exercises: [
+        { delay: 0.20, n: 1, name: 'Lane Sort', skill: 'Sort nouns by gender' },
+        { delay: 0.28, n: 2, name: 'Form Forge', skill: 'Pick the right word' },
+        { delay: 0.36, n: 3, name: 'Case Dial', skill: 'Spin to the right word' },
+        { delay: 0.44, n: 4, name: 'Gender Match', skill: 'Match the pairs' },
+      ],
+      subtitle: 'Noun gender · 4 exercises',
+      // Inside the Full flow this starts the run; on its own it does nothing.
+      start: () => { if (typeof this.props.onStart === 'function') this.props.onStart(); },
+      // X: back to where the learner came from (Learn tab or Grammar exercises list).
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grammar exercises list</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@400;600;700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505C}
+.gl-row:not(:disabled):active{background:#F0F3F5}
+.gl-row:focus-visible,.gl-back:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; color: #3D505C; position: relative; overflow: hidden">
+
+  <header style="flex-shrink: 0; padding-top: 54px; background: #FFFFFF; border-bottom: 1px solid #E0E7EB">
+    <div style="min-height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center; gap: 8px">
+      <button class="gl-back" onClick="{{back}}" aria-label="Back to Review" style="width: 48px; height: 48px; padding: 0; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; color: #3D505C; cursor: pointer; flex-shrink: 0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+      </button>
+      <h1 style="flex: 1 1 auto; margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Grammar exercises</h1>
+    </div>
+  </header>
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; box-sizing: border-box; padding: 16px 16px 32px">
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{topics}}" as="t" hint-placeholder-count="6">
+        <li>
+          <button class="gl-row" onClick="{{t.open}}" disabled="{{t.locked}}" style="width: 100%; min-height: 64px; box-sizing: border-box; padding: 12px 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; border: 1px solid #E0E7EB; border-radius: 16px; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; text-align: left; cursor: {{t.cursor}}">
+            <span style="font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{t.title}}</span>
+            <span style="font-size: 14px; line-height: 1.5; font-weight: 400; color: #5C788A">{{t.meta}}</span>
+          </button>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["sr","cz","de","th","it","fr"],"default":"sr"},"onBack":{"editor":null},"onPick":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // Topics unlock as the learner moves through the course (copy from Ling App Layouts, ViewGrammarGymList).
+    // Per course: the first topic plays this prototype's content for that language; the rest are placeholders.
+    const META = ['Unit 3 · strong · next in 4 days', 'Unit 4 · due today', 'Unit 6 · shaky · due today', 'Unit 9 · new · due today', 'Cards: 16'];
+    const BY_LANG = {
+      sr: ['The verb "to be" (biti)', 'Word order and emphasis', 'Adjective agreement', '"This" by gender', 'The seven cases', 'Number & Counting'],
+      cz: ['The seven cases', 'Prepositions choose the case', 'Noun gender', 'Word order', 'Verb endings', 'Verb aspect'],
+      de: ['Cases with der, die, das', 'Prepositions choose the case', 'Noun gender', 'Verb endings', 'Word order', 'Plural nouns'],
+      th: ['Classifiers', 'Counting things', 'Word order', 'Question words', 'Polite particles', 'Time words'],
+      it: ['Articulated prepositions', 'Which article: il, lo, la', 'Noun gender', 'Verb endings', 'Adjective agreement', 'Past tense'],
+      fr: ['Verbs ending in -er', 'Noun + être + adjective', 'à + le = au', 'Adjective agreement', 'Noun gender', 'Past tense'],
+    };
+    const titles = BY_LANG[this.props.lang] || BY_LANG.sr;
+    const TOPICS = titles.map((title, i) => (i < 5
+      ? { id: 't' + i, title, meta: META[i] }
+      : { id: 't' + i, title, meta: 'Unlocks with Unit 10', locked: true }));
+    return {
+      back: () => { if (typeof this.props.onBack === 'function') this.props.onBack(); },
+      topics: TOPICS.map((t) => ({
+        ...t,
+        locked: !!t.locked,
+        cursor: t.locked ? 'default' : 'pointer',
+        open: () => { if (!t.locked && typeof this.props.onPick === 'function') this.props.onPick(t.id); },
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>
