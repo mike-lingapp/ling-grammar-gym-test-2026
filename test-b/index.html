@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grammar Gym · Test B (noun gender)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- USEBERRY SNIPPET: paste the tracking code from your Useberry study here (inside <head>) to get clicks, paths and recordings. -->
+<style>
+  html, body { margin: 0; height: 100%; background: #E6EAED; overflow: hidden; }
+  #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #phone { width: 402px; height: 874px; flex-shrink: 0; position: relative; overflow: hidden; background: #FFFFFF;
+           border-radius: 40px; box-shadow: 0 12px 40px rgba(31, 40, 46, 0.18); transform-origin: center center; }
+  #phone.full { border-radius: 0; box-shadow: none; }
+  #phone > div { position: relative; }
+</style>
+</head>
+<body>
+<div id="stage"><div id="phone"></div></div>
+<script src="../vendor/preact.min.js"></script>
+<script src="../runtime.js"></script>
+<script>
+  // Fit the 402 x 874 phone to any screen (scaled down on small or short windows).
+  function fit() {
+    const el = document.getElementById('phone');
+    const s = Math.min(1, window.innerWidth / 402, window.innerHeight / 874);
+    el.style.transform = 'scale(' + s + ')';
+    el.classList.toggle('full', window.innerWidth < 500);
+  }
+  window.addEventListener('resize', fit); fit();
+  GymRuntime.start({ root: 'GymFlowB', langs: ['sr', 'cz', 'it'], games: 4, mount: '#phone', mode: 'test' });
+</script>
+</body>
+</html>

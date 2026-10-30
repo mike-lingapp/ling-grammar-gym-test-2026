@@ -36,7 +36,7 @@ a{color:#006EB2}a:hover{color:#005E99}
     <dc-import name="ProtoLearn" lang="{{lang}}" gym-crowns="{{crowns}}" on-language="{{toLanguages}}" on-open-gym="{{openFromPath}}" on-review="{{toReview}}" hint-size="402px,874px"></dc-import>
   </sc-if>
   <sc-if value="{{sLang}}" hint-placeholder-val="{{ false }}">
-    <dc-import name="ProtoLanguageB" selected="{{lang}}" on-pick="{{pickLang}}" on-close="{{toLearnTab}}" hint-size="402px,874px"></dc-import>
+    <dc-import name="ProtoLanguageB" selected="{{pickerSelected}}" on-pick="{{pickLang}}" on-close="{{toLearnTab}}" hide-close="{{testMode}}" hint-size="402px,874px"></dc-import>
   </sc-if>
   <sc-if value="{{sReview}}" hint-placeholder-val="{{ false }}">
     <dc-import name="ProtoReview" on-open-gym="{{toList}}" on-learn="{{toLearnTab}}" hint-size="402px,874px"></dc-import>
@@ -125,7 +125,7 @@ a{color:#006EB2}a:hover{color:#005E99}
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":402,"height":874}}'>
+<script type="text/x-dc" data-dc-script data-props='{"mode":{"editor":"enum","options":["app","test"],"default":"app"},"$preview":{"width":402,"height":874}}'>
 // Case Dial content per language, from the language team's Grammar Gym sheets (Exercises tab).
 // Each row: sentence around the gap, English prompt, wheel tiles [form, case label] in that language's case order,
 // c = index of the right tile, full answer and feedback.
@@ -177,7 +177,10 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     // One state for the whole run, so the results screen sees every answer.
-    this.state = { step: 'tab', origin: 'tab', timedRun: true, depleted: false, lang: 'sr', topic: null, item: null, results: [], startedAt: Date.now(), seconds: 0, run: 1, lives: 3, out: false };
+    // Test mode (hosted links for unmoderated testing): no Learn / Review tabs. Start on the language picker,
+    // go straight to Learn the rule, and every exit (back, quit, finish) returns to the language picker.
+    this.testMode = props && props.mode === 'test';
+    this.state = { step: this.testMode ? 'lang' : 'tab', origin: this.testMode ? 'test' : 'tab', timedRun: true, depleted: false, lang: 'sr', topic: null, item: null, results: [], startedAt: Date.now(), seconds: 0, run: 1, lives: 3, out: false };
   }
   renderVals() {
     const { step, results, startedAt, seconds, run, lives, out, lang, item, laneContent } = this.state;
@@ -240,7 +243,10 @@ class Component extends DCLogic {
       toLearnTab: () => this.setState({ step: 'tab', out: false }),
       // Learn tab flag > language picker > back to the Learn tab in the new course; all exercise content follows the language.
       toLanguages: () => this.setState({ step: 'lang', out: false }),
-      pickLang: (id) => this.setState({ lang: id, step: 'tab', item: null, laneContent: null, results: [], run: this.state.run + 1, out: false }),
+      testMode: !!this.testMode,
+      // Test mode: no language preselected, so participants make the choice themselves.
+      pickerSelected: this.testMode ? "none" : this.state.lang,
+      pickLang: (id) => this.setState({ lang: id, step: this.testMode ? 'learn' : 'tab', origin: this.testMode ? 'test' : this.state.origin, item: null, laneContent: null, results: [], run: this.state.run + 1, out: false }),
       // Review tab > Grammar exercises list: closing later returns to the list.
       toList: () => this.setState({ step: 'list', origin: 'review', out: false }),
       // Learn tab path tile: straight to P0 Start for this unit; closing returns to the Learn tab.
@@ -262,7 +268,7 @@ class Component extends DCLogic {
         if ((this.state.psDrag || 0) > 80) { this.setState({ psDragging: false, psClosing: true, psDrag: 520 }); setTimeout(() => this.setState({ ps: false, psClosing: false, psDrag: 0 }), 220); }
         else this.setState({ psDragging: false, psDrag: 0 });
       },
-      closeStart: () => this.setState({ step: this.state.origin === 'tab' ? 'tab' : 'list', out: false }),
+      closeStart: () => this.setState({ step: this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'list'), out: false }),
       // X during an exercise: confirm first with the Quit exercise sheet (Ling App Layouts); the clock pauses meanwhile.
       quit: !!this.state.quit,
       askQuit: () => { this.setState({ quit: true, qClosing: false, qDrag: 0, qEntered: false }); setTimeout(() => this.setState({ qEntered: true }), 320); },
@@ -281,10 +287,10 @@ class Component extends DCLogic {
         if ((this.state.qDrag || 0) > 80) { this.setState({ qDragging: false, qClosing: true, qDrag: 520 }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); }
         else this.setState({ qDragging: false, qDrag: 0 });
       },
-      confirmQuit: () => this.setState({ quit: false, out: false, depleted: false, step: this.state.origin === 'tab' ? 'tab' : 'list', results: [], run: this.state.run + 1 }),
+      confirmQuit: () => this.setState({ quit: false, out: false, depleted: false, step: this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'list'), results: [], run: this.state.run + 1 }),
       // Learn the rule: back goes to wherever the learner came from (Learn tab path or the Grammar exercises list).
-      grammarBack: this.state.origin === 'tab' ? 'Back to Learn' : 'Back to Grammar exercises',
-      grammarBackGo: () => this.setState({ step: this.state.origin === 'tab' ? 'tab' : 'list', out: false }),
+      grammarBack: this.state.origin === 'test' ? 'Back to languages' : (this.state.origin === 'tab' ? 'Back to Learn' : 'Back to Grammar exercises'),
+      grammarBackGo: () => this.setState({ step: this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'list'), out: false }),
       pickTopic: (id) => this.setState({ topic: id, step: 'learn', run: this.state.run + 1 }),
       // While the failed panel is up the stage underneath stops (timer paused).
       a1: step === 1 && !out, a2: step === 2 && !out, a3: step === 3 && !out, a4: step === 4 && !out, a5: step === 5 && !out, a6: step === 6 && !out,
@@ -321,7 +327,7 @@ class Component extends DCLogic {
       // Results Continue goes back to the Review tab.
       // Results Continue: the Grammar Gym complete screen (banana points), then back to where the learner started.
       toComplete: () => this.setState({ step: 6 }),
-      toStart: () => this.setState({ step: this.state.origin === 'tab' ? 'tab' : 'review', results: [], seconds: 0, run: this.state.run + 1, lives: 3, out: false }),
+      toStart: () => this.setState({ step: this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'review'), results: [], seconds: 0, run: this.state.run + 1, lives: 3, out: false }),
       // Train again: same games without the per-game timers; only the total time is shown on Results.
       restart: () => this.setState({ timedRun: false, depleted: false, item: pickItem(lang), laneContent: dealNouns(lang), step: 1, results: [], startedAt: Date.now(), seconds: 0, run: this.state.run + 1, lives: 3, out: false }),
     };

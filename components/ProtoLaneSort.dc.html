@@ -127,8 +127,19 @@ class Component extends DCLogic {
     this.state = this.fresh();
   }
   // A clean start: used on first load, when the Full flow shows this stage, and on Train again.
+  // Cards come off the pile in a random order each run (never in the order the content lists them).
+  shuffledOrder() {
+    const n = (this.props && this.props.content && this.props.content.nouns) ? this.props.content.nouns.length : 6;
+    const base = [...Array(n).keys()];
+    let o = base;
+    for (let tries = 0; tries < 10; tries++) {
+      o = base.map((x) => [Math.random(), x]).sort((a, b) => a[0] - b[0]).map((q) => q[1]);
+      if (n < 3 || o.some((x, i) => x !== i)) break;
+    }
+    return o;
+  }
   fresh() {
-    return { ...{ info: null, idx: 0, placed: [[], [], []], slips: 0, slipped: [], wrong: false, shake: 0, flashLane: null, okLane: null, timeLeft: 60, timedOut: false, drag: null, hoverLane: null }, resets: ((this.state && this.state.resets) || 0) + 1 };
+    return { ...{ order: this.shuffledOrder(), info: null, idx: 0, placed: [[], [], []], slips: 0, slipped: [], wrong: false, shake: 0, flashLane: null, okLane: null, timeLeft: 60, timedOut: false, drag: null, hoverLane: null }, resets: ((this.state && this.state.resets) || 0) + 1 };
   }
   componentDidUpdate(prev) {
     const on = this.props.active !== false;
@@ -157,7 +168,8 @@ class Component extends DCLogic {
       nouns: [['čovek', 'man', 0], ['kuća', 'house', 1], ['vino', 'wine', 2], ['žena', 'woman', 1], ['grad', 'city', 0], ['dete', 'child', 2]],
     };
     // Thai glosses arrive as "romanisation · English": split them so the card shows both lines.
-    const nouns = content.nouns.map((n) => {
+    const order = Array.isArray(this.state.order) && this.state.order.length === content.nouns.length ? this.state.order : content.nouns.map((_, i) => i);
+    const nouns = order.map((i) => content.nouns[i]).map((n) => {
       const parts = String(n[1]).split(' · ');
       return parts.length > 1 ? { word: n[0], tr: parts[0], en: parts.slice(1).join(' · '), lane: n[2] } : { word: n[0], tr: '', en: n[1], lane: n[2] };
     });

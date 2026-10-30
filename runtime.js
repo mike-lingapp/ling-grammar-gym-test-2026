@@ -5,6 +5,7 @@
  * as they are, so updating the site = replacing files in /components.
  *
  * Usage (see a/index.html):  GymRuntime.start({ root: 'GymFlow', langs: ['sr', ...], mount: '#phone' })
+ * Test build (see test-a/index.html): add  mode: 'test'
  */
 (function () {
   const { h, render, Component: PComponent, Fragment } = window.preact;
@@ -210,7 +211,8 @@
         location.hash = screenName(this.state.step, games);
       }
     }
-    render(h(Root, {}), mount);
+    // mode 'test' = Useberry build: starts on the language picker, no Learn/Review tabs.
+    render(h(Root, opts.mode ? { mode: opts.mode } : {}), mount);
   }
 
   window.GymRuntime = { start };

@@ -4,11 +4,15 @@ Two versions of the Grammar Gym prototype as a plain static website. No build st
 
 | Link (after hosting) | What it is |
 |---|---|
-| `…/a/?lang=sr` | Version A: full lesson, 6 games, mixed grammar topics. Languages: `sr` `cz` `de` `th` `it` `fr` |
-| `…/b/?lang=sr` | Version B: noun gender only, 4 games. Languages: `sr` `cz` `it` |
+| `…/test-a/` | **Useberry test A**: opens on the language picker (6 languages), no Learn/Review tabs |
+| `…/test-b/` | **Useberry test B**: opens on the language picker (Serbian, Czech, Italian), no Learn/Review tabs |
+| `…/a/?lang=sr` | Internal, full app navigation. Version A: full lesson, 6 games, mixed grammar topics. Languages: `sr` `cz` `de` `th` `it` `fr` |
+| `…/b/?lang=sr` | Internal, full app navigation. Version B: noun gender only, 4 games. Languages: `sr` `cz` `it` |
 | `…/` | Internal index with every link (don't send this to participants) |
 
-`?lang=` sets the course language. Without it, the prototype opens in Serbian.
+`?lang=` sets the course language for the internal links. The test links ignore it: participants pick the language.
+
+Test flow: language picker → Learn the rule → workout → results → complete. Back on Learn the rule, quitting mid-workout, and Continue on the complete screen all return to the language picker.
 
 ## Host it on GitHub Pages (free, recommended)
 
@@ -30,13 +34,13 @@ Pages updates in 1–2 minutes. Avoid updating while a test session is running.
 
 ## Useberry
 
-- **Tracking code:** in Useberry, copy the website snippet and paste it into the `<head>` of both `a/index.html` and `b/index.html`
+- **Tracking code:** in Useberry, copy the website snippet and paste it into the `<head>` of `test-a/index.html` and `test-b/index.html` (and `a/`, `b/` if you test those too)
   (look for the comment `USEBERRY SNIPPET`). Edit the files on GitHub with the pencil icon, then commit.
 - **Task success by URL:** the address changes as the participant moves through the lesson, for example
-  `#learn-tab` → `#learn-the-rule` → `#start` → `#game-1` … → `#results` → `#complete`.
+  `#language-picker` → `#learn-the-rule` → `#start` → `#game-1` … → `#results` → `#complete`.
   Use `#results` (or `#complete`) as the success URL.
-- **Randomizing A vs B:** one study per language, with the A and B links for that language as randomized variants
-  (Serbian, Czech, Italian). German, French and Thai only exist in version A.
+- **A vs B:** both test links start on the language picker, so one study can hold `test-a/` and `test-b/` as
+  randomized variants. Only Serbian, Czech and Italian exist in B.
 
 ## What's inside
 

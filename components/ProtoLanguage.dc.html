@@ -21,9 +21,11 @@ body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505
 
   <header style="flex-shrink: 0; padding-top: 54px; background: #FFFFFF; border-bottom: 1px solid #E0E7EB">
     <div style="min-height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center; gap: 8px">
+      <sc-if value="{{showClose}}" hint-placeholder-val="{{ true }}">
       <button class="lp-close" onClick="{{close}}" aria-label="Close" style="width: 48px; height: 48px; padding: 0; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; color: #3D505C; cursor: pointer; flex-shrink: 0">
         <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2929 4.29289C18.6834 3.90237 19.3164 3.90237 19.707 4.29289C20.0975 4.68342 20.0975 5.31643 19.707 5.70696L13.414 11.9999L19.707 18.2929C20.0975 18.6834 20.0975 19.3164 19.707 19.707C19.3164 20.0975 18.6834 20.0975 18.2929 19.707L11.9999 13.414L5.70696 19.707C5.31643 20.0975 4.68342 20.0975 4.29289 19.707C3.90237 19.3164 3.90237 18.6834 4.29289 18.2929L10.5859 11.9999L4.29289 5.70696C3.90237 5.31643 3.90237 4.68342 4.29289 4.29289C4.68342 3.90237 5.31643 3.90237 5.70696 4.29289L11.9999 10.5859L18.2929 4.29289Z"></path></svg>
       </button>
+      </sc-if>
       <h1 style="flex: 1 1 auto; margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Choose a language</h1>
     </div>
   </header>
@@ -69,7 +71,7 @@ body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#3D505
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"onPick":{"editor":null},"onClose":{"editor":null},"selected":{"editor":"enum","options":["sr","cz","de","th","it","fr"],"default":"sr"},"$preview":{"width":402,"height":874}}'>
+<script type="text/x-dc" data-dc-script data-props='{"onPick":{"editor":null},"onClose":{"editor":null},"hideClose":{"editor":"boolean","default":false},"selected":{"editor":"enum","options":["sr","cz","de","th","it","fr"],"default":"sr"},"$preview":{"width":402,"height":874}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -87,6 +89,8 @@ class Component extends DCLogic {
     ];
     const selected = this.state.picked || this.props.selected || 'sr';
     return {
+      // Test mode: the picker is the first screen, so there is nothing to close back to.
+      showClose: this.props.hideClose !== true,
       close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
       languages: langs.map((l) => {
         const on = l.id === selected;
