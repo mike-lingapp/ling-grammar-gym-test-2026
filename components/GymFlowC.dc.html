@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>C · Grammar Gym, full flow</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+a{color:#006EB2}a:hover{color:#005E99}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@keyframes ggPop{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes ggLift{0%,100%{transform:translateY(0) rotate(0)}20%{transform:translateY(-10px) rotate(-14deg)}40%{transform:translateY(0) rotate(0)}60%{transform:translateY(-10px) rotate(14deg)}80%{transform:translateY(0) rotate(0)}}
+@keyframes ggPulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.35);opacity:0}}
+@keyframes ggFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ggBob{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-6px) rotate(-6deg)}60%{transform:translateY(0) rotate(4deg)}}
+@keyframes ggBurst{0%{opacity:1;transform:translate(0,0) scale(.4) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1) rotate(200deg)}}
+@keyframes ggSheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes ggScrimIn{from{opacity:0}to{opacity:1}}
+@keyframes ggSheetDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
+@keyframes ggScrimOut{from{opacity:1}to{opacity:0}}
+.q-in{animation:ggSheetUp .3s cubic-bezier(.2,.8,.2,1) both}.q-scrim-in{animation:ggScrimIn .2s ease-out both}
+.q-out{animation:ggSheetDown .22s ease-in both}.q-scrim-out{animation:ggScrimOut .22s ease-in both}
+@media (prefers-reduced-motion: reduce){.gg-anim{animation:none!important;opacity:1!important}}
+@media (prefers-reduced-motion: reduce){.q-in,.q-out,.q-scrim-in,.q-scrim-out{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; color: #29353D">
+  <sc-if value="{{sTab}}" hint-placeholder-val="{{ true }}">
+    <dc-import name="ProtoLearn" lang="{{lang}}" gym-crowns="0" on-language="{{toLanguages}}" on-open-gym="{{openFromPath}}" on-review="{{toReview}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sLang}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoLanguageB" selected="{{pickerSelected}}" on-pick="{{pickLang}}" on-close="{{toLearnTab}}" hide-close="{{testMode}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sReview}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoReview" on-open-gym="{{toList}}" on-learn="{{toLearnTab}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sList}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoGymListB" lang="{{lang}}" on-back="{{toReview}}" on-pick="{{pickTopic}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sLearn}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoGrammar" cards="{{grammarCards}}" language="{{languageName}}" lang-tag="{{langTag}}" run="{{run}}" back-to="{{grammarBack}}" on-done="{{toStartScreen}}" on-back="{{grammarBackGo}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s0}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoStartC" language="{{languageName}}" on-start="{{begin}}" on-close="{{closeStart}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s1}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoFormForgeC" step="1" total="4" rule="{{rule}}" timed="{{timedRun}}" item="{{ff1}}" lang-tag="{{langTag}}" active="{{a1}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoLaneSortC" step="2" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls1}}" lang-tag="{{langTag}}" active="{{a2}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoFormForgeC" step="3" total="4" rule="{{rule}}" timed="{{timedRun}}" item="{{ff2}}" lang-tag="{{langTag}}" active="{{a3}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoLaneSortC" step="4" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls2}}" lang-tag="{{langTag}}" active="{{a4}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s5}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoResultsC" language="{{languageName}}" timed="{{timedRun}}" results="{{results}}" seconds="{{seconds}}" on-restart="{{restart}}" on-continue="{{toComplete}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s6}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoComplete" points="100" on-continue="{{toStart}}" hint-size="402px,874px"></dc-import>
+  </sc-if>
+  <sc-if value="{{ps}}" hint-placeholder-val="{{ false }}">
+    <div class="{{psScrimCls}}" onClick="{{psScrimTap}}" style="position: absolute; left: 0; top: 0; z-index: 60; width: 402px; height: 874px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="{{psSheetCls}}" role="dialog" aria-modal="true" aria-label="Start Grammar exercise" style="background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; transform: translateY({{psDragY}}px); transition: {{psTrans}}">
+        <div onPointerDown="{{psGrab}}" onPointerMove="{{psMove}}" onPointerUp="{{psRelease}}" onPointerCancel="{{psRelease}}" style="touch-action: none; user-select: none; cursor: grab">
+          <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+        </div>
+        <div style="padding: 8px 16px 16px">
+          <div style="box-sizing: border-box; min-height: 110px; padding: 16px; border-radius: 16px; background: #F9FAFB; border: 1px solid #F0F3F5; display: flex; align-items: center; gap: 16px">
+            <span aria-hidden="true" style="width: 64px; height: 64px; border-radius: 32px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="#19A9FF"><path d="M24.9 18.6C25.9 17.3 27.9 18.0 27.9 19.6V25.4H31.3C32.6 25.4 33.4 27.0 32.6 28.1L26.0 37.3C25.0 38.6 23.0 37.9 23.0 36.3V30.5H19.6C18.3 30.5 17.5 28.9 18.3 27.8L24.9 18.6ZM15.6 15C17.5 15.0 18.9 16.4 19 18.3V21.6C19 21.7 18.9 21.7 18.9 21.8L15.9 26.0C14.8 27.4 14.7 29.1 15.3 30.5C15.0 30.7 14.7 30.9 14.4 31.1C13.3 31.6 12.1 31.9 10.9 32C10.0 31.9 9.4 31.2 9.4 30.3C9.4 29.8 9.6 29.3 9.9 29.0C11.1 28.0 12.0 26.6 12.2 25H10.3C8.4 24.9 7.0 23.5 7 21.6V18.3C7.0 16.4 8.4 15.0 10.3 15H15.6ZM15.6 2C17.5 2.0 18.9 3.4 19 5.3V8.6C18.9 10.5 17.5 11.9 15.6 12H10.3C8.4 11.9 7.0 10.5 7 8.6V5.3C7.0 3.4 8.4 2.0 10.3 2H15.6Z"></path></svg>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 2px; align-self: flex-start; padding-top: 2px">
+              <span style="font-size: 14px; line-height: 1.35; color: #5C788A">{{psUnit}}</span>
+              <span style="font-size: 16px; line-height: 1.35; font-weight: 700; color: #3D505C">Grammar exercise</span>
+            </span>
+          </div>
+        </div>
+        <div style="padding: 16px 16px 34px">
+          <button onClick="{{psStart}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Start</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{quit}}" hint-placeholder-val="{{ false }}">
+    <div class="{{qScrimCls}}" onClick="{{scrimTap}}" style="position: absolute; left: 0; top: 0; z-index: 60; width: 402px; height: 874px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="{{qSheetCls}}" role="alertdialog" aria-modal="true" aria-labelledby="quit-title" aria-describedby="quit-body" style="background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; transform: translateY({{qDragY}}px); transition: {{qTrans}}">
+        <div onPointerDown="{{qGrab}}" onPointerMove="{{qMove}}" onPointerUp="{{qRelease}}" onPointerCancel="{{qRelease}}" style="touch-action: none; user-select: none; cursor: grab">
+          <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+          <div style="min-height: 56px; box-sizing: border-box; padding: 8px 16px; display: flex; align-items: center">
+            <h2 id="quit-title" style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Quit exercise</h2>
+          </div>
+        </div>
+        <p id="quit-body" style="margin: 0; padding: 0 16px 16px; font-size: 16px; line-height: 1.35; color: #3D505C">Are you sure? You will lose all your progress on this exercise.</p>
+        <div style="padding: 16px 16px 34px; display: flex; flex-direction: column; gap: 8px">
+          <button onClick="{{confirmQuit}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Quit</button>
+          <button onClick="{{cancelQuit}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: transparent; color: #5C788A; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"mode":{"editor":"enum","options":["app","test"],"default":"app"},"$preview":{"width":402,"height":874}}'>
+// Prototype C: noun gender in Serbian, Czech and Italian. Two rule cards, then two games played twice
+// with different words: Form Forge, Lane Sort, Form Forge, Lane Sort. Draft content for the language team.
+const GENDER_C = {"sr": {"tag": "sr-Latn", "cards": [{"kicker": "Noun gender", "title": "Every noun has a gender", "body": "Serbian nouns are masculine, feminine or neuter. The last letter tells you which.", "table": [["", "ends in", "example"], ["masculine", "a consonant", "grad (city)"], ["feminine", "-a", "kuća (house)"], ["neuter", "-o or -e", "selo (village)"]]}, {"kicker": "Noun gender", "title": "The words around it match", "body": "Words like dobar (good) change to match the noun’s gender.", "table": [["masculine", "dobar grad", "a good city"], ["feminine", "dobra kuća", "a good house"], ["neuter", "dobro selo", "a good village"]], "tips": ["Easy to remember: consonant → dobar, -a → dobra, -o / -e → dobro."]}], "ff": [{"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "dobar + kuća", "gloss": "(a good house)", "before": "", "after": "kuća", "options": ["dobar", "dobra", "dobro"], "correct": "dobra", "okAnswer": "dobra kuća", "meaning": "a good house", "answer": "dobra kuća", "note": "Kuća ends in -a, so it’s feminine: dobra.", "hint": "Look at the last letter of kuća."}, {"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "dobar + dete", "gloss": "(a good child)", "before": "", "after": "dete", "options": ["dobar", "dobra", "dobro"], "correct": "dobro", "okAnswer": "dobro dete", "meaning": "a good child", "answer": "dobro dete", "note": "Dete ends in -e, so it’s neuter: dobro.", "hint": "Look at the last letter of dete."}], "ls": [{"lanes": [["dobar", "masculine"], ["dobra", "feminine"], ["dobro", "neuter"]], "rule": "Consonant → masculine (dobar). -a → feminine (dobra). -o or -e → neuter (dobro).", "nouns": [["grad", "city", 0], ["kuća", "house", 1], ["selo", "village", 2], ["brat", "brother", 0], ["škola", "school", 1], ["pismo", "letter", 2]]}, {"lanes": [["dobar", "masculine"], ["dobra", "feminine"], ["dobro", "neuter"]], "rule": "Consonant → masculine (dobar). -a → feminine (dobra). -o or -e → neuter (dobro).", "nouns": [["dečak", "boy", 0], ["sestra", "sister", 1], ["more", "sea", 2], ["voz", "train", 0], ["knjiga", "book", 1], ["mleko", "milk", 2]]}]}, "cz": {"tag": "cs", "cards": [{"kicker": "Noun gender", "title": "Every noun has a gender", "body": "Czech nouns are masculine, feminine or neuter. The last letter usually tells you which.", "table": [["", "ends in", "example"], ["masculine", "a consonant", "kluk (boy)"], ["feminine", "-a", "žena (woman)"], ["neuter", "-o", "město (city)"]]}, {"kicker": "Noun gender", "title": "The words around it match", "body": "Words like dobrý (good) change to match the noun’s gender.", "table": [["masculine", "dobrý kluk", "a good boy"], ["feminine", "dobrá žena", "a good woman"], ["neuter", "dobré město", "a good city"]], "tips": ["Easy to remember: consonant → dobrý, -a → dobrá, -o → dobré."]}], "ff": [{"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "dobrý + město", "gloss": "(a good city)", "before": "", "after": "město", "options": ["dobrý", "dobrá", "dobré"], "correct": "dobré", "okAnswer": "dobré město", "meaning": "a good city", "answer": "dobré město", "note": "Město ends in -o, so it’s neuter: dobré.", "hint": "Look at the last letter of město."}, {"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "dobrý + káva", "gloss": "(good coffee)", "before": "", "after": "káva", "options": ["dobrý", "dobrá", "dobré"], "correct": "dobrá", "okAnswer": "dobrá káva", "meaning": "good coffee", "answer": "dobrá káva", "note": "Káva ends in -a, so it’s feminine: dobrá.", "hint": "Look at the last letter of káva."}], "ls": [{"lanes": [["dobrý", "masculine"], ["dobrá", "feminine"], ["dobré", "neuter"]], "rule": "Consonant → masculine (dobrý). -a → feminine (dobrá). -o → neuter (dobré).", "nouns": [["kluk", "boy", 0], ["žena", "woman", 1], ["město", "city", 2], ["stůl", "table", 0], ["škola", "school", 1], ["auto", "car", 2]]}, {"lanes": [["dobrý", "masculine"], ["dobrá", "feminine"], ["dobré", "neuter"]], "rule": "Consonant → masculine (dobrý). -a → feminine (dobrá). -o → neuter (dobré).", "nouns": [["bratr", "brother", 0], ["sestra", "sister", 1], ["jezero", "lake", 2], ["obchod", "shop", 0], ["kniha", "book", 1], ["mléko", "milk", 2]]}]}, "it": {"tag": "it", "cards": [{"kicker": "Noun gender", "title": "Every noun is masculine or feminine", "body": "Most Italian nouns end in -o or -a. The ending tells you the gender.", "table": [["", "ends in", "example"], ["masculine", "-o", "libro (book)"], ["feminine", "-a", "casa (house)"]]}, {"kicker": "Noun gender", "title": "il or la?", "body": "The word for “the” matches the noun: il for masculine, la for feminine.", "table": [["il", "masculine", "il libro, il gatto"], ["la", "feminine", "la casa, la pizza"]], "tips": ["Easy to remember: -o → il, -a → la."]}], "ff": [{"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "il / la + gatto", "gloss": "(the cat)", "before": "", "after": "gatto", "options": ["il", "la"], "correct": "il", "okAnswer": "il gatto", "meaning": "the cat", "answer": "il gatto", "note": "Gatto ends in -o, so it’s masculine: il.", "hint": "Look at the last letter of gatto."}, {"title": "Pick the right word", "desc": "Tap or drag the answer into the box.", "cue": "il / la + porta", "gloss": "(the door)", "before": "", "after": "porta", "options": ["il", "la"], "correct": "la", "okAnswer": "la porta", "meaning": "the door", "answer": "la porta", "note": "Porta ends in -a, so it’s feminine: la.", "hint": "Look at the last letter of porta."}], "ls": [{"lanes": [["il", "masculine"], ["la", "feminine"]], "rule": "-o → masculine (il). -a → feminine (la).", "nouns": [["libro", "book", 0], ["casa", "house", 1], ["gatto", "cat", 0], ["pizza", "pizza", 1], ["vino", "wine", 0], ["borsa", "bag", 1]]}, {"lanes": [["il", "masculine"], ["la", "feminine"]], "rule": "-o → masculine (il). -a → feminine (la).", "nouns": [["ragazzo", "boy", 0], ["ragazza", "girl", 1], ["treno", "train", 0], ["mela", "apple", 1], ["tavolo", "table", 0], ["finestra", "window", 1]]}]}};
+const LANG_NAMES = { sr: 'Serbian', cz: 'Czech', it: 'Italian' };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    // One state for the whole run, so the results screen sees every answer.
+    // Test mode (hosted links for unmoderated testing): no Learn / Review tabs. Start on the language picker,
+    // go straight to Learn the rule, and every exit (back, quit, finish) returns to the language picker.
+    this.testMode = props && props.mode === 'test';
+    this.state = { step: this.testMode ? 'lang' : 'tab', origin: this.testMode ? 'test' : 'tab', timedRun: true, lang: 'sr', results: [], startedAt: Date.now(), seconds: 0, run: 1 };
+  }
+  renderVals() {
+    const { step, results, startedAt, seconds, run, lang } = this.state;
+    const C = GENDER_C[lang] || GENDER_C.sr;
+    const closeSheet = () => { if (this.state.psClosing) return; this.setState({ psClosing: true }); setTimeout(() => this.setState({ ps: false, psClosing: false, psDrag: 0 }), 220); };
+    const exitTo = () => (this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'list'));
+    // A game's result: Form Forge = { ok, lives, correct, mistakes }; Lane Sort adds total (6 nouns).
+    const finishStage = (r) => {
+      const next = [...this.state.results, r || { ok: false, lives: 0, correct: 0, mistakes: 1 }];
+      const last = this.state.step === 4;
+      this.setState({ results: next, step: this.state.step + 1, seconds: last ? Math.round((Date.now() - startedAt) / 1000) : this.state.seconds });
+    };
+    const startRun = (timed) => this.setState({ timedRun: timed, step: 1, results: [], startedAt: Date.now(), seconds: 0, run: this.state.run + 1 });
+    return {
+      sTab: step === 'tab', sLang: step === 'lang', sReview: step === 'review', sList: step === 'list', sLearn: step === 'learn',
+      s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4, s5: step === 5, s6: step === 6,
+      // Out-of-lives is handled inside each game now (Ling App Layouts), so only the quit sheet can pause a stage.
+      a1: step === 1, a2: step === 2, a3: step === 3, a4: step === 4,
+      timedRun: this.state.timedRun !== false,
+      results, seconds, run, lang,
+      langTag: C.tag, languageName: LANG_NAMES[lang] || 'Serbian',
+      grammarCards: C.cards,
+      // ⓘ in every game: the first card of Learn the rule.
+      rule: C.cards[0],
+      ff1: C.ff[0], ls1: C.ls[0], ff2: C.ff[1], ls2: C.ls[1],
+      toStartScreen: () => this.setState({ step: 0 }),
+      toReview: () => this.setState({ step: 'review' }),
+      toLearnTab: () => this.setState({ step: 'tab' }),
+      toLanguages: () => this.setState({ step: 'lang' }),
+      testMode: !!this.testMode,
+      pickerSelected: this.testMode ? 'none' : lang,
+      pickLang: (id) => this.setState({ lang: id, step: this.testMode ? 'learn' : 'tab', origin: this.testMode ? 'test' : this.state.origin, results: [], run: this.state.run + 1 }),
+      toList: () => this.setState({ step: 'list', origin: 'review' }),
+      openFromPath: () => { this.setState({ ps: true, psClosing: false, psDrag: 0, psEntered: false }); setTimeout(() => this.setState({ psEntered: true }), 320); },
+      psStart: () => this.setState({ ps: false, psClosing: false, psDrag: 0, step: 'learn', origin: 'tab', results: [], run: this.state.run + 1 }),
+      ps: !!this.state.ps,
+      psUnit: 'Getting started',
+      psScrimTap: (e) => { if (e.target === e.currentTarget) closeSheet(); },
+      psSheetCls: this.state.psClosing && !this.state.psDrag ? 'q-out' : (this.state.psEntered ? '' : 'q-in'),
+      psScrimCls: this.state.psClosing ? 'q-scrim-out' : 'q-scrim-in',
+      psDragY: this.state.psDrag || 0,
+      psTrans: this.state.psDragging ? 'none' : 'transform 0.22s ease-out',
+      psGrab: (e) => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.psY0 = e.clientY; this.setState({ psDragging: true }); },
+      psMove: (e) => { if (this.psY0 == null) return; this.setState({ psDrag: Math.max(0, e.clientY - this.psY0) }); },
+      psRelease: () => {
+        if (this.psY0 == null) return;
+        this.psY0 = null;
+        if ((this.state.psDrag || 0) > 80) { this.setState({ psDragging: false, psClosing: true, psDrag: 520 }); setTimeout(() => this.setState({ ps: false, psClosing: false, psDrag: 0 }), 220); }
+        else this.setState({ psDragging: false, psDrag: 0 });
+      },
+      closeStart: () => this.setState({ step: exitTo() }),
+      // X during an exercise: confirm first with the Quit exercise sheet (Ling App Layouts); the clock pauses meanwhile.
+      quit: !!this.state.quit,
+      askQuit: () => { this.setState({ quit: true, qClosing: false, qDrag: 0, qEntered: false }); setTimeout(() => this.setState({ qEntered: true }), 320); },
+      // Dismiss: slide the sheet down, then close. Tapping the scrim or dragging the handle down past 80px does the same.
+      cancelQuit: () => { if (this.state.qClosing) return; this.setState({ qClosing: true }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); },
+      scrimTap: (e) => { if (e.target === e.currentTarget) { if (this.state.qClosing) return; this.setState({ qClosing: true }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); } },
+      qScrimCls: this.state.qClosing ? 'q-scrim-out' : 'q-scrim-in',
+      qSheetCls: this.state.qClosing && !this.state.qDrag ? 'q-out' : (this.state.qEntered ? '' : 'q-in'),
+      qDragY: this.state.qDrag || 0,
+      qTrans: this.state.qDragging ? 'none' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+      qGrab: (e) => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.qY0 = e.clientY; this.setState({ qDragging: true }); },
+      qMove: (e) => { if (this.qY0 == null) return; this.setState({ qDrag: Math.max(0, e.clientY - this.qY0) }); },
+      qRelease: () => {
+        if (this.qY0 == null) return;
+        this.qY0 = null;
+        if ((this.state.qDrag || 0) > 80) { this.setState({ qDragging: false, qClosing: true, qDrag: 520 }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); }
+        else this.setState({ qDragging: false, qDrag: 0 });
+      },
+      confirmQuit: () => this.setState({ quit: false, step: exitTo(), results: [], run: this.state.run + 1 }),
+      grammarBack: this.state.origin === 'test' ? 'Back to languages' : (this.state.origin === 'tab' ? 'Back to Learn' : 'Back to Grammar exercises'),
+      grammarBackGo: () => this.setState({ step: exitTo() }),
+      pickTopic: () => this.setState({ step: 'learn', run: this.state.run + 1 }),
+      finish: finishStage,
+      begin: () => startRun(true),
+      // Train again: same four exercises without timers; only the total time is shown on Results.
+      restart: () => startRun(false),
+      toComplete: () => this.setState({ step: 6 }),
+      // Complete · Continue: back to where the learner started (language picker in the test links).
+      toStart: () => this.setState({ step: this.state.origin === 'test' ? 'lang' : (this.state.origin === 'tab' ? 'tab' : 'review'), results: [], seconds: 0, run: this.state.run + 1 }),
+    };
+  }
+}
+</script>
+</body>
+</html>

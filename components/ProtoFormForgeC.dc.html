@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>C · Form Forge, word bank</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+.ff-btn:focus-visible,.ff-cell:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+.ff-cell{transition:background .15s,border-color .15s,color .15s}
+.fbs{animation:rise .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(40px);opacity:0}}
+.pop{animation:pop .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:scale(.85);opacity:.4}}
+.shA{animation:shakeA .35s}.shB{animation:shakeB .35s}
+@keyframes shakeA{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes shakeB{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div style="width: 402px; height: 874px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 54px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
+
+  <dc-import name="GymHeaderC" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
+
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 20px">
+    <div style="display: flex; align-items: flex-start; gap: 12px">
+      <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+        <h1 style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; color: #29353D">{{title}}</h1>
+        <sc-if value="{{hasDesc}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14px; line-height: 20px; color: #5C788A">{{desc}}</p></sc-if>
+      </div>
+      <button class="ff-btn" onClick="{{openRule}}" aria-label="Tips: the rule" style="width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 10.75C12.6904 10.75 13.25 11.3096 13.25 12V16.5C13.25 17.1904 12.6904 17.75 12 17.75C11.3096 17.75 10.75 17.1904 10.75 16.5V12C10.75 11.3096 11.3096 10.75 12 10.75ZM12 6.5C12.6904 6.5 13.25 7.05964 13.25 7.75C13.25 8.44036 12.6904 9 12 9C11.3096 9 10.75 8.44036 10.75 7.75C10.75 7.05964 11.3096 6.5 12 6.5Z"></path></svg>
+      </button>
+    </div>
+
+    <div lang="{{langTag}}" style="margin-top: 16px; padding: 12px 16px; border-radius: 12px; background: #F6F8F9; font-size: 18px; line-height: 26px; font-weight: 500; color: #29353D">{{cue}}</div>
+    <sc-if value="{{hasGloss}}" hint-placeholder-val="{{ true }}"><p style="margin: 8px 0 0 8px; font-size: 15px; line-height: 22px; font-style: italic; color: #5C788A">{{gloss}}</p></sc-if>
+
+    <div style="margin-top: 20px; min-height: 56px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px">
+      <sc-if value="{{hasBefore}}" hint-placeholder-val="{{ true }}">
+        <span lang="{{langTag}}" style="min-height: 48px; box-sizing: border-box; padding: 8px 14px; border-radius: 8px; background: #F0F3F5; display: flex; align-items: center; font-size: 22px; line-height: 28px; font-weight: 700; color: #3D505C">{{before}}</span>
+      </sc-if>
+      <div data-gap="1" style="min-width: 92px; min-height: 52px; box-sizing: border-box; padding: 2px; border-radius: 10px; border: 2px dashed {{gapLine}}; background: {{gapBg}}; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, background 0.15s">
+        <sc-if value="{{gapFilled}}" hint-placeholder-val="{{ false }}">
+          <button class="ff-cell pop {{gapShake}}" onClick="{{unplace}}" disabled="{{locked}}" aria-label="{{gapAria}}" lang="{{langTag}}" style="min-height: 44px; box-sizing: border-box; padding: 6px 14px; border-radius: 8px; border: 2px solid {{gapCell.border}}; background: {{gapCell.bg}}; color: {{gapCell.ink}}; font-family: 'Noto Sans', sans-serif; font-size: 18px; line-height: 24px; font-weight: 600; cursor: pointer">{{gapText}}</button>
+        </sc-if>
+      </div>
+      <sc-if value="{{hasAfter}}" hint-placeholder-val="{{ true }}">
+        <span lang="{{langTag}}" style="min-height: 48px; box-sizing: border-box; padding: 8px 14px; border-radius: 8px; background: #F0F3F5; display: flex; align-items: center; font-size: 22px; line-height: 28px; font-weight: 700; color: #3D505C">{{after}}</span>
+      </sc-if>
+    </div>
+
+    <div aria-hidden="true" style="margin-top: 20px; height: 2px; background: #E0E7EB; flex-shrink: 0"></div>
+
+    <div role="group" aria-label="Word bank" style="margin-top: 16px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px">
+      <sc-for list="{{bank}}" as="c" hint-placeholder-count="6">
+        <button class="ff-cell" data-cell="{{c.index}}" onClick="{{c.key}}" onPointerDown="{{c.grab}}" onPointerMove="{{move}}" onPointerUp="{{release}}" onPointerCancel="{{cancel}}" disabled="{{c.off}}" aria-hidden="{{c.hidden}}" tabindex="{{c.tab}}" aria-label="{{c.label}}" lang="{{langTag}}" style="min-height: 44px; min-width: 44px; max-width: 100%; box-sizing: border-box; padding: 6px 14px; border-radius: 8px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; font-family: 'Noto Sans', sans-serif; font-size: 18px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; text-align: center; touch-action: none; user-select: none; cursor: {{c.cursor}}; position: relative; z-index: {{c.z}}; transform: translate({{c.dx}}px, {{c.dy}}px) scale({{c.scale}}); box-shadow: {{c.shadow}}; transition: {{c.trans}}">{{c.text}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ true }}">
+    <button class="ff-btn" onClick="{{check}}" disabled="{{checkOff}}" style="width: 100%; height: 48px; flex-shrink: 0; border: 0; border-radius: 12px; background: {{checkBg}}; color: {{checkInk}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: {{checkCursor}}">Check</button>
+  </sc-if>
+
+  <sc-if value="{{showPanel}}" hint-placeholder-val="{{ false }}">
+    <div class="fbs" role="status" style="margin: 0 -16px -34px; padding: 16px 16px 34px; border-top: 1px solid {{fb.line}}; background: {{fb.bg}}; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{fb.ok}}" hint-placeholder-val="{{ true }}">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="{{fb.icon}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.bad}}" hint-placeholder-val="{{ false }}">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="{{fb.icon}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+        </sc-if>
+        <span style="flex-grow: 1; font-size: 20px; line-height: 28px; font-weight: 800; color: {{fb.ink}}">{{fb.title}}</span>
+        <button class="ff-btn" aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: {{fb.ink}}; cursor: pointer">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; font-size: 16px; line-height: 24px; color: {{fb.text}}">
+        <sc-if value="{{fb.hasLabel}}" hint-placeholder-val="{{ true }}"><strong style="font-weight: 700; color: {{fb.ink}}">{{fb.label}}</strong></sc-if>
+        <sc-for list="{{fb.lines}}" as="ln" hint-placeholder-count="2">
+          <span lang="{{ln.lang}}">{{ln.text}}</span>
+        </sc-for>
+      </div>
+      <sc-if value="{{fb.hasSkip}}" hint-placeholder-val="{{ false }}">
+        <button class="ff-btn" onClick="{{giveUp}}" style="margin-top: 4px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: {{fb.ink}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Continue</button>
+      </sc-if>
+      <button class="ff-btn" onClick="{{fb.go}}" style="margin-top: 4px; height: 48px; width: 100%; border: 0; border-radius: 12px; background: {{fb.btn}}; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">{{fb.btnLabel}}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{timedOn}}" hint-placeholder-val="{{ true }}">
+    <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; pointer-events: none">
+      <dc-import name="GymTimerRing" time-left="{{timeLeft}}" time-total="{{timeTotal}}" hint-size="402px,874px"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{infoOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 402px; height: 874px; z-index: 40">
+      <dc-import name="GymInfoSheet" title="{{info.title}}" kicker="{{info.kicker}}" body="{{info.body}}" table="{{info.table}}" examples="{{info.examples}}" tips="{{info.tips}}" lang-tag="{{langTag}}" on-close="{{closeInfo}}" hint-size="402px,874px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"step":{"editor":"int","default":1,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"$preview":{"width":402,"height":874}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh(false);
+  }
+  // A clean start. practice = Try again after running out of lives: lives stay at 0, the clock refills,
+  // and the exercise can no longer score (it counts as missed).
+  fresh(practice) {
+    return { info: null, placed: null, checked: false, timedOut: false, misses: 0, out: false, practice: !!practice, shake: 0, drag: null, timeLeft: 60, resets: ((this.state && this.state.resets) || 0) + 1 };
+  }
+  componentDidUpdate(prev) {
+    const on = this.props.active !== false;
+    const was = prev.active !== false;
+    if ((on && !was) || this.props.run !== prev.run) this.setState(this.fresh(false));
+  }
+  renderVals() {
+    // Content comes from the Full flow (one Form Forge row of the chosen language); on its own it plays this Serbian row.
+    const item = this.props.item || {
+      title: 'Pick the right word', desc: 'Tap or drag the answer into the box.',
+      cue: 'dobar + kuća', gloss: '(a good house)', before: '', after: 'kuća',
+      options: ['dobar', 'dobra', 'dobro'], correct: 'dobra',
+      okAnswer: 'dobra kuća', meaning: 'a good house',
+      answer: 'dobra kuća', note: 'Kuća ends in -a, so it’s feminine: dobra.',
+      hint: 'Look at the last letter of kuća.',
+    };
+    const langTag = this.props.langTag || 'sr-Latn';
+    const total = 60;
+    const { placed, checked, timedOut, misses, out, practice, drag, timeLeft } = this.state;
+    const options = item.options || [];
+    const correctIdx = options.indexOf(item.correct);
+    const ok = checked && !timedOut && placed === correctIdx;
+    const lives = practice ? 0 : Math.max(0, 3 - misses - (timedOut ? 1 : 0));
+    const embedded = typeof this.props.onFinish === 'function';
+    const locked = checked || timedOut || out;
+    const report = (r) => { if (embedded) this.props.onFinish(r); else this.setState(this.fresh(false)); };
+    // Give up (Continue on Out of lives or while practising): the exercise counts as missed with 0 lives.
+    const giveUp = () => report({ ok: false, lives: 0, correct: 0, mistakes: Math.max(3, misses) });
+    const place = (i) => { if (!locked) this.setState({ placed: i }); };
+    const gapAt = (x, y) => {
+      const hits = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
+      return hits.some((el) => el.closest && el.closest('[data-gap]'));
+    };
+
+    // Word bank: auto layout with wrapping. A picked word leaves a placeholder of the same size,
+    // so the bank never shifts; the word itself moves into the gap. Time up reveals the right word in the bank.
+    const bank = options.map((label, i) => {
+      const taken = placed === i;
+      const reveal = timedOut && i === correctIdx;
+      const dragging = drag && drag.i === i && drag.moved;
+      let border = '#E0E7EB', bg = '#FFFFFF', ink = '#29353D';
+      if (taken) { border = '#F0F3F5'; bg = '#F0F3F5'; ink = 'transparent'; }
+      else if (reveal) { border = '#51E186'; bg = '#E9FBF0'; ink = '#0F5729'; }
+      else if (dragging) { border = '#33B2FF'; bg = '#E6F5FF'; ink = '#006EB2'; }
+      return {
+        index: i, text: label, label: taken ? '' : label,
+        hidden: taken ? 'true' : 'false', tab: taken ? -1 : 0,
+        off: locked || taken, border, bg, ink,
+        cursor: locked || taken ? 'default' : (drag ? 'grabbing' : 'grab'),
+        dx: dragging ? drag.dx : 0, dy: dragging ? drag.dy : 0,
+        scale: dragging ? 1.06 : 1, z: dragging ? 10 : 1,
+        shadow: dragging ? '0 10px 24px rgba(31,40,46,0.24)' : 'none',
+        trans: drag && drag.i === i ? 'background 0.15s' : 'transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.15s, border-color 0.15s',
+        // Keyboard (Enter / Space) has no pointer: place the word straight away.
+        key: (e) => { if (e && e.detail === 0) place(i); },
+        grab: (e) => {
+          if (locked || taken) return;
+          if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId);
+          this.setState({ drag: { i, x0: e.clientX, y0: e.clientY, dx: 0, dy: 0, moved: false, over: false } });
+        },
+      };
+    });
+
+    let gapCell = { border: '#33B2FF', bg: '#E6F5FF', ink: '#006EB2' };
+    if (checked && ok) gapCell = { border: '#51E186', bg: '#E9FBF0', ink: '#0F5729' };
+    else if (checked || out) gapCell = { border: '#EF4444', bg: '#FDE8E8', ink: '#8D0C0C' };
+    const gapFilled = placed !== null;
+    const over = drag && drag.over;
+
+    // Feedback panel (Ling App Layouts · feedback): correct, wrong with lives (or practising), out of lives, time's up.
+    // The right answer is never revealed after a mistake or when lives run out; only time's up shows it.
+    const tryAgain = () => this.setState({ checked: false, placed: null });
+    let fb = null;
+    if (timedOut) {
+      fb = { ok: false, bad: true, title: 'Time’s up', label: 'Correct answer:', lines: [{ text: item.answer, lang: langTag }, { text: item.note, lang: 'en' }], btnLabel: 'Continue', go: () => report(practice ? { ok: false, lives: 0, correct: 0, mistakes: Math.max(3, misses) } : { ok: false, lives, correct: 0, mistakes: misses + 1 }), hasSkip: false };
+    } else if (out) {
+      fb = { ok: false, bad: true, title: 'Out of lives', label: '', lines: [{ text: 'You used all 3 lives on this exercise. Try again to practise it (your lives stay empty, so it won’t score higher), or continue to the next exercise.', lang: 'en' }], btnLabel: 'Try again', go: () => this.setState(this.fresh(true)), hasSkip: true };
+    } else if (checked && ok) {
+      fb = { ok: true, bad: false, title: 'Excellent!', label: 'Meaning:', lines: [{ text: item.okAnswer, lang: langTag }, { text: item.meaning, lang: 'en' }], btnLabel: 'Continue', go: () => report(practice ? { ok: false, lives: 0, correct: 0, mistakes: Math.max(3, misses) } : { ok: true, lives, correct: 1, mistakes: misses }), hasSkip: false };
+    } else if (checked) {
+      fb = { ok: false, bad: true, title: 'Not quite', label: 'Try again', lines: [{ text: item.hint, lang: 'en' }], btnLabel: 'Try again', go: tryAgain, hasSkip: practice };
+    }
+    if (fb) {
+      const green = fb.ok;
+      Object.assign(fb, green
+        ? { bg: '#E9FBF0', line: '#B9EFCD', ink: '#17823E', icon: '#22C45D', text: '#0F5729', btn: '#22C45D' }
+        : { bg: '#FDE8E8', line: '#F5C2C2', ink: '#A40E0E', icon: '#EF4444', text: '#8D0C0C', btn: '#EF4444' });
+      fb.hasLabel = !!fb.label;
+    }
+
+    return {
+      step: Number(this.props.step ?? 1), total: Number(this.props.total ?? 4),
+      title: item.title || 'Pick the right word',
+      desc: item.desc || '', hasDesc: !!item.desc,
+      cue: item.cue, gloss: item.gloss || '', hasGloss: !!item.gloss,
+      before: item.before || '', hasBefore: !!item.before,
+      after: item.after || '', hasAfter: !!item.after,
+      langTag,
+      bank,
+      gapFilled, gapCell,
+      gapText: gapFilled ? options[placed] : '',
+      gapAria: gapFilled ? options[placed] + ', tap to take it out' : '',
+      gapLine: over ? '#33B2FF' : (gapFilled ? 'transparent' : '#C2CED6'),
+      gapBg: over ? '#E6F5FF' : 'transparent',
+      gapShake: (checked && !ok) || out ? (this.state.shake % 2 ? 'shA' : 'shB') : '',
+      unplace: () => { if (!locked) this.setState({ placed: null }); },
+      locked,
+      move: (e) => {
+        const d = this.state.drag;
+        if (!d) return;
+        const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+        const moved = d.moved || Math.hypot(dx, dy) > 4;
+        this.setState({ drag: { ...d, dx, dy, moved, over: moved && gapAt(e.clientX, e.clientY) } });
+      },
+      // Tap a word (or drop it on the gap) to move it into the gap; a word already there goes back to its place.
+      release: (e) => {
+        const d = this.state.drag;
+        if (!d) return;
+        this.setState({ drag: null });
+        if (!d.moved || gapAt(e.clientX, e.clientY)) place(d.i);
+      },
+      cancel: () => this.setState({ drag: null }),
+      showCheck: !fb,
+      checkOff: !gapFilled,
+      checkBg: gapFilled ? '#FF9900' : '#E0E7EB',
+      checkInk: gapFilled ? '#FFFFFF' : '#5C788A',
+      checkCursor: gapFilled ? 'pointer' : 'default',
+      check: () => {
+        if (placed === null) return;
+        if (placed === correctIdx) { this.setState({ checked: true }); return; }
+        const m = practice ? misses : misses + 1;
+        const outNow = !practice && m >= 3;
+        this.setState({ checked: !outNow, out: outNow, misses: m, shake: this.state.shake + 1 });
+      },
+      showPanel: !!fb,
+      fb: fb || { lines: [] },
+      giveUp,
+      lives,
+      stageDone: ok || timedOut,
+      timedOn: this.props.timed !== false,
+      timeTotal: total, timeLeft,
+      resets: this.state.resets,
+      tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, timedOut: true, checked: false, out: false, drag: null } : { timeLeft: t }),
+      headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || checked || timedOut || out,
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      // ⓘ: the first card of Learn the rule, in the Tip bottom sheet; the timer pauses while it is open.
+      infoOpen: !!this.state.info,
+      info: this.state.info || {},
+      openRule: () => this.setState({ info: this.props.rule || { title: 'Tip', body: item.hint }, drag: null }),
+      closeInfo: () => this.setState({ info: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>
