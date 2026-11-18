@@ -14,6 +14,7 @@
   const registry = {};
   const sources = {};
   const injected = new Set();
+  const PNG_IDS = ["135897654901ddf886e3377c47f38641", "2736bbdb3f9f8a5fb0c56639ff4d4de7", "2a06dd8d5a658b34df76bcebf9e0c61b", "6f3c2b1741518902da255a64fe1dd7d8", "7995563315320c29ee90a8c76cba86e8", "8dd44364dc06ddd1cedd8c2576bcfc20", "8e6b6f6da89f642c3f464947fd667c45", "bfd204e2e8a7683fddf31b8a971c75fa", "d6ec7e259426ce3fb2ef5e1dd8a44c69", "dc6743db63b2f7de22637cd358228205"];
 
   // ---------- expressions: {{ path.to.value }}, {{ true }}, {{ 3 }}, {{ 'text' }} ----------
   function evalExpr(expr, scope) {
@@ -120,7 +121,8 @@
 
   // ---------- component files ----------
   function fixUrls(text) {
-    return text.replace(/\/_blob\/([0-9a-f]{32})/g, BASE + 'assets/$1.svg');
+    // Figma renders (PNG) for Prototype D; everything else is SVG.
+    return text.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => BASE + 'assets/' + id + (PNG_IDS.indexOf(id) >= 0 ? '.png' : '.svg'));
   }
   async function fetchSource(name) {
     if (sources[name]) return sources[name];
