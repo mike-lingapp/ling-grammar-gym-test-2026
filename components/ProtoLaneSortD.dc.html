@@ -27,29 +27,35 @@ a{color:#006EB2}a:hover{color:#005E99}
 </helmet>
 <div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 54px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
 
-  <dc-import name="GymHeaderC" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
+  <dc-import name="GymHeaderD" on-settings="{{settings}}" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
 
-  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 20px">
-  <div style="display: flex; align-items: flex-start; gap: 12px">
-    <h1 style="flex-grow: 1; margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; color: #29353D">Drag each noun into the lane that matches it</h1>
-    <button class="lane" onClick="{{openRule}}" aria-label="Tips: the rule" style="width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 14.75C12.6904 14.75 13.25 15.3096 13.25 16C13.25 16.6904 12.6904 17.25 12 17.25C11.3096 17.25 10.75 16.6904 10.75 16C10.75 15.3096 11.3096 14.75 12 14.75ZM12 6C12.5523 6 13 6.44772 13 7V12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12V7C11 6.44772 11.4477 6 12 6Z"></path></svg></button>
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 8px">
+    <!-- Figma · common/molecules/GameTitleControls: title (UI) + optional description (content) + ⓘ. -->
+    <div style="display: flex; align-items: stretch; gap: 8px; padding-bottom: {{titlePad}}px">
+      <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; line-height: 1.5; overflow-wrap: anywhere">
+        <h1 style="margin: 0; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{title}}</h1>
+        <sc-if value="{{hasDesc}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14px; line-height: 1.5; font-weight: 400; color: #5C788A">{{desc}}</p></sc-if>
+      </div>
+    <button class="lane" onClick="{{openRule}}" aria-label="Tips" style="align-self: flex-start; width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0"><circle cx="12" cy="12" r="9" fill="#F0F3F5"></circle><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4Z" fill="#A3B6C2"></path><path d="M13.4834 12.1787L12.6934 16.5186C13.1531 16.6086 13.5 17.0139 13.5 17.5C13.5 18.0523 13.0523 18.5 12.5 18.5H10.3018L10.5166 17.3213L11.3066 12.9805C10.847 12.8903 10.5 12.4861 10.5 12C10.5 11.4477 10.9477 11 11.5 11H13.6982L13.4834 12.1787ZM12.5 6.5C13.3284 6.5 14 7.17157 14 8C14 8.82843 13.3284 9.5 12.5 9.5C11.6716 9.5 11 8.82843 11 8C11 7.17157 11.6716 6.5 12.5 6.5Z" fill="#A3B6C2"></path></svg></button>
   </div>
 
   <div style="margin-top: {{pileMT}}px; height: {{pileH}}px; opacity: {{pileOp}}; position: relative; flex-shrink: 0; transition: height 0.25s ease, margin 0.25s ease, opacity 0.2s">
     <sc-for list="{{stack}}" as="s" hint-placeholder-count="2">
-      <div aria-hidden="true" style="position: absolute; top: {{s.top}}px; left: {{s.inset}}px; right: {{s.inset}}px; height: 92px; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: {{s.bg}}; box-shadow: 0 2px 6px rgba(31,40,46,0.06)"></div>
+      <div aria-hidden="true" style="position: absolute; top: {{s.top}}px; left: {{s.inset}}px; right: {{s.inset}}px; height: 96px; box-sizing: border-box; border-radius: 16px; border: 2px solid #E0E7EB; background: {{s.bg}}; box-shadow: 0 2px 6px rgba(31,40,46,0.06)"></div>
     </sc-for>
     <sc-if value="{{hasCard}}" hint-placeholder-val="{{ true }}">
-      <div class="card {{shakeCls}}" onPointerDown="{{grab}}" onPointerMove="{{move}}" onPointerUp="{{release}}" onPointerCancel="{{cancel}}" style="position: absolute; top: 0; left: 0; right: 0; z-index: 5; height: 92px; box-sizing: border-box; border-radius: 12px; border: 2px solid {{cardBorder}}; background: {{cardBg}}; box-shadow: {{cardShadow}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; touch-action: none; user-select: none; cursor: {{cardCursor}}; transform: translate({{dragX}}px, {{dragY}}px) scale({{dragScale}}) rotate({{dragTilt}}deg); transition: {{cardTransition}}">
-        <span aria-hidden="true" style="position: absolute; top: 8px; right: 10px; display: flex; color: {{gripInk}}; opacity: 0.7">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg>
+      <!-- Figma · LaneSort/NounCard (state=default | wrong). -->
+      <div class="card {{shakeCls}}" onPointerDown="{{grab}}" onPointerMove="{{move}}" onPointerUp="{{release}}" onPointerCancel="{{cancel}}" style="position: absolute; top: 0; left: 0; right: 0; z-index: 5; height: 96px; box-sizing: border-box; padding: 12px 24px 24px; border-radius: 16px; border: 2px solid {{cardBorder}}; background: {{cardBg}}; box-shadow: {{cardShadow}}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; text-align: center; touch-action: none; user-select: none; cursor: {{cardCursor}}; transform: translate({{dragX}}px, {{dragY}}px) scale({{dragScale}}) rotate({{dragTilt}}deg); transition: {{cardTransition}}">
+        <span aria-hidden="true" style="position: absolute; top: 8px; right: 8px; width: 16px; height: 16px; display: flex; color: {{gripInk}}">
+          <!-- 16x16/outline/ic-grip-outline-16 -->
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="5" y="3" width="2" height="2"></rect><rect x="9" y="3" width="2" height="2"></rect><rect x="5" y="7" width="2" height="2"></rect><rect x="9" y="7" width="2" height="2"></rect><rect x="5" y="11" width="2" height="2"></rect><rect x="9" y="11" width="2" height="2"></rect></svg>
         </span>
-        <span lang="{{langTag}}" style="font-size: 28px; line-height: 36px; font-weight: 800; color: #29353D">{{current.word}}</span>
-        <sc-if value="{{current.hasTr}}" hint-placeholder-val="{{ false }}">
-          <span style="font-size: 14px; line-height: 18px; font-weight: 500; color: #5C788A">{{current.tr}}</span>
+        <span lang="{{langTag}}" style="font-size: 22px; line-height: 1.6; font-weight: 600; color: #3D505C; overflow-wrap: anywhere">{{current.word}}</span>
+        <sc-if value="{{showRoman}}" hint-placeholder-val="{{ false }}">
+          <span style="font-size: 14px; line-height: 1.5; font-weight: 400; color: #5C788A">{{current.tr}}</span>
         </sc-if>
-        <span role="status" style="font-size: 14px; line-height: 20px; font-weight: {{subWeight}}; color: {{subInk}}">{{subText}}</span>
-        <span aria-live="polite" style="position: absolute; right: 12px; bottom: 8px; font-size: 13px; line-height: 18px; font-weight: 600; color: #5C788A; white-space: nowrap; font-variant-numeric: tabular-nums">{{leftText}}</span>
+        <span role="status" style="font-size: 14px; line-height: 1.5; font-weight: {{subWeight}}; font-style: {{subStyle}}; color: {{subInk}}">{{subText}}</span>
+        <span aria-live="polite" style="position: absolute; right: 8px; bottom: 6px; font-size: 11px; line-height: 1.5; font-weight: 400; color: #5C788A; white-space: nowrap; font-variant-numeric: tabular-nums">{{leftText}}</span>
       </div>
     </sc-if>
   </div>
@@ -134,7 +140,7 @@ a{color:#006EB2}a:hover{color:#005E99}
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"step":{"editor":"int","default":2,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"rule":{"editor":null},"content":{"editor":null},"langTag":{"editor":null},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"title":{"editor":"text","default":"Drag each noun into the lane that matches it"},"desc":{"editor":"text","default":"Noun gender and adjectives"},"showDesc":{"editor":"boolean","default":true},"onSettings":{"editor":null},"step":{"editor":"int","default":2,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"rule":{"editor":null},"content":{"editor":null},"langTag":{"editor":null},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -200,8 +206,9 @@ class Component extends DCLogic {
         gSize: l.gender.length > 14 ? 11 : 13,
         items: placed[i].map((k) => ({ word: nouns[k].word, tr: nouns[k].tr, hasTr: !!nouns[k].tr })),
         hint: !placed[i].length && !done && !timedOut,
-        hintLine: over ? '#33B2FF' : '#E0E7EB',
-        hintInk: over ? '#006EB2' : '#5C788A',
+        // Wrong drop (Figma · Feedback - wrong answer empty lane): the lane's drop zone turns red too.
+        hintLine: red ? '#EF4444' : (over ? '#33B2FF' : '#E0E7EB'),
+        hintInk: red ? '#D31212' : (over ? '#006EB2' : '#5C788A'),
         border: red ? '#EF4444' : (over ? '#33B2FF' : (green ? '#51E186' : '#E0E7EB')),
         bg: red ? '#FDE8E8' : (over ? '#E6F5FF' : '#F9FAFB'),
         scale: over ? 1.02 : 1,
@@ -220,6 +227,10 @@ class Component extends DCLogic {
             const practice = this.state.practice;
             this.setState({ slips: practice ? slips : slips + 1, slipped: practice || slipped.includes(idx) ? slipped : [...slipped, idx], wrong: true, shake: this.state.shake + 1, out: !practice && slips + 1 >= 3, drag: null, hoverLane: null });
             this.flash('flashLane', i, 700);
+            // Figma · Lane Sort note: the card shakes for 350 ms while red with "Wrong lane.", holds 350 ms, then returns to blue with its translation.
+            this.wrongT = (this.wrongT || 0) + 1;
+            const wt = this.wrongT;
+            setTimeout(() => { if (this.wrongT === wt) this.setState({ wrong: false }); }, 700);
           }
         },
       };
@@ -275,6 +286,10 @@ class Component extends DCLogic {
       resets: this.state.resets,
       headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || timedOut || done || out,
       step: Number(this.props.step ?? 2), total: Number(this.props.total ?? 4),
+      // Title comes from the UI; description from content (topic for now), hidden from the prototype settings.
+      title: this.props.title || 'Drag each noun into the lane that matches it',
+      desc: this.props.desc || '', hasDesc: this.props.showDesc !== false && !!this.props.desc, titlePad: 2,
+      settings: () => { if (typeof this.props.onSettings === 'function') this.props.onSettings(); },
       outPanel: out && !timedOut,
       // Out of lives · Try again: same nouns, fresh order and clock, lives stay at 0.
       practise: () => this.setState(this.fresh(true)),
@@ -308,7 +323,7 @@ class Component extends DCLogic {
       dragY: drag ? drag.dy : 0,
       dragScale: drag && drag.moved ? 1.06 : 1,
       dragTilt: drag && drag.moved ? -2 : 0,
-      cardShadow: drag && drag.moved ? '0 12px 28px rgba(31,40,46,0.28)' : '0 2px 8px rgba(31,40,46,0.08)',
+      cardShadow: drag && drag.moved ? '0 12px 28px rgba(31,41,46,0.28)' : '0 4px 6px rgba(31,41,46,0.12)',
       cardCursor: canDrag ? (drag ? 'grabbing' : 'grab') : 'default',
       // No transition while dragging so the card tracks the finger; spring back when let go.
       cardTransition: drag ? 'background 0.2s, border-color 0.2s' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s, background 0.2s, border-color 0.2s',
@@ -318,7 +333,7 @@ class Component extends DCLogic {
       current, lanes, done, stack, fb,
       hasCard: !done,
       // The pile folds away once the last card is placed.
-      pileH: left > 0 ? 104 : 0,
+      pileH: left > 0 ? 108 : 0,
       pileMT: left > 0 ? 14 : 0,
       pileOp: left > 0 ? 1 : 0,
       showCheck: !done && !timedOut && !out,
@@ -327,13 +342,17 @@ class Component extends DCLogic {
       timedOut,
       locked: done || timedOut || out,
       sortedText: 'You sorted ' + placed.flat().length + ' of ' + n + '.',
-      cardBorder: wrong ? '#EF4444' : '#33B2FF',
-      cardBg: wrong ? '#FDE8E8' : '#E6F5FF',
-      gripInk: wrong ? '#EF4444' : '#33B2FF',
-      subText: wrong ? (thai ? 'Not that lane. What kind of thing is it?' : 'Not that lane. Check the ending.') : current.en,
-      subInk: wrong ? '#A40E0E' : '#5C788A',
+      cardBorder: wrong ? '#EF4444' : '#009DFF',
+      cardBg: wrong ? '#FDE8E8' : '#F5FBFF',
+      gripInk: wrong ? '#EF4444' : '#009DFF',
+      // Wrong drop (Figma · NounCard state=wrong): the translation gives way to "Wrong lane."
+      subText: wrong ? 'Wrong lane.' : current.en,
+      subStyle: wrong ? 'normal' : 'italic',
+      showRoman: !wrong && !!current.hasTr,
+      subInk: wrong ? '#8D0C0C' : '#5C788A',
       subWeight: wrong ? 600 : 400,
-      leftText: left > 0 ? left + ' of ' + n + ' left' : 'All placed',
+      // txt_grammar_gym_lane_sort_left = "%d of %d" (cards left of total).
+      leftText: left + ' of ' + n,
       // Out of lives and practising: Continue is live, so the learner can leave the remaining cards and move on.
       skipOff: !practice,
       skipBg: practice ? '#FF9900' : '#E0E7EB',

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>E · Form Forge (Ling Studio content)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+.ff-btn:focus-visible,.ff-cell:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+.ff-cell{transition:background .15s,border-color .15s,color .15s}
+.fbs{animation:rise .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(40px);opacity:0}}
+.pop{animation:pop .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:scale(.85);opacity:.4}}
+.shA{animation:shakeA .35s}.shB{animation:shakeB .35s}
+@keyframes shakeA{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@keyframes shakeB{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 54px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
+
+  <dc-import name="GymHeaderD" on-settings="{{settings}}" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
+
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 8px">
+    <!-- Figma · common/molecules/GameTitleControls: title (UI) + optional description (content) + ⓘ. -->
+    <div style="display: flex; align-items: stretch; gap: 8px; padding-bottom: {{titlePad}}px">
+      <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; line-height: 1.5; overflow-wrap: anywhere">
+        <h1 style="margin: 0; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{title}}</h1>
+        <sc-if value="{{hasDesc}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14px; line-height: 1.5; font-weight: 400; color: #5C788A">{{desc}}</p></sc-if>
+      </div>
+      <button class="ff-btn" onClick="{{openRule}}" aria-label="Tips" style="align-self: flex-start; width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0"><circle cx="12" cy="12" r="9" fill="#F0F3F5"></circle><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4Z" fill="#A3B6C2"></path><path d="M13.4834 12.1787L12.6934 16.5186C13.1531 16.6086 13.5 17.0139 13.5 17.5C13.5 18.0523 13.0523 18.5 12.5 18.5H10.3018L10.5166 17.3213L11.3066 12.9805C10.847 12.8903 10.5 12.4861 10.5 12C10.5 11.4477 10.9477 11 11.5 11H13.6982L13.4834 12.1787ZM12.5 6.5C13.3284 6.5 14 7.17157 14 8C14 8.82843 13.3284 9.5 12.5 9.5C11.6716 9.5 11 8.82843 11 8C11 7.17157 11.6716 6.5 12.5 6.5Z" fill="#A3B6C2"></path></svg>
+      </button>
+    </div>
+
+    <!-- Figma · GamesSentenceFill: the challenge word or sentence with an inline gap (leading, middle or trailing).
+         The gap travels with the text when it wraps; it shows the answer once it is right. -->
+    <p lang="{{langTag}}" style="margin: 16px 0 0; padding: 10px 16px; border-radius: 12px; background: #F6F8F9; font-size: 18px; line-height: 30px; font-weight: 500; color: #29353D; overflow-wrap: anywhere">{{pre}}<span style="white-space: nowrap">{{stemShown}}<span aria-label="{{inlineAria}}" style="display: inline-block; min-width: {{gapMin}}px; padding: 0 1px; line-height: 24px; border-bottom: 2px dotted #33B2FF; color: {{inlineInk}}; vertical-align: baseline">{{inlineText}}</span></span>{{post}}</p>
+    <sc-if value="{{hasGloss}}" hint-placeholder-val="{{ true }}"><p style="margin: 8px 0 0 8px; font-size: 15px; line-height: 22px; font-style: italic; color: #5C788A">{{gloss}}</p></sc-if>
+
+    <!-- Figma · GamesGapContainer / GamesGapBox: the drop slot for the answer. -->
+    <div style="margin-top: 16px; min-height: 48px; display: flex; align-items: center; justify-content: center">
+      <div data-gap="1" style="min-width: 92px; min-height: 48px; box-sizing: border-box; border-radius: 8px; border: 2px dashed {{gapLine}}; background: {{gapBg}}; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, background 0.15s">
+        <sc-if value="{{gapFilled}}" hint-placeholder-val="{{ false }}">
+          <button class="ff-cell pop {{gapShake}}" onClick="{{unplace}}" disabled="{{locked}}" aria-label="{{gapAria}}" lang="{{langTag}}" style="min-height: 48px; min-width: 92px; box-sizing: border-box; padding: 8px 16px; border-radius: 8px; border: 2px solid {{gapCell.border}}; background: {{gapCell.bg}}; color: {{gapCell.ink}}; font-family: 'Noto Sans', sans-serif; font-size: 18px; line-height: 24px; font-weight: 600; cursor: pointer">{{gapText}}</button>
+        </sc-if>
+      </div>
+    </div>
+
+    <div aria-hidden="true" style="margin-top: 16px; height: 2px; background: #E0E7EB; flex-shrink: 0"></div>
+
+    <div role="group" aria-label="Word bank" style="margin-top: 16px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px">
+      <sc-for list="{{bank}}" as="c" hint-placeholder-count="6">
+        <button class="ff-cell" data-cell="{{c.index}}" onClick="{{c.key}}" onPointerDown="{{c.grab}}" onPointerMove="{{move}}" onPointerUp="{{release}}" onPointerCancel="{{cancel}}" disabled="{{c.off}}" aria-hidden="{{c.hidden}}" tabindex="{{c.tab}}" aria-label="{{c.label}}" lang="{{langTag}}" style="min-height: 48px; min-width: 44px; max-width: 100%; box-sizing: border-box; padding: 10px 14px; border-radius: 8px; border: 2px solid {{c.border}}; background: {{c.bg}}; color: {{c.ink}}; font-family: 'Noto Sans', sans-serif; font-size: 18px; line-height: 24px; font-weight: 600; overflow-wrap: anywhere; text-align: center; touch-action: none; user-select: none; cursor: {{c.cursor}}; position: relative; z-index: {{c.z}}; transform: translate({{c.dx}}px, {{c.dy}}px) scale({{c.scale}}); box-shadow: {{c.shadow}}; transition: {{c.trans}}">{{c.text}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ true }}">
+    <button class="ff-btn" onClick="{{check}}" disabled="{{checkOff}}" style="width: 100%; height: 48px; flex-shrink: 0; border: 0; border-radius: 12px; background: {{checkBg}}; color: {{checkInk}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: {{checkCursor}}">Check</button>
+  </sc-if>
+
+  <sc-if value="{{showPanel}}" hint-placeholder-val="{{ false }}">
+    <div class="fbs" role="status" style="margin: 0 -16px -34px; padding: 16px 16px 34px; border-top: 1px solid {{fb.line}}; background: {{fb.bg}}; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <sc-if value="{{fb.ok}}" hint-placeholder-val="{{ true }}">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="{{fb.icon}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </sc-if>
+        <sc-if value="{{fb.bad}}" hint-placeholder-val="{{ false }}">
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="{{fb.icon}}" stroke="none"><circle cx="12" cy="12" r="11"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+        </sc-if>
+        <span style="flex-grow: 1; font-size: 20px; line-height: 28px; font-weight: 800; color: {{fb.ink}}">{{fb.title}}</span>
+        <button class="ff-btn" aria-label="Report a problem" style="width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; color: {{fb.ink}}; cursor: pointer">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"></path></svg>
+        </button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; font-size: 16px; line-height: 24px; color: {{fb.text}}">
+        <sc-if value="{{fb.hasLabel}}" hint-placeholder-val="{{ true }}"><strong style="font-weight: 700; color: {{fb.ink}}">{{fb.label}}</strong></sc-if>
+        <sc-for list="{{fb.lines}}" as="ln" hint-placeholder-count="2">
+          <span lang="{{ln.lang}}">{{ln.text}}</span>
+        </sc-for>
+      </div>
+      <sc-if value="{{fb.hasSkip}}" hint-placeholder-val="{{ false }}">
+        <button class="ff-btn" onClick="{{giveUp}}" style="margin-top: 4px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: {{fb.ink}}; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Continue</button>
+      </sc-if>
+      <button class="ff-btn" onClick="{{fb.go}}" style="margin-top: 4px; height: 48px; width: 100%; border: 0; border-radius: 12px; background: {{fb.btn}}; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">{{fb.btnLabel}}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{timedOn}}" hint-placeholder-val="{{ true }}">
+    <div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; pointer-events: none">
+      <dc-import name="GymTimerRingD" time-left="{{timeLeft}}" time-total="{{timeTotal}}" hint-size="390px,844px"></dc-import>
+    </div>
+  </sc-if>
+  <sc-if value="{{infoOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; z-index: 40">
+      <dc-import name="GymInfoSheetD" title="{{info.title}}" kicker="{{info.kicker}}" body="{{info.body}}" table="{{info.table}}" examples="{{info.examples}}" tips="{{info.tips}}" lang-tag="{{langTag}}" on-close="{{closeInfo}}" hint-size="390px,844px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"step":{"editor":"int","default":1,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"desc":{"editor":"text","default":"Personal pronouns (ja, ti, on, ona…)"},"showDesc":{"editor":"boolean","default":true},"onSettings":{"editor":null},"rule":{"editor":null},"items":{"editor":null},"langTag":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh(false);
+  }
+  // A round plays several sentences (Ling Studio rows) with one set of 3 lives and one 60 s clock.
+  // practice = Try again after running out of lives: back to the first sentence, lives stay at 0, the clock refills.
+  fresh(practice) {
+    return { idx: 0, info: null, placed: null, checked: false, timedOut: false, misses: 0, itemMiss: false, firstTry: 0, out: false, practice: !!practice, shake: 0, drag: null, timeLeft: 60, resets: ((this.state && this.state.resets) || 0) + 1 };
+  }
+  componentDidUpdate(prev) {
+    const on = this.props.active !== false;
+    const was = prev.active !== false;
+    if ((on && !was) || this.props.run !== prev.run) this.setState(this.fresh(false));
+  }
+  renderVals() {
+    // Ling Studio sheet rows (Exercises tab, exercise_type form_forge). On its own the screen plays two Unit 2 rows.
+    const items = Array.isArray(this.props.items) && this.props.items.length ? this.props.items : [
+      { mode: 'whole_word', sentence: 'Da, ___ sam Meri.', translation: 'Yes, I am Meri.', stem: '', after: '', correct: 'ja', options: ['ja', 'ti', 'on', 'ona'], full: 'Da, ja sam Meri.', meaning: 'Yes, I am Meri.', feedback: 'Talking about yourself → ‘ja’.' },
+      { mode: 'ending', sentence: 'Kancelarija je ___.', translation: 'The office is new.', stem: 'nov', after: '', correct: '-a', options: ['-a', '-', '-o'], full: 'Kancelarija je nova.', meaning: 'The office is new.', feedback: '‘kancelarija’ is feminine → ‘nova’.' },
+    ];
+    const n = items.length;
+    const langTag = this.props.langTag || 'sr-Latn';
+    const total = 60;
+    const { idx, placed, checked, timedOut, misses, out, practice, drag, timeLeft, itemMiss, firstTry } = this.state;
+    const item = items[Math.min(idx, n - 1)];
+    const ending = item.mode === 'ending';
+    const options = item.options || [];
+    const correctIdx = options.indexOf(item.correct);
+    const ok = checked && !timedOut && placed === correctIdx;
+    const lives = practice ? 0 : Math.max(0, 3 - misses - (timedOut ? 1 : 0));
+    const embedded = typeof this.props.onFinish === 'function';
+    const locked = checked || timedOut || out;
+    const last = idx >= n - 1;
+    // "-" in the sheet = no ending (masculine): shown as a readable label on the chip.
+    const label = (o) => (ending ? (o === '-' || o === '' ? 'no ending' : o) : o);
+    const report = (r) => { if (embedded) this.props.onFinish(r); else this.setState(this.fresh(false)); };
+    const failed = { ok: false, lives: 0, correct: 0, total: n, mistakes: Math.max(3, misses) };
+    const giveUp = () => report(failed);
+    const place = (i) => { if (!locked) this.setState({ placed: i }); };
+    const gapAt = (x, y) => {
+      const hits = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
+      return hits.some((el) => el.closest && el.closest('[data-gap]'));
+    };
+    // Sentence split at the sheet's ___ ; the gap holds stem + ending (ending) or the whole word (whole_word).
+    const parts = String(item.sentence || '').split('___');
+    const pre = parts[0] || '';
+    const post = parts.slice(1).join('___');
+    const word = ending ? item.stem + String(item.correct || '').replace(/^-/, '') : item.correct;
+    const atStart = pre.trim() === '' && !ending;
+    const shownWord = atStart ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+
+    const bank = options.map((o, i) => {
+      const taken = placed === i;
+      const reveal = timedOut && i === correctIdx;
+      const dragging = drag && drag.i === i && drag.moved;
+      let border = '#E0E7EB', bg = '#FFFFFF', ink = '#29353D';
+      if (taken) { border = '#F0F3F5'; bg = '#F0F3F5'; ink = 'transparent'; }
+      else if (reveal) { border = '#51E186'; bg = '#E9FBF0'; ink = '#0F5729'; }
+      else if (dragging) { border = '#33B2FF'; bg = '#E6F5FF'; ink = '#006EB2'; }
+      return {
+        index: i, text: label(o), label: taken ? '' : label(o),
+        hidden: taken ? 'true' : 'false', tab: taken ? -1 : 0,
+        off: locked || taken, border, bg, ink,
+        cursor: locked || taken ? 'default' : (drag ? 'grabbing' : 'grab'),
+        dx: dragging ? drag.dx : 0, dy: dragging ? drag.dy : 0,
+        scale: dragging ? 1.06 : 1, z: dragging ? 10 : 1,
+        shadow: dragging ? '0 10px 24px rgba(31,40,46,0.24)' : 'none',
+        trans: drag && drag.i === i ? 'background 0.15s' : 'transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.15s, border-color 0.15s',
+        key: (e) => { if (e && e.detail === 0) place(i); },
+        grab: (e) => {
+          if (locked || taken) return;
+          if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId);
+          this.setState({ drag: { i, x0: e.clientX, y0: e.clientY, dx: 0, dy: 0, moved: false, over: false } });
+        },
+      };
+    });
+
+    let gapCell = { border: '#33B2FF', bg: '#E6F5FF', ink: '#006EB2' };
+    if (checked && ok) gapCell = { border: '#51E186', bg: '#E9FBF0', ink: '#0F5729' };
+    else if (checked || out) gapCell = { border: '#EF4444', bg: '#FDE8E8', ink: '#8D0C0C' };
+    const gapFilled = placed !== null;
+    const over = drag && drag.over;
+
+    // Next sentence, or the end of the round.
+    const advance = () => {
+      if (!last) { this.setState({ idx: idx + 1, placed: null, checked: false, itemMiss: false }); return; }
+      report(practice ? failed : { ok: true, lives, correct: firstTry, total: n, mistakes: misses });
+    };
+    // Hints never give the answer away: one line per mode, plus the ⓘ rule.
+    const hint = ending ? 'Check the noun’s gender first, then pick the ending. Tap ⓘ for the rule.' : 'Look at who the sentence is about. Tap ⓘ for the rule.';
+    let fb = null;
+    if (timedOut) {
+      fb = { ok: false, bad: true, title: 'Time’s up', label: 'Correct answer:', lines: [{ text: item.full, lang: langTag }, { text: item.feedback, lang: 'en' }], btnLabel: 'Continue', go: () => report(practice ? failed : { ok: false, lives, correct: firstTry, total: n, mistakes: misses + 1 }), hasSkip: false };
+    } else if (out) {
+      fb = { ok: false, bad: true, title: 'Out of lives', label: '', lines: [{ text: 'You used all 3 lives on this exercise. Try again to practise it (your lives stay empty, so it won’t score higher), or continue to the next exercise.', lang: 'en' }], btnLabel: 'Try again', go: () => this.setState(this.fresh(true)), hasSkip: true };
+    } else if (checked && ok) {
+      fb = { ok: true, bad: false, title: 'Excellent!', label: 'Meaning:', lines: [{ text: item.full, lang: langTag }, { text: item.meaning, lang: 'en' }], btnLabel: 'Continue', go: advance, hasSkip: false };
+    } else if (checked) {
+      fb = { ok: false, bad: true, title: 'Not quite', label: 'Try again', lines: [{ text: hint, lang: 'en' }], btnLabel: 'Try again', go: () => this.setState({ checked: false, placed: null }), hasSkip: practice };
+    }
+    if (fb) {
+      Object.assign(fb, fb.ok
+        ? { bg: '#E9FBF0', line: '#B9EFCD', ink: '#17823E', icon: '#22C45D', text: '#0F5729', btn: '#22C45D' }
+        : { bg: '#FDE8E8', line: '#F5C2C2', ink: '#A40E0E', icon: '#EF4444', text: '#8D0C0C', btn: '#EF4444' });
+      fb.hasLabel = !!fb.label;
+    }
+
+    return {
+      step: Number(this.props.step ?? 1), total: Number(this.props.total ?? 4),
+      // Title from the UI per mode (Ling Studio "mode" column); description from content (Gyms topic for now).
+      title: ending ? 'Choose the correct ending' : 'Choose the correct word',
+      desc: this.props.desc || '', hasDesc: this.props.showDesc !== false && !!this.props.desc, titlePad: 0,
+      gloss: item.translation ? '(' + item.translation + ')' : '', hasGloss: !!item.translation,
+      pre, post,
+      stemShown: ok ? '' : (ending ? item.stem : ''),
+      inlineText: ok ? shownWord : ' ',
+      inlineInk: ok ? '#29353D' : 'transparent',
+      inlineAria: ok ? shownWord : 'gap',
+      gapMin: ok ? 0 : (ending ? 24 : 32),
+      langTag,
+      bank,
+      gapFilled, gapCell,
+      gapText: gapFilled ? label(options[placed]) : '',
+      gapAria: gapFilled ? label(options[placed]) + ', tap to take it out' : '',
+      gapLine: over ? '#33B2FF' : (gapFilled ? 'transparent' : '#C2CED6'),
+      gapBg: over ? '#E6F5FF' : 'transparent',
+      gapShake: (checked && !ok) || out ? (this.state.shake % 2 ? 'shA' : 'shB') : '',
+      unplace: () => { if (!locked) this.setState({ placed: null }); },
+      locked,
+      move: (e) => {
+        const d = this.state.drag;
+        if (!d) return;
+        const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+        const moved = d.moved || Math.hypot(dx, dy) > 4;
+        this.setState({ drag: { ...d, dx, dy, moved, over: moved && gapAt(e.clientX, e.clientY) } });
+      },
+      release: (e) => {
+        const d = this.state.drag;
+        if (!d) return;
+        this.setState({ drag: null });
+        if (!d.moved || gapAt(e.clientX, e.clientY)) place(d.i);
+      },
+      cancel: () => this.setState({ drag: null }),
+      showCheck: !fb,
+      checkOff: !gapFilled,
+      checkBg: gapFilled ? '#FF9900' : '#E0E7EB',
+      checkInk: gapFilled ? '#FFFFFF' : '#5C788A',
+      checkCursor: gapFilled ? 'pointer' : 'default',
+      check: () => {
+        if (placed === null) return;
+        if (placed === correctIdx) { this.setState({ checked: true, firstTry: firstTry + (itemMiss || practice ? 0 : 1) }); return; }
+        const m = practice ? misses : misses + 1;
+        const outNow = !practice && m >= 3;
+        this.setState({ checked: !outNow, out: outNow, misses: m, itemMiss: true, shake: this.state.shake + 1 });
+      },
+      showPanel: !!fb,
+      fb: fb || { lines: [] },
+      giveUp,
+      lives,
+      stageDone: (ok && last) || timedOut,
+      timedOn: this.props.timed !== false,
+      timeTotal: total, timeLeft,
+      resets: this.state.resets,
+      tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, timedOut: true, checked: false, out: false, drag: null } : { timeLeft: t }),
+      headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || checked || timedOut || out,
+      close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      settings: () => { if (typeof this.props.onSettings === 'function') this.props.onSettings(); },
+      infoOpen: !!this.state.info,
+      info: this.state.info || {},
+      openRule: () => this.setState({ info: this.props.rule || { title: 'Tip', body: hint }, drag: null }),
+      closeInfo: () => this.setState({ info: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

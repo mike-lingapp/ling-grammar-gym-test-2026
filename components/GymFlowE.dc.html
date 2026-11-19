@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>E · Grammar Gym, full flow (Ling Studio content)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&amp;family=Poppins:wght@700&amp;display=swap">
+<style>
+html,body{overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none}*::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353D}
+a{color:#006EB2}a:hover{color:#005E99}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@keyframes ggPop{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes ggLift{0%,100%{transform:translateY(0) rotate(0)}20%{transform:translateY(-10px) rotate(-14deg)}40%{transform:translateY(0) rotate(0)}60%{transform:translateY(-10px) rotate(14deg)}80%{transform:translateY(0) rotate(0)}}
+@keyframes ggPulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.35);opacity:0}}
+@keyframes ggFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ggBob{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-6px) rotate(-6deg)}60%{transform:translateY(0) rotate(4deg)}}
+@keyframes ggBurst{0%{opacity:1;transform:translate(0,0) scale(.4) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1) rotate(200deg)}}
+@keyframes ggSheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes ggScrimIn{from{opacity:0}to{opacity:1}}
+@keyframes ggSheetDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
+@keyframes ggScrimOut{from{opacity:1}to{opacity:0}}
+.q-in{animation:ggSheetUp .3s cubic-bezier(.2,.8,.2,1) both}.q-scrim-in{animation:ggScrimIn .2s ease-out both}
+.q-out{animation:ggSheetDown .22s ease-in both}.q-scrim-out{animation:ggScrimOut .22s ease-in both}
+@media (prefers-reduced-motion: reduce){.gg-anim{animation:none!important;opacity:1!important}}
+@media (prefers-reduced-motion: reduce){.q-in,.q-out,.q-scrim-in,.q-scrim-out{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; color: #29353D">
+  <sc-if value="{{sTab}}" hint-placeholder-val="{{ true }}">
+    <dc-import name="LearnD" lang="{{lang}}" done="{{gymDone}}" on-gym="{{openSheet}}" on-review="{{toReview}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sReview}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ReviewD" on-gym="{{toList}}" on-learn="{{toLearnTab}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sList}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="GymListE" gyms="{{gymList}}" done="{{doneMap}}" on-pick="{{pickGym}}" on-back="{{toReview}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{sLearn}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoGrammarE" cards="{{grammarCards}}" language="{{languageName}}" lang-tag="{{langTag}}" run="{{run}}" on-done="{{toStartScreen}}" on-back="{{exit}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s0}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoStartE" rows="{{rows}}" language="{{languageName}}" on-start="{{begin}}" on-close="{{exit}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s1}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoFormForgeE" step="1" total="4" rule="{{ffRule}}" timed="{{timedRun}}" items="{{ff1}}" lang-tag="{{langTag}}" active="{{a1}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoLaneSortD" step="2" total="4" rule="{{lsRule}}" timed="{{timedRun}}" content="{{ls1}}" lang-tag="{{langTag}}" active="{{a2}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoFormForgeE" step="3" total="4" rule="{{ffRule}}" timed="{{timedRun}}" items="{{ff2}}" lang-tag="{{langTag}}" active="{{a3}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoLaneSortD" step="4" total="4" rule="{{lsRule}}" timed="{{timedRun}}" content="{{ls2}}" lang-tag="{{langTag}}" active="{{a4}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s5}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoResultsE" rows="{{rows}}" language="{{languageName}}" timed="{{timedRun}}" results="{{results}}" seconds="{{seconds}}" on-restart="{{restart}}" on-continue="{{toComplete}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{s6}}" hint-placeholder-val="{{ false }}">
+    <dc-import name="ProtoCompleteD" points="200" on-continue="{{toStart}}" hint-size="390px,844px"></dc-import>
+  </sc-if>
+  <sc-if value="{{ps}}" hint-placeholder-val="{{ false }}">
+    <!-- Figma · Modal - grammar exercise - available (BottomSheetOptions). -->
+    <div class="{{psScrimCls}}" onClick="{{psScrimTap}}" style="position: absolute; left: 0; top: 0; z-index: 60; width: 390px; height: 844px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="{{psSheetCls}}" role="dialog" aria-modal="true" aria-label="Grammar Gym" style="position: relative; width: 390px; height: 235px; border-radius: 16px 16px 0 0; overflow: hidden; background: #FFFFFF">
+        <img src="/_blob/135897654901ddf886e3377c47f38641" alt="" width="390" height="235" style="display: block; width: 390px; height: 235px">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">Introduction, Grammar Gym</span>
+        <button onClick="{{psStart}}" style="position: absolute; left: 16px; top: 158px; width: 358px; height: 48px; border: 0; border-radius: 16px; background: transparent; cursor: pointer; font-size: 0">Start</button>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{quit}}" hint-placeholder-val="{{ false }}">
+    <div class="{{qScrimCls}}" onClick="{{scrimTap}}" style="position: absolute; left: 0; top: 0; z-index: 60; width: 390px; height: 844px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="{{qSheetCls}}" role="alertdialog" aria-modal="true" aria-labelledby="quit-title" aria-describedby="quit-body" style="background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column; transform: translateY({{qDragY}}px); transition: {{qTrans}}">
+        <div onPointerDown="{{qGrab}}" onPointerMove="{{qMove}}" onPointerUp="{{qRelease}}" onPointerCancel="{{qRelease}}" style="touch-action: none; user-select: none; cursor: grab">
+          <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+          <div style="min-height: 56px; box-sizing: border-box; padding: 8px 16px; display: flex; align-items: center">
+            <h2 id="quit-title" style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Quit exercise</h2>
+          </div>
+        </div>
+        <p id="quit-body" style="margin: 0; padding: 0 16px 16px; font-size: 16px; line-height: 1.35; color: #3D505C">Are you sure? You will lose all your progress on this exercise.</p>
+        <div style="padding: 16px 16px 34px; display: flex; flex-direction: column; gap: 8px">
+          <button onClick="{{confirmQuit}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Quit</button>
+          <button onClick="{{cancelQuit}}" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 8px 16px; border: 0; border-radius: 16px; background: transparent; color: #5C788A; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.5; cursor: pointer">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+  <sc-if value="{{settingsOpen}}" hint-placeholder-val="{{ false }}">
+    <!-- Prototype only (not in the app): the cog opens these test settings. The app will use its own settings modal. -->
+    <div class="q-scrim-in" onClick="{{settingsScrim}}" style="position: absolute; left: 0; top: 0; z-index: 70; width: 390px; height: 844px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="q-in" role="dialog" aria-modal="true" aria-labelledby="set-title" style="background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column">
+        <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+        <div style="padding: 8px 16px 0">
+          <h2 id="set-title" style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Prototype settings</h2>
+          <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #5C788A">For testing only. The app uses its own settings.</p>
+        </div>
+        <div style="padding: 16px">
+          <label style="min-height: 56px; box-sizing: border-box; padding: 12px 16px; border-radius: 16px; border: 1px solid #E0E7EB; display: flex; align-items: center; gap: 12px; cursor: pointer">
+            <span style="flex: 1 1 auto; display: flex; flex-direction: column">
+              <span style="font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">Show exercise description</span>
+              <span style="font-size: 14px; line-height: 1.5; color: #5C788A">The line under the exercise title</span>
+            </span>
+            <input type="checkbox" role="switch" checked="{{showDesc}}" onChange="{{toggleDesc}}" style="position: absolute; opacity: 0; width: 1px; height: 1px">
+            <span aria-hidden="true" style="width: 44px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{switchBg}}; position: relative; transition: background 0.2s">
+              <span style="position: absolute; top: 3px; left: {{knobX}}px; width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(31,41,46,0.25); transition: left 0.2s"></span>
+            </span>
+          </label>
+        </div>
+        <div style="padding: 0 16px 34px">
+          <button onClick="{{closeSettings}}" style="width: 100%; min-height: 48px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Done</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"mode":{"editor":"enum","options":["app","test"],"default":"app"},"$preview":{"width":390,"height":844}}'>
+// Prototype E: Prototype D with the Serbian Ling Studio content (Maša, "Serbian Grammar Gym – One Topic per Gym, Units 1-10").
+// One Gym = one session = one tile on the journey. Session: Form Forge (sentences 1-3), Lane Sort (3 cards),
+// Form Forge (sentences 4-6), Lane Sort (the other 3 cards). Every row is played once; nothing is repeated.
+// Learn tab tile = SR-GYM01; Review › Grammar Gym lists all five. Serbian only. Reloading resets everything.
+const GYMS = [{"id": "SR-GYM01", "afterUnit": 2, "unit": "Unit 2: Basic Sentences", "topic": "Personal pronouns (ja, ti, on, ona…)", "cards": [{"id": "SR-GYM01-S1", "title": "Talking about people with personal pronouns", "body": "Personal pronouns are words we use to talk about ourselves and other people, just like \"I\", \"you\", \"he\" and \"she\" in English.", "table": [["'ja'", "I (when talking about yourself)"], ["'ti'", "you (when talking to one person)"], ["'on'", "he (for a man or boy)"], ["'ona'", "she (for a woman or girl)"], ["'ono'", "it (used with 'dete' (child), because 'dete' is a neuter noun in Serbian)"]], "example": ["'Ja sam Meri. Dobro sam. A ti?'", "I'm Mary. I'm good. And you?"], "tips": []}, {"id": "SR-GYM01-S2", "title": "More than one: 'mi', 'vi', 'oni', 'one', 'ona'", "body": "To talk about more than one, look at who or what is in the group. Serbian has three words for \"they\".", "table": [["'mi'", "we (a group with you in it: 'Ana i ja' = Ana and I)"], ["'vi'", "you (when you talk to two or more people: 'ti i Tom' = you and Tom)"], ["'oni'", "they (men, or men and women: 'Tom i Ana')"], ["'one'", "they (only women: 'Ana i Meri')"], ["'ona'", "they (more than one \"it\" word, neuter)"]], "example": ["'Tom i Ana' → 'oni'. 'Ana i Meri' → 'one'.", "Tom and Ana → they. Ana and Meri → they (only women)."], "tips": ["Careful: 'ona' has two meanings: \"she\" for one woman, and \"they\" for more than one \"it\" word.", "The word 'i' means \"and\".", "'Vi' is also a polite way to say \"you\" to one person, like a teacher: 'Kako ste Vi?' = How are you?"]}], "ff": [{"id": "SR-GYM01-S1-01", "mode": "whole_word", "sentence": "Da, ___ sam Meri.", "translation": "Yes, I am Meri.", "stem": "", "after": "", "correct": "ja", "options": ["ja", "ti", "on", "ona"], "full": "Da, ja sam Meri.", "meaning": "Yes, I am Meri.", "feedback": "Talking about yourself → 'ja'."}, {"id": "SR-GYM01-S1-02", "mode": "whole_word", "sentence": "Dobro sam. A ___?", "translation": "I'm good. How about you?", "stem": "", "after": "", "correct": "ti", "options": ["ti", "ja", "on", "ona"], "full": "Dobro sam. A ti?", "meaning": "I'm good. How about you?", "feedback": "You ask the person you talk to → 'ti'."}, {"id": "SR-GYM01-S1-03", "mode": "whole_word", "sentence": "Ćao, da li si ___ Tom?", "translation": "Hi, are you Tom?", "stem": "", "after": "", "correct": "ti", "options": ["ti", "ja", "on", "ona"], "full": "Ćao, da li si ti Tom?", "meaning": "Hi, are you Tom?", "feedback": "One person you talk to → 'ti'."}, {"id": "SR-GYM01-S1-04", "mode": "whole_word", "sentence": "___ sam učiteljica.", "translation": "I am a teacher.", "stem": "", "after": "", "correct": "ja", "options": ["ja", "ti", "on", "ona"], "full": "Ja sam učiteljica.", "meaning": "I am a teacher.", "feedback": "Talking about yourself → 'ja'."}, {"id": "SR-GYM01-S1-05", "mode": "whole_word", "sentence": "Ovo je Ana. ___ je moja prijateljica.", "translation": "This is Ana. She is my friend.", "stem": "", "after": "", "correct": "ona", "options": ["ona", "ja", "ti", "on"], "full": "Ovo je Ana. Ona je moja prijateljica.", "meaning": "This is Ana. She is my friend.", "feedback": "Ana is a woman → 'ona'."}, {"id": "SR-GYM01-S1-06", "mode": "whole_word", "sentence": "Ovo je Tom. ___ je učitelj.", "translation": "This is Tom. He is a teacher.", "stem": "", "after": "", "correct": "on", "options": ["on", "ja", "ti", "ona"], "full": "Ovo je Tom. On je učitelj.", "meaning": "This is Tom. He is a teacher.", "feedback": "Tom is a man → 'on'."}], "lanes": [["mi", "I'm in the group"], ["vi", "you're in it, I'm not"], ["oni", "neither of us"]], "ls": [{"id": "SR-GYM01-S2-01", "word": "Ana i ja", "en": "Ana and I", "lane": 0, "feedback": "I'm in the group → 'mi'."}, {"id": "SR-GYM01-S2-02", "word": "Tom i ja", "en": "Tom and I", "lane": 0, "feedback": "I'm in the group → 'mi'."}, {"id": "SR-GYM01-S2-03", "word": "ti i Ana", "en": "you and Ana", "lane": 1, "feedback": "You're in the group, I'm not → 'vi'."}, {"id": "SR-GYM01-S2-04", "word": "ti i Tom", "en": "you and Tom", "lane": 1, "feedback": "You're in the group, I'm not → 'vi'."}, {"id": "SR-GYM01-S2-05", "word": "Tom i Ana", "en": "Tom and Ana", "lane": 2, "feedback": "Neither you nor I are in the group → 'oni'."}, {"id": "SR-GYM01-S2-06", "word": "Tom i Meri", "en": "Tom and Meri", "lane": 2, "feedback": "Neither you nor I are in the group → 'oni'."}]}, {"id": "SR-GYM02", "afterUnit": 4, "unit": "Unit 4: Likes and daily life", "topic": "The verb biti (to be)", "cards": [{"id": "SR-GYM02-S1", "title": "'biti': I am, you are, he is…", "body": "In Serbian, 'biti' means \"to be.\" Just like in English, the verb changes depending on who you're talking about. For example, English uses \"I am\", \"you are\", \"he is\". Serbian works the same way, and each person has a different form.", "table": [["'ja sam'", "I am"], ["'ti si'", "you are"], ["'on / ona / ono je'", "he / she / it is"], ["'mi smo'", "we are"], ["'vi ste'", "you are (more people, or polite)"], ["'oni / one / ona su'", "they are"]], "example": ["'Ja sam iz Nemačke.'", "I am from Germany."], "tips": ["'Vi ste' (you are) works for one person you are polite to and for a group."]}, {"id": "SR-GYM02-S2", "title": "You don't always need 'ja'", "body": "In Serbian, the verb itself already tells you who it is, so you can leave out the personal pronoun. Then 'sam', 'si', 'je' forms move to second place, after the first word, and never begin the sentence.", "table": [["'Ja sam dobro.' → 'Dobro sam.'", "I'm good."], ["'Ja sam bolestan.' → 'Bolestan sam.'", "I'm sick."], ["'Mi smo odavde.' → 'Odavde smo.'", "We are from here."], ["'Sam dobro.' (not correct: 'biti' can't come first)"]], "example": ["'Dobro sam. A ti?'", "I'm good. How about you?"], "tips": ["You already know 'Dobro sam' (I'm good) from Unit 1. There is no 'ja', because 'sam' already means \"I am\"."]}], "ff": [{"id": "SR-GYM02-S1-01", "mode": "whole_word", "sentence": "Ja ___ kod kuće.", "translation": "I am at home.", "stem": "", "after": "", "correct": "sam", "options": ["sam", "si", "je", "smo", "ste", "su"], "full": "Ja sam kod kuće.", "meaning": "I am at home.", "feedback": "'ja' → 'sam'."}, {"id": "SR-GYM02-S1-02", "mode": "whole_word", "sentence": "Ti ___ iz Amerike.", "translation": "You are from America.", "stem": "", "after": "", "correct": "si", "options": ["si", "sam", "je", "smo", "ste", "su"], "full": "Ti si iz Amerike.", "meaning": "You are from America.", "feedback": "'ti' → 'si'."}, {"id": "SR-GYM02-S1-03", "mode": "whole_word", "sentence": "Ona ___ odavde.", "translation": "She is from here.", "stem": "", "after": "", "correct": "je", "options": ["je", "sam", "si", "smo", "ste", "su"], "full": "Ona je odavde.", "meaning": "She is from here.", "feedback": "'on' / 'ona' / 'ono' → 'je'."}, {"id": "SR-GYM02-S1-04", "mode": "whole_word", "sentence": "Mi ___ kod kuće.", "translation": "We are at home.", "stem": "", "after": "", "correct": "smo", "options": ["smo", "sam", "si", "je", "ste", "su"], "full": "Mi smo kod kuće.", "meaning": "We are at home.", "feedback": "'mi' → 'smo'."}, {"id": "SR-GYM02-S1-05", "mode": "whole_word", "sentence": "Vi ___ prijatelji.", "translation": "You are friends.", "stem": "", "after": "", "correct": "ste", "options": ["ste", "sam", "si", "je", "smo", "su"], "full": "Vi ste prijatelji.", "meaning": "You are friends.", "feedback": "'vi' → 'ste'."}, {"id": "SR-GYM02-S1-06", "mode": "whole_word", "sentence": "Oni ___ moji prijatelji.", "translation": "They are my friends.", "stem": "", "after": "", "correct": "su", "options": ["su", "sam", "si", "je", "smo", "ste"], "full": "Oni su moji prijatelji.", "meaning": "They are my friends.", "feedback": "'oni' / 'one' / 'ona' (they) → 'su'."}], "lanes": [["Correct", "right order"], ["Not correct", "wrong order"]], "ls": [{"id": "SR-GYM02-S2-01", "word": "Dobro sam.", "en": "", "lane": 0, "feedback": "No 'ja' needed: 'sam' already says \"I am\"."}, {"id": "SR-GYM02-S2-02", "word": "Sam dobro.", "en": "", "lane": 1, "feedback": "'biti' can't be the first word: 'Dobro sam.'"}, {"id": "SR-GYM02-S2-03", "word": "Bolestan sam.", "en": "", "lane": 0, "feedback": "No 'ja' needed: 'sam' already says \"I am\"."}, {"id": "SR-GYM02-S2-04", "word": "Si iz Amerike.", "en": "", "lane": 1, "feedback": "'biti' can't be the first word: 'Iz Amerike si.'"}, {"id": "SR-GYM02-S2-05", "word": "Odavde smo.", "en": "", "lane": 0, "feedback": "No 'mi' needed: 'smo' already says \"we are\"."}, {"id": "SR-GYM02-S2-06", "word": "Smo kod kuće.", "en": "", "lane": 1, "feedback": "'biti' can't be the first word: 'Kod kuće smo.'"}]}, {"id": "SR-GYM03", "afterUnit": 6, "unit": "Unit 6: Around town", "topic": "Noun gender and adjectives", "cards": [{"id": "SR-GYM03-S1", "title": "Masculine, feminine or neuter?", "body": "Every Serbian noun is masculine, feminine or neuter. Look at the last letter: most nouns ending in a consonant are masculine, most nouns ending in -a are feminine, and most nouns ending in -o or -e are neuter.", "table": [["masculine", "usually ends in a consonant: 'grad' (city), 'hotel', 'trg' (square)"], ["feminine", "usually ends in -a: 'kuća' (house), 'banka' (bank), 'pošta' (post office)"], ["neuter", "usually ends in -o or -e: 'jutro' (morning), 'pitanje' (question)"]], "example": ["'grad' (city) → masculine · 'banka' (bank) → feminine · 'jutro' (morning) → neuter", ""], "tips": []}, {"id": "SR-GYM03-S2", "title": "Adjectives match the noun's gender", "body": "In Serbian, an adjective describes a noun and changes to match its gender. Look at the word 'nov' (new):", "table": [["Masculine", "'nov hotel' (new hotel)"], ["Feminine", "'nova kuća' (new house)"], ["Neuter", "'novo ime' (new name)"]], "example": ["'Kancelarija je nova.'", "The office is new."], "tips": ["For many adjectives, the masculine form ends in a consonant, the feminine adds -a, and the neuter adds -o. Remember: Check the noun's gender first, then choose the matching adjective form."]}], "ff": [{"id": "SR-GYM03-S1-01", "mode": "ending", "sentence": "Hotel je ___.", "translation": "The hotel is new.", "stem": "nov", "after": "", "correct": "-", "options": ["-", "-a", "-o"], "full": "Hotel je nov.", "meaning": "The hotel is new.", "feedback": "'hotel' is masculine → no ending: 'nov'."}, {"id": "SR-GYM03-S1-02", "mode": "ending", "sentence": "Kancelarija je ___.", "translation": "The office is new.", "stem": "nov", "after": "", "correct": "-a", "options": ["-a", "-", "-o"], "full": "Kancelarija je nova.", "meaning": "The office is new.", "feedback": "'kancelarija' is feminine → 'nova'."}, {"id": "SR-GYM03-S1-03", "mode": "ending", "sentence": "Pitanje je ___.", "translation": "The question is good.", "stem": "dobr", "after": "", "correct": "-o", "options": ["-o", "-a"], "full": "Pitanje je dobro.", "meaning": "The question is good.", "feedback": "'pitanje' is neuter → 'dobro'."}, {"id": "SR-GYM03-S1-04", "mode": "ending", "sentence": "Trg je ___.", "translation": "The square is big.", "stem": "velik", "after": "", "correct": "-", "options": ["-", "-a", "-o"], "full": "Trg je velik.", "meaning": "The square is big.", "feedback": "'trg' is masculine → no ending: 'velik'."}, {"id": "SR-GYM03-S1-05", "mode": "ending", "sentence": "Prodavnica je ___.", "translation": "The store is open.", "stem": "otvoren", "after": "", "correct": "-a", "options": ["-a", "-", "-o"], "full": "Prodavnica je otvorena.", "meaning": "The store is open.", "feedback": "'prodavnica' is feminine → 'otvorena'."}, {"id": "SR-GYM03-S1-06", "mode": "ending", "sentence": "Hrana je ___.", "translation": "The food is good.", "stem": "dobr", "after": "", "correct": "-a", "options": ["-a", "-o"], "full": "Hrana je dobra.", "meaning": "The food is good.", "feedback": "'hrana' is feminine → 'dobra'."}], "lanes": [["lep", "masculine"], ["lepa", "feminine"], ["lepo", "neuter"]], "ls": [{"id": "SR-GYM03-S2-01", "word": "grad", "en": "city", "lane": 0, "feedback": "'grad' is masculine → 'lep grad'."}, {"id": "SR-GYM03-S2-02", "word": "kuća", "en": "house", "lane": 1, "feedback": "'kuća' is feminine → 'lepa kuća'."}, {"id": "SR-GYM03-S2-03", "word": "jutro", "en": "morning", "lane": 2, "feedback": "'jutro' is neuter → 'lepo jutro'."}, {"id": "SR-GYM03-S2-04", "word": "dan", "en": "day", "lane": 0, "feedback": "'dan' is masculine → 'lep dan'."}, {"id": "SR-GYM03-S2-05", "word": "ulica", "en": "street", "lane": 1, "feedback": "'ulica' is feminine → 'lepa ulica'."}, {"id": "SR-GYM03-S2-06", "word": "ime", "en": "name", "lane": 2, "feedback": "'ime' is neuter → 'lepo ime'."}]}, {"id": "SR-GYM04", "afterUnit": 8, "unit": "Unit 8: Family", "topic": "moj, moja, moje (my)", "cards": [{"id": "SR-GYM04-S1", "title": "my: 'moj', 'moja', 'moje'", "body": "In English, \"my\" never changes. In Serbian, it matches the noun after it: 'moj' for masculine, 'moja' for feminine, 'moje' for neuter.", "table": [["'moj'", "my (masculine): 'moj brat' (my brother), 'moj otac' (my father)"], ["'moja'", "my (feminine): 'moja sestra' (my sister), 'moja majka' (my mother)"], ["'moje'", "my (neuter): 'moje dete' (my child), 'moje ime' (my name)"]], "example": ["'Moja majka se zove Elena.'", "My mother's name is Elena."], "tips": ["For neuter, it is 'moje', not 'mojo'."]}, {"id": "SR-GYM04-S2", "title": "Some nouns don't follow the usual pattern", "body": "In Serbian, a noun's ending usually helps you recognize its gender. But some nouns referring to people follow their natural gender instead.", "table": [["'deda' (grandpa) ends in -a, but is masculine → 'moj deda'"], ["'dečko' (boyfriend) ends in -o, but is masculine → 'moj dečko'"]], "example": ["'Moj dečko je visok.'", "My boyfriend is tall."], "tips": ["Remember: Not all nouns follow the usual gender patterns. Some words for male people are masculine even if they end in -a or -o."]}], "ff": [{"id": "SR-GYM04-S1-01", "mode": "ending", "sentence": "___ majka se zove Elena.", "translation": "My mother's name is Elena.", "stem": "Moj", "after": "", "correct": "-a", "options": ["-a", "-", "-e"], "full": "Moja majka se zove Elena.", "meaning": "My mother's name is Elena.", "feedback": "'majka' is feminine → 'moja'."}, {"id": "SR-GYM04-S1-02", "mode": "ending", "sentence": "___ brat živi u Nemačkoj.", "translation": "My brother lives in Germany.", "stem": "Moj", "after": "", "correct": "-", "options": ["-", "-a", "-e"], "full": "Moj brat živi u Nemačkoj.", "meaning": "My brother lives in Germany.", "feedback": "'brat' is masculine → no ending: 'moj'."}, {"id": "SR-GYM04-S1-03", "mode": "ending", "sentence": "___ ime je Meri.", "translation": "My name is Meri.", "stem": "Moj", "after": "", "correct": "-e", "options": ["-e", "-", "-a"], "full": "Moje ime je Meri.", "meaning": "My name is Meri.", "feedback": "'ime' is neuter → 'moje'."}, {"id": "SR-GYM04-S1-04", "mode": "ending", "sentence": "___ sestra je doktorka.", "translation": "My sister is a doctor.", "stem": "Moj", "after": "", "correct": "-a", "options": ["-a", "-", "-e"], "full": "Moja sestra je doktorka.", "meaning": "My sister is a doctor.", "feedback": "'sestra' is feminine → 'moja'."}, {"id": "SR-GYM04-S1-05", "mode": "ending", "sentence": "___ otac je doktor.", "translation": "My father is a doctor.", "stem": "Moj", "after": "", "correct": "-", "options": ["-", "-a", "-e"], "full": "Moj otac je doktor.", "meaning": "My father is a doctor.", "feedback": "'otac' is masculine → no ending: 'moj'."}, {"id": "SR-GYM04-S1-06", "mode": "ending", "sentence": "___ dete je malo.", "translation": "My child is small.", "stem": "Moj", "after": "", "correct": "-e", "options": ["-e", "-", "-a"], "full": "Moje dete je malo.", "meaning": "My child is small.", "feedback": "'dete' is neuter → 'moje'."}], "lanes": [["moj", "masculine"], ["moja", "feminine"], ["moje", "neuter"]], "ls": [{"id": "SR-GYM04-S2-01", "word": "otac", "en": "father", "lane": 0, "feedback": "'otac' is masculine → 'moj'."}, {"id": "SR-GYM04-S2-02", "word": "porodica", "en": "family", "lane": 1, "feedback": "'porodica' ends in -a → 'moja'."}, {"id": "SR-GYM04-S2-03", "word": "dete", "en": "child", "lane": 2, "feedback": "'dete' ends in -e → 'moje'."}, {"id": "SR-GYM04-S2-04", "word": "deda", "en": "grandpa", "lane": 0, "feedback": "'deda' ends in -a, but a grandpa is a man → 'moj'."}, {"id": "SR-GYM04-S2-05", "word": "baka", "en": "grandma", "lane": 1, "feedback": "'baka' ends in -a → 'moja'."}, {"id": "SR-GYM04-S2-06", "word": "ime", "en": "name", "lane": 2, "feedback": "'ime' ends in -e → 'moje'."}]}, {"id": "SR-GYM05", "afterUnit": 10, "unit": "Unit 10: Transport and directions", "topic": "This and that: ovaj / onaj, ova / ona, ovo / ono", "cards": [{"id": "SR-GYM05-S1", "title": "This: 'ovaj', 'ova', 'ovo'", "body": "In Serbian, \"this\" and \"that\" change to match the noun's gender, just like 'moj', 'moja' and 'moje'.", "table": [["Use 'ovaj', 'ova', 'ovo' for \"this\" (something close to you):"], ["Masculine", "'ovaj sir' (this cheese)"], ["Feminine", "'ova voda' (this water)"], ["Neuter", "'ovo vino' (this wine)"]], "example": ["'Ova voda je baš hladna.'", "This water is very cold."], "tips": []}, {"id": "SR-GYM05-S2", "title": "That: 'onaj', 'ona', 'ono'", "body": "The same pattern works for \"that\" (something farther away), using 'onaj', 'ona', 'ono':", "table": [["Masculine", "'onaj autobus' (that bus)"], ["Feminine", "'ona karta' (that ticket)"], ["Neuter", "'ono pivo' (that beer)"]], "example": ["'Ovaj sir je skup.'", "This cheese is expensive."], "tips": ["Remember: Both \"this\" and \"that\" must match the noun's gender. Use 'ovaj'/'ova'/'ovo' for something nearby and 'onaj'/'ona'/'ono' for something farther away."]}], "ff": [{"id": "SR-GYM05-S1-01", "mode": "ending", "sentence": "___ sir je skup.", "translation": "This cheese is expensive.", "stem": "Ov", "after": "", "correct": "-aj", "options": ["-aj", "-a", "-o"], "full": "Ovaj sir je skup.", "meaning": "This cheese is expensive.", "feedback": "\"This\" + 'sir' (masculine) → 'ovaj'."}, {"id": "SR-GYM05-S1-02", "mode": "ending", "sentence": "___ voda je baš hladna.", "translation": "This water is very cold.", "stem": "Ov", "after": "", "correct": "-a", "options": ["-a", "-aj", "-o"], "full": "Ova voda je baš hladna.", "meaning": "This water is very cold.", "feedback": "\"This\" + 'voda' (feminine) → 'ova'."}, {"id": "SR-GYM05-S1-03", "mode": "ending", "sentence": "___ vino je dobro.", "translation": "This wine is good.", "stem": "Ov", "after": "", "correct": "-o", "options": ["-o", "-aj", "-a"], "full": "Ovo vino je dobro.", "meaning": "This wine is good.", "feedback": "\"This\" + 'vino' (neuter) → 'ovo'."}, {"id": "SR-GYM05-S1-04", "mode": "ending", "sentence": "___ kafić je dobar.", "translation": "That café is good.", "stem": "On", "after": "", "correct": "-aj", "options": ["-aj", "-a", "-o"], "full": "Onaj kafić je dobar.", "meaning": "That café is good.", "feedback": "\"That\" + 'kafić' (masculine) → 'onaj'."}, {"id": "SR-GYM05-S1-05", "mode": "ending", "sentence": "___ zgrada je visoka.", "translation": "That building is tall.", "stem": "On", "after": "", "correct": "-a", "options": ["-a", "-aj", "-o"], "full": "Ona zgrada je visoka.", "meaning": "That building is tall.", "feedback": "\"That\" + 'zgrada' (feminine) → 'ona'."}, {"id": "SR-GYM05-S1-06", "mode": "ending", "sentence": "___ pivo je hladno.", "translation": "That beer is cold.", "stem": "On", "after": "", "correct": "-o", "options": ["-o", "-aj", "-a"], "full": "Ono pivo je hladno.", "meaning": "That beer is cold.", "feedback": "\"That\" + 'pivo' (neuter) → 'ono'."}], "lanes": [["ovaj / onaj", "masculine"], ["ova / ona", "feminine"], ["ovo / ono", "neuter"]], "ls": [{"id": "SR-GYM05-S2-01", "word": "autobus", "en": "bus", "lane": 0, "feedback": "'autobus' is masculine → 'ovaj' / 'onaj'."}, {"id": "SR-GYM05-S2-02", "word": "stanica", "en": "station", "lane": 1, "feedback": "'stanica' is feminine → 'ova' / 'ona'."}, {"id": "SR-GYM05-S2-03", "word": "meso", "en": "meat", "lane": 2, "feedback": "'meso' is neuter → 'ovo' / 'ono'."}, {"id": "SR-GYM05-S2-04", "word": "tramvaj", "en": "tram", "lane": 0, "feedback": "'tramvaj' is masculine → 'ovaj' / 'onaj'."}, {"id": "SR-GYM05-S2-05", "word": "karta", "en": "ticket", "lane": 1, "feedback": "'karta' is feminine → 'ova' / 'ona'."}, {"id": "SR-GYM05-S2-06", "word": "voće", "en": "fruit", "lane": 2, "feedback": "'voće' is neuter → 'ovo' / 'ono'."}]}];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    // Test and app modes both start on the Learn tab now (Figma navigation).
+    this.state = { showDesc: true, settingsOpen: false, step: 'tab', origin: 'tab', timedRun: true, lang: 'sr', gym: 'SR-GYM01', done: {}, results: [], startedAt: Date.now(), seconds: 0, run: 1 };
+  }
+  renderVals() {
+    const { step, results, startedAt, seconds, run, lang } = this.state;
+    const gym = GYMS.find((g) => g.id === this.state.gym) || GYMS[0];
+    const back = () => (this.state.origin === 'list' ? 'list' : 'tab');
+    // Lane Sort split: round 1 takes one card per lane first (in sheet order), round 2 the rest.
+    const split = (() => {
+      const a = [], used = new Set();
+      gym.lanes.forEach((_, li) => { const k = gym.ls.findIndex((c, i) => c.lane === li && !used.has(i)); if (k >= 0) { a.push(k); used.add(k); } });
+      gym.ls.forEach((c, i) => { if (a.length < Math.ceil(gym.ls.length / 2) && !used.has(i)) { a.push(i); used.add(i); } });
+      return [a, gym.ls.map((_, i) => i).filter((i) => !used.has(i))];
+    })();
+    const s2 = gym.cards[1];
+    const lsContent = (ids) => ({ lanes: gym.lanes, rule: (s2.tips && s2.tips[0]) || s2.body, nouns: ids.map((i) => [gym.ls[i].word, gym.ls[i].en, gym.ls[i].lane]) });
+    const info = (c) => ({ kicker: gym.topic, title: c.title, body: c.body, table: c.table, examples: c.example && c.example[0] ? [c.example] : [], tips: c.tips || [] });
+    const half = Math.ceil(gym.ff.length / 2);
+    const closeSheet = () => { if (this.state.psClosing) return; this.setState({ psClosing: true }); setTimeout(() => this.setState({ ps: false, psClosing: false }), 220); };
+    const finishStage = (r) => {
+      const next = [...this.state.results, r || { ok: false, lives: 0, correct: 0, mistakes: 1 }];
+      const last = this.state.step === 4;
+      this.setState({ results: next, step: this.state.step + 1, seconds: last ? Math.round((Date.now() - startedAt) / 1000) : this.state.seconds });
+    };
+    const startRun = (timed) => this.setState({ timedRun: timed, step: 1, results: [], startedAt: Date.now(), seconds: 0, run: this.state.run + 1 });
+    return {
+      sTab: step === 'tab', sList: step === 'list', sReview: step === 'review', sLearn: step === 'learn',
+      s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4, s5: step === 5, s6: step === 6,
+      a1: step === 1, a2: step === 2, a3: step === 3, a4: step === 4,
+      topic: gym.topic,
+      showDesc: this.state.showDesc !== false,
+      // The timer pauses while the quit sheet or the prototype settings are open.
+      paused: !!this.state.quit || !!this.state.settingsOpen,
+      settingsOpen: !!this.state.settingsOpen,
+      openSettings: () => this.setState({ settingsOpen: true }),
+      closeSettings: () => this.setState({ settingsOpen: false }),
+      settingsScrim: (e) => { if (e.target === e.currentTarget) this.setState({ settingsOpen: false }); },
+      toggleDesc: () => this.setState({ showDesc: this.state.showDesc === false }),
+      switchBg: this.state.showDesc !== false ? '#22C45D' : '#C2CED6',
+      knobX: this.state.showDesc !== false ? 21 : 3,
+      timedRun: this.state.timedRun !== false,
+      results, seconds, run, lang,
+      gymDone: !!(this.state.done && this.state.done['SR-GYM01']),
+      doneMap: this.state.done || {},
+      gymList: GYMS.map((g) => ({ id: g.id, topic: g.topic, afterUnit: g.afterUnit })),
+      langTag: 'sr-Latn', languageName: 'Serbian',
+      grammarCards: gym.cards,
+      // ⓘ: Form Forge shows section 1's rule, Lane Sort section 2's.
+      ffRule: info(gym.cards[0]), lsRule: info(gym.cards[1]),
+      ff1: gym.ff.slice(0, half), ls1: lsContent(split[0]), ff2: gym.ff.slice(half), ls2: lsContent(split[1]),
+      rows: [
+        { name: gym.cards[0].title, skill: 'Form Forge' }, { name: gym.cards[1].title, skill: 'Lane Sort' },
+        { name: gym.cards[0].title, skill: 'Form Forge' }, { name: gym.cards[1].title, skill: 'Lane Sort' },
+      ],
+      toLearnTab: () => this.setState({ step: 'tab', ps: false }),
+      toReview: () => this.setState({ step: 'review' }),
+      // Picking a course returns to its Learn tab; each course keeps its own completed tile.
+      // Learn tab tile: the bottom sheet first; Start opens Learn the rule.
+      openSheet: () => { this.setState({ ps: true, psClosing: false, psEntered: false }); setTimeout(() => this.setState({ psEntered: true }), 320); },
+      ps: !!this.state.ps,
+      psStart: () => this.setState({ ps: false, psClosing: false, step: 'learn', origin: 'tab', gym: 'SR-GYM01', results: [], run: this.state.run + 1 }),
+      psScrimTap: (e) => { if (e.target === e.currentTarget) closeSheet(); },
+      psSheetCls: this.state.psClosing ? 'q-out' : (this.state.psEntered ? '' : 'q-in'),
+      psScrimCls: this.state.psClosing ? 'q-scrim-out' : 'q-scrim-in',
+      // Review tab > Grammar Gym: straight to Learn the rule; every exit returns to Review.
+      toList: () => this.setState({ step: 'list' }),
+      // Review › Grammar Gym › a session: Learn the rule for that Gym; every exit returns to the list.
+      pickGym: (id) => this.setState({ gym: id, step: 'learn', origin: 'list', results: [], run: this.state.run + 1 }),
+      exit: () => this.setState({ step: back() }),
+      toStartScreen: () => this.setState({ step: 0 }),
+      // X during an exercise: confirm first with the Quit exercise sheet (Ling App Layouts); the clock pauses meanwhile.
+      quit: !!this.state.quit,
+      askQuit: () => { this.setState({ quit: true, qClosing: false, qDrag: 0, qEntered: false }); setTimeout(() => this.setState({ qEntered: true }), 320); },
+      // Dismiss: slide the sheet down, then close. Tapping the scrim or dragging the handle down past 80px does the same.
+      cancelQuit: () => { if (this.state.qClosing) return; this.setState({ qClosing: true }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); },
+      scrimTap: (e) => { if (e.target === e.currentTarget) { if (this.state.qClosing) return; this.setState({ qClosing: true }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); } },
+      qScrimCls: this.state.qClosing ? 'q-scrim-out' : 'q-scrim-in',
+      qSheetCls: this.state.qClosing && !this.state.qDrag ? 'q-out' : (this.state.qEntered ? '' : 'q-in'),
+      qDragY: this.state.qDrag || 0,
+      qTrans: this.state.qDragging ? 'none' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+      qGrab: (e) => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.qY0 = e.clientY; this.setState({ qDragging: true }); },
+      qMove: (e) => { if (this.qY0 == null) return; this.setState({ qDrag: Math.max(0, e.clientY - this.qY0) }); },
+      qRelease: () => {
+        if (this.qY0 == null) return;
+        this.qY0 = null;
+        if ((this.state.qDrag || 0) > 80) { this.setState({ qDragging: false, qClosing: true, qDrag: 520 }); setTimeout(() => this.setState({ quit: false, qClosing: false, qDrag: 0 }), 220); }
+        else this.setState({ qDragging: false, qDrag: 0 });
+      },
+      confirmQuit: () => this.setState({ quit: false, step: back(), results: [], run: this.state.run + 1 }),
+      finish: finishStage,
+      begin: () => startRun(true),
+      restart: () => startRun(false),
+      // Reaching the Complete screen marks this course's Grammar Gym tile as completed.
+      toComplete: () => this.setState({ step: 6, done: { ...(this.state.done || {}), [gym.id]: true } }),
+      toStart: () => this.setState({ step: back(), results: [], seconds: 0, run: this.state.run + 1 }),
+    };
+  }
+}
+</script>
+</body>
+</html>

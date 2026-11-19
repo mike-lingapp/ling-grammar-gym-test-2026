@@ -27,16 +27,17 @@ body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353
 </helmet>
 <div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; padding: 54px 16px 34px; font-family: 'Noto Sans', sans-serif; color: #29353D; position: relative; overflow: hidden">
 
-  <dc-import name="GymHeaderC" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
+  <dc-import name="GymHeaderD" on-settings="{{settings}}" step="{{step}}" done="{{stageDone}}" total="{{total}}" lives="{{lives}}" timed="{{timedOn}}" time-total="{{timeTotal}}" paused="{{headerPaused}}" run="{{resets}}" on-tick="{{tick}}" on-close="{{close}}" hint-size="100%,84px"></dc-import>
 
-  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 20px">
-    <div style="display: flex; align-items: flex-start; gap: 12px">
-      <div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
-        <h1 style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; color: #29353D">{{title}}</h1>
-        <sc-if value="{{hasDesc}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14px; line-height: 20px; color: #5C788A">{{desc}}</p></sc-if>
+  <div style="flex-grow: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 8px">
+    <!-- Figma · common/molecules/GameTitleControls: title (UI) + optional description (content) + ⓘ. -->
+    <div style="display: flex; align-items: stretch; gap: 8px; padding-bottom: {{titlePad}}px">
+      <div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; line-height: 1.5; overflow-wrap: anywhere">
+        <h1 style="margin: 0; font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">{{title}}</h1>
+        <sc-if value="{{hasDesc}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14px; line-height: 1.5; font-weight: 400; color: #5C788A">{{desc}}</p></sc-if>
       </div>
-      <button class="ff-btn" onClick="{{openRule}}" aria-label="Tips: the rule" style="width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer">
-        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM12 10.75C12.6904 10.75 13.25 11.3096 13.25 12V16.5C13.25 17.1904 12.6904 17.75 12 17.75C11.3096 17.75 10.75 17.1904 10.75 16.5V12C10.75 11.3096 11.3096 10.75 12 10.75ZM12 6.5C12.6904 6.5 13.25 7.05964 13.25 7.75C13.25 8.44036 12.6904 9 12 9C11.3096 9 10.75 8.44036 10.75 7.75C10.75 7.05964 11.3096 6.5 12 6.5Z"></path></svg>
+      <button class="ff-btn" onClick="{{openRule}}" aria-label="Tips" style="align-self: flex-start; width: 48px; height: 48px; flex-shrink: 0; padding: 0; box-sizing: border-box; border-radius: 12px; border: 2px solid #E0E7EB; background: #FFFFFF; color: #8FA3B0; display: flex; align-items: center; justify-content: center; cursor: pointer">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0"><circle cx="12" cy="12" r="9" fill="#F0F3F5"></circle><path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4Z" fill="#A3B6C2"></path><path d="M13.4834 12.1787L12.6934 16.5186C13.1531 16.6086 13.5 17.0139 13.5 17.5C13.5 18.0523 13.0523 18.5 12.5 18.5H10.3018L10.5166 17.3213L11.3066 12.9805C10.847 12.8903 10.5 12.4861 10.5 12C10.5 11.4477 10.9477 11 11.5 11H13.6982L13.4834 12.1787ZM12.5 6.5C13.3284 6.5 14 7.17157 14 8C14 8.82843 13.3284 9.5 12.5 9.5C11.6716 9.5 11 8.82843 11 8C11 7.17157 11.6716 6.5 12.5 6.5Z" fill="#A3B6C2"></path></svg>
       </button>
     </div>
 
@@ -106,7 +107,7 @@ body{margin:0;font-family:'Noto Sans',sans-serif;background:#FFFFFF;color:#29353
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"step":{"editor":"int","default":1,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"title":{"editor":"text","default":"Pick the correct word"},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"step":{"editor":"int","default":1,"min":1,"max":4},"total":{"editor":"int","default":4,"min":1,"max":12},"onFinish":{"editor":null},"active":{"editor":null},"run":{"editor":null},"onClose":{"editor":null},"paused":{"editor":null},"timed":{"editor":null},"title":{"editor":"text","default":"Pick the correct word"},"desc":{"editor":"text","default":"Noun gender and adjectives"},"showDesc":{"editor":"boolean","default":true},"onSettings":{"editor":null},"rule":{"editor":null},"item":{"editor":null},"langTag":{"editor":null},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -209,7 +210,8 @@ class Component extends DCLogic {
       step: Number(this.props.step ?? 1), total: Number(this.props.total ?? 4),
       // Title comes from the UI (the variant of the game); the description comes from the content.
       title: this.props.title || 'Pick the correct word',
-      desc: item.desc || '', hasDesc: !!item.desc,
+      // Description: from content (topic for now); the prototype settings can hide it.
+      desc: this.props.desc || item.desc || '', hasDesc: this.props.showDesc !== false && !!(this.props.desc || item.desc), titlePad: 0,
       gloss: item.gloss || '', hasGloss: !!item.gloss,
       before: item.before || '', after: item.after || '',
       // Leading gap: no space before; trailing gap: no space after; a gap inside a word (stem + ending) joins both sides.
@@ -265,6 +267,7 @@ class Component extends DCLogic {
       tick: (t) => this.setState(t <= 0 ? { timeLeft: 0, timedOut: true, checked: false, out: false, drag: null } : { timeLeft: t }),
       headerPaused: this.props.active === false || this.props.paused === true || !!this.state.info || checked || timedOut || out,
       close: () => { if (typeof this.props.onClose === 'function') this.props.onClose(); },
+      settings: () => { if (typeof this.props.onSettings === 'function') this.props.onSettings(); },
       // ⓘ: the first card of Learn the rule, in the Tip bottom sheet; the timer pauses while it is open.
       infoOpen: !!this.state.info,
       info: this.state.info || {},

@@ -6,6 +6,7 @@ Two versions of the Grammar Gym prototype as a plain static website. No build st
 |---|---|
 | `…/test-a/` | **Useberry test A**: opens on the language picker (6 languages), no Learn/Review tabs |
 | `…/test-b/` | **Useberry test B**: opens on the language picker (Serbian, Czech, Italian), no Learn/Review tabs |
+| `…/test-e/` | **Useberry test E**: D's flow with the Serbian Ling Studio content. Learn tab tile = Gym 1 (Unit 2); Review › Grammar Gym lists all 5 Gyms (Units 2, 4, 6, 8, 10). Serbian only |
 | `…/test-d/` | **Useberry test D**: Figma navigation. Starts on the Learn tab; Grammar Gym tile > sheet > Learn the rule > 4 exercises > Results > Complete > tile marked completed. Flag switches sr / cz / it. Reload resets |
 | `…/test-c/` | **Useberry test C**: noun gender, Form Forge and Lane Sort each played twice, no crowns. Language picker (Serbian, Czech, Italian) |
 | `…/a/?lang=sr` | Internal, full app navigation. Version A: full lesson, 6 games, mixed grammar topics. Languages: `sr` `cz` `de` `th` `it` `fr` |
@@ -37,7 +38,7 @@ Pages updates in 1–2 minutes. Avoid updating while a test session is running.
 
 ## Useberry
 
-- **Tracking code:** in Useberry, copy the website snippet and paste it into the `<head>` of `test-a/index.html`, `test-b/index.html`, `test-c/index.html` and `test-d/index.html` (and `a/`, `b/` if you test those too)
+- **Tracking code:** in Useberry, copy the website snippet and paste it into the `<head>` of `test-a/index.html`, `test-b/index.html`, `test-c/index.html`, `test-d/index.html` and `test-e/index.html` (and `a/`, `b/` if you test those too)
   (look for the comment `USEBERRY SNIPPET`). Edit the files on GitHub with the pencil icon, then commit.
 - **Task success by URL:** the address changes as the participant moves through the lesson, for example
   `#language-picker` → `#learn-the-rule` → `#start` → `#game-1` … → `#results` → `#complete`.

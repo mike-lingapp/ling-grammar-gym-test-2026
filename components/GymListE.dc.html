@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>E · Review › Grammar Gym list</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&amp;family=Poppins:wght@700&amp;display=swap">
+<style>
+body{margin:0}
+.gl-row{transition:background .15s}.gl-row:active{background:#F0F3F5}
+.gl-row:focus-visible,.gl-back:focus-visible{outline:3px solid #33B2FF;outline-offset:2px}
+.gl-scroll{scrollbar-width:none}.gl-scroll::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Noto Sans', sans-serif; color: #3D505C">
+  <!-- Figma · ViewGrammarGymList.tsx: one row per Grammar Gym session (one tile on the journey). -->
+  <header style="position: absolute; left: 0; right: 0; top: 0; background: #FFFFFF; border-bottom: 1px solid #E0E7EB">
+    <div style="height: 44px"></div>
+    <div style="min-height: 56px; box-sizing: border-box; padding: 0 4px; display: flex; align-items: center; gap: 8px">
+      <button class="gl-back" onClick="{{back}}" aria-label="Back to Review" style="width: 48px; height: 48px; padding: 0; border: 0; border-radius: 12px; background: transparent; display: flex; align-items: center; justify-content: center; color: #3D505C; cursor: pointer; flex-shrink: 0">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+      </button>
+      <h1 style="flex: 1 1 auto; margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Grammar Gym</h1>
+    </div>
+  </header>
+  <div class="gl-scroll" style="position: absolute; left: 0; right: 0; top: 101px; bottom: 0; overflow-y: auto">
+    <ul style="margin: 0; padding: 16px 16px 88px; list-style: none; display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+        <li>
+          <button class="gl-row" onClick="{{r.open}}" style="width: 100%; min-height: 64px; box-sizing: border-box; padding: 12px 16px; border: 1px solid #E0E7EB; border-radius: 16px; background: #FFFFFF; display: flex; align-items: center; gap: 16px; text-align: left; font-family: 'Noto Sans', sans-serif; cursor: pointer">
+            <span style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; line-height: 1.5; overflow-wrap: anywhere">
+              <span style="font-size: 16px; font-weight: 700; color: #3D505C">{{r.title}}</span>
+              <span style="font-size: 14px; font-weight: 400; color: #5C788A">{{r.meta}}</span>
+            </span>
+            <sc-if value="{{r.done}}" hint-placeholder-val="{{ false }}">
+              <span aria-label="Completed" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 12px; background: #33B2FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+              </span>
+            </sc-if>
+          </button>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"gyms":{"editor":null},"done":{"editor":null},"onPick":{"editor":null},"onBack":{"editor":null},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const gyms = Array.isArray(this.props.gyms) ? this.props.gyms : [
+      { id: 'SR-GYM01', topic: 'Personal pronouns (ja, ti, on, ona…)', afterUnit: 2 },
+      { id: 'SR-GYM02', topic: 'The verb biti (to be)', afterUnit: 4 },
+    ];
+    const done = this.props.done || {};
+    return {
+      back: () => { if (typeof this.props.onBack === 'function') this.props.onBack(); },
+      rows: gyms.map((g) => ({
+        title: g.topic,
+        meta: 'Unit ' + g.afterUnit + (done[g.id] ? ' · completed' : ' · new'),
+        done: !!done[g.id],
+        open: () => { if (typeof this.props.onPick === 'function') this.props.onPick(g.id); },
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

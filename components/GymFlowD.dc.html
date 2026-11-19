@@ -48,16 +48,16 @@ a{color:#006EB2}a:hover{color:#005E99}
     <dc-import name="ProtoStartD" language="{{languageName}}" on-start="{{begin}}" on-close="{{exit}}" hint-size="390px,844px"></dc-import>
   </sc-if>
   <sc-if value="{{s1}}" hint-placeholder-val="{{ false }}">
-    <dc-import name="ProtoFormForgeD" step="1" total="4" title="Pick the correct word" rule="{{rule}}" timed="{{timedRun}}" item="{{ff1}}" lang-tag="{{langTag}}" active="{{a1}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+    <dc-import name="ProtoFormForgeD" step="1" total="4" title="Pick the correct word" rule="{{rule}}" timed="{{timedRun}}" item="{{ff1}}" lang-tag="{{langTag}}" active="{{a1}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
   </sc-if>
   <sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
-    <dc-import name="ProtoLaneSortD" step="2" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls1}}" lang-tag="{{langTag}}" active="{{a2}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+    <dc-import name="ProtoLaneSortD" step="2" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls1}}" lang-tag="{{langTag}}" active="{{a2}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
   </sc-if>
   <sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
-    <dc-import name="ProtoFormForgeD" step="3" total="4" title="Pick the correct word" rule="{{rule}}" timed="{{timedRun}}" item="{{ff2}}" lang-tag="{{langTag}}" active="{{a3}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+    <dc-import name="ProtoFormForgeD" step="3" total="4" title="Pick the correct word" rule="{{rule}}" timed="{{timedRun}}" item="{{ff2}}" lang-tag="{{langTag}}" active="{{a3}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
   </sc-if>
   <sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
-    <dc-import name="ProtoLaneSortD" step="4" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls2}}" lang-tag="{{langTag}}" active="{{a4}}" run="{{run}}" on-close="{{askQuit}}" paused="{{quit}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
+    <dc-import name="ProtoLaneSortD" step="4" total="4" rule="{{rule}}" timed="{{timedRun}}" content="{{ls2}}" lang-tag="{{langTag}}" active="{{a4}}" run="{{run}}" on-close="{{askQuit}}" paused="{{paused}}" desc="{{topic}}" show-desc="{{showDesc}}" on-settings="{{openSettings}}" on-finish="{{finish}}" hint-size="390px,844px"></dc-import>
   </sc-if>
   <sc-if value="{{s5}}" hint-placeholder-val="{{ false }}">
     <dc-import name="ProtoResultsD" language="{{languageName}}" timed="{{timedRun}}" results="{{results}}" seconds="{{seconds}}" on-restart="{{restart}}" on-continue="{{toComplete}}" hint-size="390px,844px"></dc-import>
@@ -93,18 +93,47 @@ a{color:#006EB2}a:hover{color:#005E99}
     </div>
   </sc-if>
 </div>
+  <sc-if value="{{settingsOpen}}" hint-placeholder-val="{{ false }}">
+    <!-- Prototype only (not in the app): the cog opens these test settings. The app will use its own settings modal. -->
+    <div class="q-scrim-in" onClick="{{settingsScrim}}" style="position: absolute; left: 0; top: 0; z-index: 70; width: 390px; height: 844px; background: rgba(61, 80, 92, 0.5); display: flex; flex-direction: column; justify-content: flex-end">
+      <div class="q-in" role="dialog" aria-modal="true" aria-labelledby="set-title" style="background: #FFFFFF; border-radius: 16px 16px 0 0; display: flex; flex-direction: column">
+        <div aria-hidden="true" style="height: 16px; display: flex; justify-content: center"><span style="margin-top: 8px; width: 32px; height: 4px; border-radius: 4px; background: #E0E7EB"></span></div>
+        <div style="padding: 8px 16px 0">
+          <h2 id="set-title" style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5; font-weight: 700; color: #3D505C">Prototype settings</h2>
+          <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #5C788A">For testing only. The app uses its own settings.</p>
+        </div>
+        <div style="padding: 16px">
+          <label style="min-height: 56px; box-sizing: border-box; padding: 12px 16px; border-radius: 16px; border: 1px solid #E0E7EB; display: flex; align-items: center; gap: 12px; cursor: pointer">
+            <span style="flex: 1 1 auto; display: flex; flex-direction: column">
+              <span style="font-size: 16px; line-height: 1.5; font-weight: 700; color: #3D505C">Show exercise description</span>
+              <span style="font-size: 14px; line-height: 1.5; color: #5C788A">The line under the exercise title</span>
+            </span>
+            <input type="checkbox" role="switch" checked="{{showDesc}}" onChange="{{toggleDesc}}" style="position: absolute; opacity: 0; width: 1px; height: 1px">
+            <span aria-hidden="true" style="width: 44px; height: 26px; flex-shrink: 0; border-radius: 13px; background: {{switchBg}}; position: relative; transition: background 0.2s">
+              <span style="position: absolute; top: 3px; left: {{knobX}}px; width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(31,41,46,0.25); transition: left 0.2s"></span>
+            </span>
+          </label>
+        </div>
+        <div style="padding: 0 16px 34px">
+          <button onClick="{{closeSettings}}" style="width: 100%; min-height: 48px; border: 0; border-radius: 16px; background: #FF9900; color: #FFFFFF; font-family: 'Noto Sans', sans-serif; font-weight: 700; font-size: 18px; cursor: pointer">Done</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"mode":{"editor":"enum","options":["app","test"],"default":"app"},"$preview":{"width":390,"height":844}}'>
 // Prototype D: Learn tab (Grammar Gym island on the path) > sheet > Learn the rule > Start > Form Forge, Lane Sort, Form Forge, Lane Sort > Results > Complete > Learn tab with the tile completed.
 // Everything lives in this page: reloading resets the course. Draft content for the language team.
 const GENDER_D = {"sr": {"tag": "sr-Latn", "cards": [{"kicker": "Noun gender", "title": "Every noun has a gender", "body": "Serbian nouns are masculine, feminine or neuter. The last letter tells you which.", "table": [["", "ends in", "example"], ["masculine", "a consonant", "grad (city)"], ["feminine", "-a", "kuća (house)"], ["neuter", "-o or -e", "selo (village)"]]}, {"kicker": "Noun gender", "title": "The words around it match", "body": "Words like dobar (good) change to match the noun’s gender.", "table": [["masculine", "dobar grad", "a good city"], ["feminine", "dobra kuća", "a good house"], ["neuter", "dobro selo", "a good village"]], "tips": ["Easy to remember: consonant → dobar, -a → dobra, -o / -e → dobro."]}], "ff": [{"desc": "Noun gender", "gloss": "(a good house)", "before": "", "after": "kuća", "options": ["dobar", "dobra", "dobro"], "correct": "dobra", "okAnswer": "dobra kuća", "meaning": "a good house", "answer": "dobra kuća", "note": "Kuća ends in -a, so it’s feminine: dobra.", "hint": "Look at the last letter of kuća."}, {"desc": "Noun gender", "gloss": "(a good child)", "before": "", "after": "dete", "options": ["dobar", "dobra", "dobro"], "correct": "dobro", "okAnswer": "dobro dete", "meaning": "a good child", "answer": "dobro dete", "note": "Dete ends in -e, so it’s neuter: dobro.", "hint": "Look at the last letter of dete."}], "ls": [{"lanes": [["dobar", "masculine"], ["dobra", "feminine"], ["dobro", "neuter"]], "rule": "Consonant → masculine (dobar). -a → feminine (dobra). -o or -e → neuter (dobro).", "nouns": [["grad", "city", 0], ["kuća", "house", 1], ["selo", "village", 2], ["brat", "brother", 0], ["škola", "school", 1], ["pismo", "letter", 2]]}, {"lanes": [["dobar", "masculine"], ["dobra", "feminine"], ["dobro", "neuter"]], "rule": "Consonant → masculine (dobar). -a → feminine (dobra). -o or -e → neuter (dobro).", "nouns": [["dečak", "boy", 0], ["sestra", "sister", 1], ["more", "sea", 2], ["voz", "train", 0], ["knjiga", "book", 1], ["mleko", "milk", 2]]}]}, "cz": {"tag": "cs", "cards": [{"kicker": "Noun gender", "title": "Every noun has a gender", "body": "Czech nouns are masculine, feminine or neuter. The last letter usually tells you which.", "table": [["", "ends in", "example"], ["masculine", "a consonant", "kluk (boy)"], ["feminine", "-a", "žena (woman)"], ["neuter", "-o", "město (city)"]]}, {"kicker": "Noun gender", "title": "The words around it match", "body": "Words like dobrý (good) change to match the noun’s gender.", "table": [["masculine", "dobrý kluk", "a good boy"], ["feminine", "dobrá žena", "a good woman"], ["neuter", "dobré město", "a good city"]], "tips": ["Easy to remember: consonant → dobrý, -a → dobrá, -o → dobré."]}], "ff": [{"desc": "Noun gender", "gloss": "(a good city)", "before": "", "after": "město", "options": ["dobrý", "dobrá", "dobré"], "correct": "dobré", "okAnswer": "dobré město", "meaning": "a good city", "answer": "dobré město", "note": "Město ends in -o, so it’s neuter: dobré.", "hint": "Look at the last letter of město."}, {"desc": "Noun gender", "gloss": "(good coffee)", "before": "", "after": "káva", "options": ["dobrý", "dobrá", "dobré"], "correct": "dobrá", "okAnswer": "dobrá káva", "meaning": "good coffee", "answer": "dobrá káva", "note": "Káva ends in -a, so it’s feminine: dobrá.", "hint": "Look at the last letter of káva."}], "ls": [{"lanes": [["dobrý", "masculine"], ["dobrá", "feminine"], ["dobré", "neuter"]], "rule": "Consonant → masculine (dobrý). -a → feminine (dobrá). -o → neuter (dobré).", "nouns": [["kluk", "boy", 0], ["žena", "woman", 1], ["město", "city", 2], ["stůl", "table", 0], ["škola", "school", 1], ["auto", "car", 2]]}, {"lanes": [["dobrý", "masculine"], ["dobrá", "feminine"], ["dobré", "neuter"]], "rule": "Consonant → masculine (dobrý). -a → feminine (dobrá). -o → neuter (dobré).", "nouns": [["bratr", "brother", 0], ["sestra", "sister", 1], ["jezero", "lake", 2], ["obchod", "shop", 0], ["kniha", "book", 1], ["mléko", "milk", 2]]}]}, "it": {"tag": "it", "cards": [{"kicker": "Noun gender", "title": "Every noun is masculine or feminine", "body": "Most Italian nouns end in -o or -a. The ending tells you the gender.", "table": [["", "ends in", "example"], ["masculine", "-o", "libro (book)"], ["feminine", "-a", "casa (house)"]]}, {"kicker": "Noun gender", "title": "il or la?", "body": "The word for “the” matches the noun: il for masculine, la for feminine.", "table": [["il", "masculine", "il libro, il gatto"], ["la", "feminine", "la casa, la pizza"]], "tips": ["Easy to remember: -o → il, -a → la."]}], "ff": [{"desc": "Noun gender", "gloss": "(the cat)", "before": "", "after": "gatto", "options": ["il", "la"], "correct": "il", "okAnswer": "il gatto", "meaning": "the cat", "answer": "il gatto", "note": "Gatto ends in -o, so it’s masculine: il.", "hint": "Look at the last letter of gatto."}, {"desc": "Noun gender", "gloss": "(the door)", "before": "", "after": "porta", "options": ["il", "la"], "correct": "la", "okAnswer": "la porta", "meaning": "the door", "answer": "la porta", "note": "Porta ends in -a, so it’s feminine: la.", "hint": "Look at the last letter of porta."}], "ls": [{"lanes": [["il", "masculine"], ["la", "feminine"]], "rule": "-o → masculine (il). -a → feminine (la).", "nouns": [["libro", "book", 0], ["casa", "house", 1], ["gatto", "cat", 0], ["pizza", "pizza", 1], ["vino", "wine", 0], ["borsa", "bag", 1]]}, {"lanes": [["il", "masculine"], ["la", "feminine"]], "rule": "-o → masculine (il). -a → feminine (la).", "nouns": [["ragazzo", "boy", 0], ["ragazza", "girl", 1], ["treno", "train", 0], ["mela", "apple", 1], ["tavolo", "table", 0], ["finestra", "window", 1]]}]}};
 const LANG_NAMES = { sr: 'Serbian', cz: 'Czech', it: 'Italian' };
+// Exercise description: no content column yet, so it uses the topic from the Gyms sheet (SR-GYM03).
+const TOPIC = 'Noun gender and adjectives';
 
 class Component extends DCLogic {
   constructor(props) {
     super(props);
     // Test and app modes both start on the Learn tab now (Figma navigation).
-    this.state = { step: 'tab', origin: 'tab', timedRun: true, lang: 'sr', done: {}, results: [], startedAt: Date.now(), seconds: 0, run: 1 };
+    this.state = { showDesc: true, settingsOpen: false, step: 'tab', origin: 'tab', timedRun: true, lang: 'sr', done: {}, results: [], startedAt: Date.now(), seconds: 0, run: 1 };
   }
   renderVals() {
     const { step, results, startedAt, seconds, run, lang } = this.state;
@@ -121,6 +150,17 @@ class Component extends DCLogic {
       sTab: step === 'tab', sLang: step === 'lang', sReview: step === 'review', sLearn: step === 'learn',
       s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4, s5: step === 5, s6: step === 6,
       a1: step === 1, a2: step === 2, a3: step === 3, a4: step === 4,
+      topic: TOPIC,
+      showDesc: this.state.showDesc !== false,
+      // The timer pauses while the quit sheet or the prototype settings are open.
+      paused: !!this.state.quit || !!this.state.settingsOpen,
+      settingsOpen: !!this.state.settingsOpen,
+      openSettings: () => this.setState({ settingsOpen: true }),
+      closeSettings: () => this.setState({ settingsOpen: false }),
+      settingsScrim: (e) => { if (e.target === e.currentTarget) this.setState({ settingsOpen: false }); },
+      toggleDesc: () => this.setState({ showDesc: this.state.showDesc === false }),
+      switchBg: this.state.showDesc !== false ? '#22C45D' : '#C2CED6',
+      knobX: this.state.showDesc !== false ? 21 : 3,
       timedRun: this.state.timedRun !== false,
       results, seconds, run, lang,
       gymDone: !!(this.state.done && this.state.done[lang]),
