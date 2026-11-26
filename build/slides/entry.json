@@ -1,0 +1,25 @@
+{
+  "learn": {
+    "w": 390, "h": 844,
+    "image": "assets/entry/learn.png",
+    "hotspot": {"x": 310, "y": 237, "w": 56, "h": 56},
+    "hotspotNode": "40018:58524 (FloatIcon, ic-lingwrapped2026-48; lower icon of IconStackPath)",
+    "otherFloatIcon": {"x": 310, "y": 165, "w": 56, "h": 56, "node": "40004:428160", "note": "checkmark badge 1/7 (not Ling Wrapped)"},
+    "tabs": {
+      "learn":   {"x": 16,  "y": 756, "w": 114, "h": 48},
+      "review":  {"x": 138, "y": 756, "w": 114, "h": 48},
+      "profile": {"x": 260, "y": 756, "w": 114, "h": 48}
+    }
+  },
+  "profile": {
+    "w": 375, "h": 812,
+    "image": "assets/entry/profile.png",
+    "hotspot": {"x": 16, "y": 347, "w": 343, "h": 150},
+    "button": {"x": 96, "y": 433, "w": 138, "h": 48, "label": "See highlights"},
+    "tabs": {
+      "learn":   {"x": 16,  "y": 724, "w": 109, "h": 48},
+      "review":  {"x": 133, "y": 724, "w": 109, "h": 48},
+      "profile": {"x": 250, "y": 724, "w": 109, "h": 48}
+    }
+  }
+}

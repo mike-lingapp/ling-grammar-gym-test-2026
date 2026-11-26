@@ -12,6 +12,7 @@ Two versions of the Grammar Gym prototype as a plain static website. No build st
 | `…/a/?lang=sr` | Internal, full app navigation. Version A: full lesson, 6 games, mixed grammar topics. Languages: `sr` `cz` `de` `th` `it` `fr` |
 | `…/c/?lang=sr` | Internal, full app navigation. Version C: 2 games × 2, Figma layouts for Form Forge and Lane Sort |
 | `…/b/?lang=sr` | Internal, full app navigation. Version B: noun gender only, 4 games. Languages: `sr` `cz` `it` |
+| `…/ling-wrapped-2026/` | **Ling Wrapped 2026**: stories-style year recap. Entry from the Learn tab floating icon or the Profile widget; 30 s per slide, tap/swipe navigation, Share modal. Single self-contained `index.html`; animations are Rive files embedded in the page, played with the Rive web runtime from jsDelivr |
 | `…/` | Internal index with every link (don't send this to participants) |
 
 `?lang=` sets the course language for the internal links. The test links ignore it: participants pick the language.

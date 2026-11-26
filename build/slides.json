@@ -1,0 +1,83 @@
+[
+ {
+  "key": "start",
+  "share": "share-start.jpg",
+  "rive": "start",
+  "bgcolor": "#011133"
+ },
+ {
+  "key": "streak",
+  "card": [
+   "Highest streak",
+   "365",
+   "days"
+  ],
+  "shadow": "rgba(77,31,0,0.28)",
+  "share": "share-streak.jpg",
+  "rive": "bg",
+  "vm": "Orange",
+  "bgcolor": "#663d00"
+ },
+ {
+  "key": "words",
+  "card": [
+   "This year you learned",
+   "500",
+   "words in Thai"
+  ],
+  "shadow": "rgba(57,6,49,0.28)",
+  "share": "share-words.jpg",
+  "rive": "bg",
+  "vm": "Pink",
+  "bgcolor": "#390631"
+ },
+ {
+  "key": "lessons",
+  "card": [
+   "You finished",
+   "52",
+   "lessons"
+  ],
+  "shadow": "rgba(1,17,51,0.28)",
+  "share": "share-lessons.jpg",
+  "rive": "bg",
+  "vm": "Blue",
+  "bgcolor": "#011133"
+ },
+ {
+  "key": "crowns",
+  "card": [
+   "You earned",
+   "148",
+   "Crowns"
+  ],
+  "shadow": "rgba(29,6,57,0.28)",
+  "share": "share-crowns.jpg",
+  "rive": "bg",
+  "vm": "Purple",
+  "bgcolor": "#1d0639"
+ },
+ {
+  "key": "course",
+  "card": [
+   "You completed",
+   "40%",
+   "of your Thai course"
+  ],
+  "shadow": "rgba(8,43,21,0.28)",
+  "share": "share-course.jpg",
+  "rive": "bg",
+  "vm": "Green",
+  "bgcolor": "#082b15"
+ },
+ {
+  "key": "summary",
+  "custom": true,
+  "buttons": [
+   "Share",
+   "Close"
+  ],
+  "shadow": "rgba(77,31,0,0.28)",
+  "share": "share-summary.jpg"
+ }
+]
