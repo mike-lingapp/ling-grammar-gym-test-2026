@@ -1,0 +1,23 @@
+# Brief: convert Ling Wrapped story slides from Figma into HTML fragments
+
+Context: we are building a standalone HTML/CSS/JS clickable prototype (no framework, no Tailwind) of the "Ling Wrapped 2026" stories feature. The main session builds the shared shell itself: phone frame 390x844, status bar, story progress bar, X close button, Ling logo pill, the stat card (SlidesCard: label / big value / bottom label, with 4 hole icons), and the bottom Share/Next buttons. YOU only produce the per-slide parts listed below.
+
+Figma file key: zkghGYLHtqRFlMPbyJ0q6b. Use the Figma MCP tools (server id 35ca1015-bb82-470c-a9ec-13cb6fcbec4e; load them via ToolSearch, e.g. "select:mcp__35ca1015-bb82-470c-a9ec-13cb6fcbec4e__create_session,mcp__35ca1015-bb82-470c-a9ec-13cb6fcbec4e__get_design_context,mcp__35ca1015-bb82-470c-a9ec-13cb6fcbec4e__get_motion_context,mcp__35ca1015-bb82-470c-a9ec-13cb6fcbec4e__get_screenshot,mcp__35ca1015-bb82-470c-a9ec-13cb6fcbec4e__download_assets"). Call create_session first (read-only task). Pass skillNames "figma-design-to-code" and clientLanguages "html,css,javascript" to get_design_context. This is read-only: never edit the Figma file.
+
+Work directory (absolute): BUILD=/Users/mikeramos/Library/Application Support/Claude/scratch-workspaces/4dae210f-6238-4f6d-b684-6bd71f8dc53b/04ae0240-de92-4b48-bdcd-0e9a4ecf459f/scratch-2026-11-26-bce12e/build
+Do not touch files other than the ones listed for your slide keys.
+
+## For each slide (key + node id given to you):
+1. get_design_context on the slide node (with screenshot). Save the screenshot reference for comparison.
+2. get_motion_context on the slide node with recursive=true. The result is usually too big and gets saved to a file; copy that JSON file to $BUILD/motion-<key>.json (raw, unchanged). If no motion, skip.
+3. Download every asset URL used by the background-animation layer and the illustration into $BUILD/assets/<key>/ with `curl -sL -o`, keeping the asset file name (e.g. 742e4.svg). Shared UI assets (status bar, logo, close icon, card hole icon) are NOT needed.
+4. Write $BUILD/slides/<key>.html — a fragment (no <html>/<body>) with exactly two top-level elements:
+   a) `<div class="bg-layer" ...>` = the full animated background component (the "animations/lingwrapped-bg-*-anim" instance, 1120x844, horizontally centered: style="position:absolute;left:50%;top:0;width:1120px;height:844px;transform:translateX(-50%);overflow:hidden;background:linear-gradient(...)"), with all its children.
+   b) `<div class="illus" style="position:relative;width:Wpx;height:Hpx">` = the slide illustration from the "illustration container" (e.g. illustrations/lingwrapped-streakfire 280x144), with all its children.
+   Convert the React+Tailwind reference faithfully to plain HTML with inline styles: keep absolute positioning, calc() lefts/tops, translate(-50%,-50%), rotations, the inner wrapper divs with negative insets (e.g. inset:-3.91% -2.45%), sizes, colors, border-radius. `-translate-x-1/2` = transform:translateX(-50%). `contents` divs = display:contents. Images: `<img src="assets/<key>/<file>" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block;max-width:none">` (or the non-absolute variant when the reference uses `block max-w-none size-full` inside an inset wrapper).
+   For every `motion.div` in the reference: render a normal div, add attribute data-m="<the data-node-id or data-motion-for value>" (must equal the node's fallbackNodeId in the motion JSON), and copy its inline style custom properties exactly, e.g. style="--motion-design-transform:initial;--motion-design-transform-inverse:initial;--motion-layout-transform:translateX(-50%) translateY(-50%); ...". Do NOT put a `transform` in the inline style of a data-m element when the reference has `transform-[...]` on it: instead the main session's CSS uses var(--motion-layout-transform). (Keep position/size/left/top inline.) Do not write any animation CSS yourself — the main session generates it from motion-<key>.json.
+5. Check: open nothing in a browser; just make sure every img src file exists and is non-empty (`ls -la`).
+
+## Report back (concise, plain text):
+- For each key: card label, value, bottom label text (from the SlidesCard instance), the illustration container size and its padding (e.g. py 24), bottom button labels, any layout differences vs a standard stats slide (standard = status bar, NavigationStories top with progress + X + logo pill, cardContainer [illustration container + SlidesCard 358w], bottom Share + Next buttons), background gradient colors, and which progress segment is active.
+- List any part you could not convert.
